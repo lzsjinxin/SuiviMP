@@ -1,0 +1,250 @@
+<script>
+import { ref, onMounted, onUnmounted } from 'vue';
+// import { ChevronDownIcon } from "@zhuowenli/vue-feather-icons";
+import simplebar from "simplebar-vue";
+import logoWhite from "@/assets/images/logo-white.svg";
+import logoDark from "@/assets/images/logo-dark.svg";
+
+export default {
+    data() {
+        return {
+            logoDark: logoDark,
+            logoWhite: logoWhite,
+           }
+    },
+    setup() {
+        const currentLogo = ref(logoDark);
+
+        const updateLogo = () => {
+            const isDarkTheme = document.body.getAttribute("data-pc-theme") === "dark";
+            currentLogo.value = isDarkTheme ? logoWhite : logoDark;
+        };
+        
+
+        onMounted(() => {
+            updateLogo();
+
+            const observer = new MutationObserver(() => {
+                updateLogo();
+            });
+
+            observer.observe(document.body, {
+                attributes: true,
+                attributeFilter: ['data-pc-theme']
+            });
+
+            onUnmounted(() => {
+                observer.disconnect();
+            });
+        });
+
+        return { currentLogo };
+    },
+    components: {
+            simplebar
+    },
+    methods: {
+        changeLayoutType(layoutType) {
+            // Update the layout type in the store
+            this.$store.commit('changeLayoutType', { layoutType });
+            // Set the layout attribute based on the layout type
+            document.body.setAttribute('data-pc-layout', layoutType);
+        },
+    },
+    computed: {
+        layoutType: {
+            get() {
+                return this.$store.state.layout.layoutType;
+            },
+            set(layoutType) {
+                this.$store.commit('changeLayoutType', { layoutType });
+            },
+        },
+    },
+    watch: {
+        layoutType: {
+            immediate: true,
+            deep: true,
+            handler(newVal, oldVal) {
+                if (newVal !== oldVal) {
+                    switch (newVal) {
+                        case "horizontal":
+                            document.body.setAttribute(
+                                "data-pc-layout",
+                                "horizontal"
+                            );
+                            break;
+                        case "vertical":
+                            document.body.setAttribute("data-pc-layout", "vertical");
+                    }
+                }
+            },
+        },
+    },
+    mounted() {
+        const activeListItem = document.querySelector("li.active");
+        if (activeListItem) {
+            const parentElementOrSelf = activeListItem?.parentElement ? activeListItem.parentElement : activeListItem;
+            if (parentElementOrSelf && !parentElementOrSelf.classList.contains("pc-navbar")) {
+                const closestItem = parentElementOrSelf.parentElement.closest(".pc-item");
+                if (closestItem) {
+                    closestItem.classList.add("active");
+                    closestItem.children[1].classList.add('show')
+                }
+            }
+          
+            /**
+             * Sidebar menu collapse
+             */
+            if (document.querySelectorAll(".navbar-content .collapse")) {
+                let collapses = document.querySelectorAll(".navbar-content .collapse");
+
+                collapses.forEach((collapse) => {
+                    // Hide sibling collapses on `show.bs.collapse`
+                    collapse.addEventListener("show.bs.collapse", (e) => {
+                        e.stopPropagation();
+                        let closestCollapse = collapse.parentElement.closest(".collapse");
+                        if (closestCollapse) {
+                            let siblingCollapses =
+                                closestCollapse.querySelectorAll(".collapse");
+                            siblingCollapses.forEach((siblingCollapse) => {
+                                if (siblingCollapse.classList.contains("show")) {
+                                    siblingCollapse.classList.remove("show");
+                                    siblingCollapse.parentElement.firstChild.setAttribute("aria-expanded", "false");
+                                }
+                            });
+                        } else {
+                            let getSiblings = (elem) => {
+                                // Setup siblings array and get the first sibling
+                                let siblings = [];
+                                let sibling = elem.parentNode.firstChild;
+                                // Loop through each sibling and push to the array
+                                while (sibling) {
+                                    if (sibling.nodeType === 1 && sibling !== elem) {
+                                        siblings.push(sibling);
+                                    }
+                                    sibling = sibling.nextSibling;
+                                }
+                                return siblings;
+                            };
+                            let siblings = getSiblings(collapse.parentElement);
+                            siblings.forEach((item) => {
+                                if (item.childNodes.length > 2) {
+                                    item.firstElementChild.setAttribute("aria-expanded", "false");
+                                    item.firstElementChild.classList.remove("active");
+                                }
+                                let ids = item.querySelectorAll("*[id]");
+                                ids.forEach((item1) => {
+                                    item1.classList.remove("show");
+                                    item1.parentElement.firstChild.setAttribute("aria-expanded", "false");
+                                    item1.parentElement.firstChild.classList.remove("active");
+                                    if (item1.childNodes.length > 2) {
+                                        let val = item1.querySelectorAll("ul li a");
+
+                                        val.forEach((subitem) => {
+                                            if (subitem.hasAttribute("aria-expanded"))
+                                                subitem.setAttribute("aria-expanded", "false");
+                                        });
+                                    }
+                                });
+                            });
+                        }
+                    });
+
+                    // Hide nested collapses on `hide.bs.collapse`
+                    collapse.addEventListener("hide.bs.collapse", (e) => {
+                        e.stopPropagation();
+                        let childCollapses = collapse.querySelectorAll(".collapse");
+                        childCollapses.forEach((childCollapse) => {
+                            let childCollapseInstance = childCollapse;
+                            childCollapseInstance.classList.remove("show");
+                            childCollapseInstance.parentElement.firstChild.setAttribute("aria-expanded", "false");
+                        });
+                    });
+                });
+            }
+
+
+        } else {
+            console.error("No list item with class 'active' found.");
+        }
+    }
+};
+</script>
+
+<template>
+    <div class="navbar-wrapper" id="navbar-wrapper">
+        <div class="m-header">
+            <router-link to="/" class="b-brand text-primary">
+                <!-- ========   Change your logo from here   ============ -->
+                <img v-if="currentLogo === logoDark" :src="logoDark" alt="logo image" class="logo-lg custom_logo">
+                <img v-else :src="logoWhite" alt="logo image" class="logo-lg custom_logo">
+                <img src="@/assets/images/favicon.svg" alt="" class="logo logo-sm"> <span class="badge bg-brand-color-2 rounded-pill ms-1 theme-version">v1.0</span>
+            </router-link>
+        </div>
+        <simplebar data-simplebar class="navbar-content pc-trigger">
+            <ul class="pc-navbar">
+                <li class="pc-item pc-caption">
+                    <label>{{$t("Navigation")}}</label>
+                </li>
+
+                <li class="pc-item" :class="{ 'active': this.$route.path === '/arrivals' }">
+                    <router-link to="/arrivals" class="pc-link">
+                        <span class="pc-micon">
+                            <PhTruck :size="32" />
+                        </span>
+                        <span class="pc-mtext"> {{ $t("Arrivals") }}</span>
+                    </router-link>
+                </li>
+            </ul>
+        </simplebar>
+        <BCard no-body class="pc-user-card">
+            <BCardBody>
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <img src="@/assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle">
+                    </div>
+                    <div class="flex-grow-1 ms-3 me-2">
+                        <h6 class="mb-0">Jonh Smith</h6>
+                        <small>Administrator</small>
+                    </div>
+                    <BDropdown variant="purple" dropup no-caret toggle-class="p-0">
+                        <template v-slot:button-content>
+                            <span class="btn btn-icon btn-link-secondary avtar arrow-none p-0 dropdown-toggle">
+                                <i class="ph-duotone ph-windows-logo"></i>
+                            </span>
+                        </template>
+                        <BRow xl="6">
+                            <BCol xl="6">
+                                <BDropdownItem class="pc-user-links p-0">
+                                        <i class="ph-duotone ph-user"></i>
+                                        <br>
+                                        <span>My Account</span>
+                                </BDropdownItem>
+                                <BDropdownDivider />
+                                <BDropdownItem class="pc-user-links p-0">
+                                    <i class="ph-duotone ph-lock-key"></i> <br>
+                                    <span>Lock Screen</span>
+                                </BDropdownItem>
+                                <BDropdownDivider />
+                            </BCol>
+                            <BCol xl="6">
+                                <BDropdownItem class="pc-user-links p-0">
+                                    <i class="ph-duotone ph-gear"></i> <br>
+                                    <span>Settings</span>
+                                </BDropdownItem>
+                                <BDropdownDivider />
+                                <BDropdownItem class="pc-user-links p-0">
+                                    <i class="ph-duotone ph-power"></i> <br>
+                                    <span>Logout</span>
+                                </BDropdownItem>
+                                <BDropdownDivider />
+                            </BCol>
+                        </BRow>
+                    </BDropdown>
+                </div>
+            </BCardBody>
+        </BCard>
+    </div>
+</template>
+
