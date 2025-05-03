@@ -1,12 +1,11 @@
 <script>
 import simplebar from "simplebar-vue";
-import rightBar from "./right-bar.vue";
+// import rightBar from "./right-bar.vue";
 
 export default {
     name: "NAVBAR",
     components: {
-        simplebar,
-        rightBar
+        simplebar
     },
     data() {
         return {
@@ -126,7 +125,7 @@ export default {
                         <i class="ti ti-menu-2"></i>
                     </a>
                 </li>
-                <li class="dropdown pc-h-item d-inline-flex d-md-none">
+                <!-- <li class="dropdown pc-h-item d-inline-flex d-md-none">
                     <a class="pc-head-link dropdown-toggle arrow-none m-0" data-bs-toggle="dropdown" href="#"
                         role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="ph-duotone ph-magnifying-glass"></i>
@@ -140,9 +139,9 @@ export default {
                             </div>
                         </form>
                     </div>
-                </li>
+                </li> -->
 
-                <li class="pc-h-item d-none d-md-inline-flex">
+                <!-- <li class="pc-h-item d-none d-md-inline-flex">
                     <form class="form-search">
                         <i class="ph-duotone ph-magnifying-glass icon-search"></i>
                         <input type="search" ref="searchInput" class="form-control" placeholder="Search. . ."
@@ -150,12 +149,12 @@ export default {
                         <button class="btn btn-light-secondary btn-search" style="padding: 0"
                             @click.prevent="handleSearch"><kbd>ctrl+k</kbd></button>
                     </form>
-                </li>
+                </li> -->
             </ul>
         </div>
         <div class="ms-auto">
             <ul class="list-unstyled">
-                <BDropdown variant="transparent" class="pc-h-item d-none d-md-inline-flex"
+                <!-- <BDropdown variant="transparent" class="pc-h-item d-none d-md-inline-flex"
                     toggle-class="text-reset pc-head-link dropdown-btn arrow-none dropdown p-0"
                     menu-class="dropdown-menu-end dropdown-qta p-0 mt-3" aria-haspopup="true">
                     <template #button-content><span class="text-muted pc-head-link"><i
@@ -220,8 +219,8 @@ export default {
                         <i class="ph-duotone ph-cpu"></i>
                         <span>Default</span>
                     </a>
-                </BDropdown>
-                <li class="dropdown pc-h-item d-none d-md-inline-flex">
+                </BDropdown> -->
+                <!-- <li class="dropdown pc-h-item d-none d-md-inline-flex">
                     <a class="pc-head-link head-link-primary dropdown-toggle arrow-none me-0" data-bs-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="ph-duotone ph-translate"></i>
@@ -237,9 +236,9 @@ export default {
                             </span>
                         </a>
                     </div>
-                </li>
-                <rightBar />
-                <BDropdown variant="transparent" auto-close="outside" class="pc-h-item card-header-dropdown pb-0"
+                </li> -->
+                <!-- <rightBar /> -->
+                <!-- <BDropdown variant="transparent" auto-close="outside" class="pc-h-item card-header-dropdown pb-0"
                     toggle-class="text-reset dropdown-btn pc-head-link arrow-none me-0" menu-class="dropdown-menu-end"
                     aria-haspopup="true" :offset="{ alignmentAxis: -140, crossAxis: 0, mainAxis: 20 }">
                     <template #button-content><span class="text-muted pc-head-link"><i
@@ -265,7 +264,7 @@ export default {
                         <i class="ph-duotone ph-power"></i>
                         <span>Logout</span>
                     </a>
-                </BDropdown>
+                </BDropdown> -->
                 <BDropdown v-model="show" variant="transparent" auto-close="outside"
                     class="pc-h-item card-header-dropdown pb-0"
                     toggle-class="text-reset dropdown-btn pc-head-link arrow-none me-0"
@@ -470,7 +469,7 @@ export default {
                         </BRow>
                     </div>
                 </BDropdown>
-                <BDropdown variant="transparent" auto-close="outside"
+                <!-- <BDropdown variant="transparent" auto-close="outside"
                     class="pc-h-item header-user-profile card-header-dropdown py-0"
                     toggle-class="text-reset dropdown-btn pc-head-link arrow-none me-0"
                     menu-class="dropdown-menu-end dropdown-user-profile dropdown-menu-end pc-h-dropdown"
@@ -606,7 +605,7 @@ export default {
                             </ul>
                         </simplebar>
                     </div>
-                </BDropdown>
+                </BDropdown> -->
             </ul>
         </div>
     </div>

@@ -46,6 +46,7 @@ export default {
                                         <th>Provenance</th>
                                         <th >Matricule de Vehicule</th>
                                         <th >Receptionné Par</th> 
+                                        <th class="text-end">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -55,35 +56,16 @@ export default {
                                         <td>{{ item.tier }}</td>
                                         <td>{{ item.vehicule_registration }}</td>
                                         <td class="text-center">
-                                            <router-link :to="`users/${item.useradd}`" class="b-brand text-primary"> {{ item.user }} </router-link>
-                                            <!-- <div class="prod-action-links">
-                                                <ul class="list-inline me-auto mb-0">
-                                                    <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
-                                                        title="View">
-                                                        <a href="#"
-                                                            class="avtar avtar-xs btn-link-secondary btn-pc-default"
-                                                            data-bs-toggle="offcanvas"
-                                                            data-bs-target="#productOffcanvas">
-                                                            <i class="ti ti-eye f-18"></i>
-                                                        </a>
-                                                    </li>
-                                                    <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
-                                                        title="Edit">
-                                                        <router-link to="/arrivals"
-                                                            class=" avtar avtar-xs btn-link-success btn-pc-default">
-                                                            <i class="ti ti-edit-circle f-18"></i>
-                                                        </router-link>
-                                                    </li>
-                                                    <li class="list-inline-item align-bottom" data-bs-toggle="tooltip"
-                                                        title="Delete">
-                                                        <a href="#"
-                                                            class="avtar avtar-xs btn-link-danger btn-pc-default">
-                                                            <i class="ti ti-trash f-18"></i>
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div> -->
+                                            {{ item.user }}
+                                            <!-- <router-link :to="`users/${item.useradd}`" class="b-brand text-primary"> {{ item.user }} </router-link> -->
                                         </td>
+                                        <td class="text-end">
+                                                    <ul class="list-inline mb-0">
+                                                        <!-- <li class="list-inline-item"><a href="#" class="avtar avtar-s btn-link-info btn-pc-default"><i class="ti ti-eye f-20"></i></a></li> -->
+                                                        <li class="list-inline-item"><router-link :to="`/arrivals/${item.id}`" class="avtar avtar-s btn-link-primary btn-pc-default"><i class="ti ti-edit f-20"></i></router-link></li>
+                                                        <li class="list-inline-item"><a href="#" class="avtar avtar-s btn-link-danger btn-pc-default"><i class="ti ti-trash f-20"></i></a></li>
+                                                    </ul>
+                                                </td>
                                     </tr>
                                 </tbody>
                             </table>
