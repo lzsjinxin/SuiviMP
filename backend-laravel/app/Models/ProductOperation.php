@@ -7,24 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @property integer $id
  * @property integer $id_product
- * @property integer $id_material
- * @property integer $id_product_operations
- * @property string $start
- * @property string $end
+ * @property integer $id_operations
  * @property integer $useradd
  * @property integer $userupdate
  * @property string $created_at
  * @property string $updated_at
  * @property boolean $active
- * @property float $qty_used
- * @property Material $material
+ * @property integer $operation_order
+ * @property OperationDefinition $operationDefinition
  * @property Product $product
- * @property ProductOperation $productOperation
+ * @property Operation[] $operations
  */
-class Operation extends Model
+class ProductOperation extends Model
 {
+    /**
+     * @var array
+     */
+    protected $fillable = ['id_product', 'id_operations', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'operation_order'];
 
-    protected $table="operations";
 
     /**
      * Activate Timestamps.
@@ -39,17 +39,14 @@ class Operation extends Model
     protected $attributes = ['active' => true];
 
 
-    /**
-     * @var array
-     */
-    protected $fillable = ['id_product', 'id_material', 'id_product_operations', 'start', 'end', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'qty_used'];
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function material()
+    public function operationDefinition()
     {
-        return $this->belongsTo('App\Models\Material', 'id_material');
+        return $this->belongsTo('App\Models\OperationDefinition', 'id_operations');
     }
 
     /**
@@ -61,10 +58,10 @@ class Operation extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function productOperation()
+    public function operations()
     {
-        return $this->belongsTo('App\Models\ProductOperation', 'id_product_operations');
+        return $this->hasMany('App\Models\Operation', 'id_product_operations');
     }
 }

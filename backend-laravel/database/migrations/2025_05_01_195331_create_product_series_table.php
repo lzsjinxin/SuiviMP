@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('product_series', function (Blueprint $table) {
+            $table->comment('stores what series a product belongs to and to what client this series belong to');
             $table->increments('id');
-            $table->integer('id_dept')->nullable();
-            $table->string('fname', 100)->nullable();
-            $table->string('name', 100)->nullable();
+            $table->string('series', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
             $table->boolean('active')->nullable();
+            $table->integer('id_tier')->nullable();
         });
     }
 
@@ -32,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('product_series');
     }
 };

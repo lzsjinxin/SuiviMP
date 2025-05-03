@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_series', function (Blueprint $table) {
+        Schema::create('material_status', function (Blueprint $table) {
+            $table->comment('stores all the statuses that a raw material can be');
             $table->increments('id');
-            $table->string('series', 100)->nullable();
+            $table->string('status', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
             $table->boolean('active')->nullable();
-            $table->integer('id_tier')->nullable();
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_series');
+        Schema::dropIfExists('material_status');
     }
 };

@@ -24,6 +24,19 @@ class MaterialStatus extends Model
     protected $table = 'material_status';
 
     /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
+    /**
      * @var array
      */
     protected $fillable = ['status', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];

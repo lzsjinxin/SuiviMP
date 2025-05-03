@@ -21,6 +21,21 @@ class Unit extends Model
      * 
      * @var string
      */
+
+    /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
+
     protected $table = 'unit';
 
     /**

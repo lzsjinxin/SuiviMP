@@ -26,6 +26,21 @@ class ProductMaterial extends Model
     protected $table = 'product_material';
 
     /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
+
+
+    /**
      * @var array
      */
     protected $fillable = ['id_material', 'id_product', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];

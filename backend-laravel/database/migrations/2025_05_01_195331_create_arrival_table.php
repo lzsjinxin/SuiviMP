@@ -13,16 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('shipping', function (Blueprint $table) {
+        Schema::create('arrival', function (Blueprint $table) {
+            $table->comment('This table stores all raw material arrivals');
             $table->increments('id');
-            $table->timestamp('shipping_date')->nullable();
-            $table->timestamp('arrival_date')->nullable();
-            $table->string('incoterm', 100)->nullable();
+            $table->timestamp('date')->nullable();
+            $table->string('vehicule_registration', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
-            $table->boolean('active')->nullable()->default(true);
-            $table->integer('id_product');
+            $table->boolean('active')->nullable();
+            $table->integer('id_tier')->nullable();
         });
     }
 
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('shipping');
+        Schema::dropIfExists('arrival');
     }
 };

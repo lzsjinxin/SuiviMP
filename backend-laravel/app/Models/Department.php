@@ -24,6 +24,18 @@ class Department extends Model
     protected $table = 'department';
 
     /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+    /**
      * @var array
      */
     protected $fillable = ['name', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];

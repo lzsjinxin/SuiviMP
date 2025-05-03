@@ -13,14 +13,16 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('stock', function (Blueprint $table) {
+        Schema::create('operation_definitions', function (Blueprint $table) {
+            $table->comment('sotres the definitions of all the operations whith their expected time and their needed materials and qty');
             $table->increments('id');
             $table->string('name')->nullable();
-            $table->string('adresse')->nullable();
+            $table->string('time_expected')->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
             $table->boolean('active')->nullable();
+            $table->decimal('qty_needed', 5)->nullable();
         });
     }
 
@@ -31,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('stock');
+        Schema::dropIfExists('operation_definitions');
     }
 };

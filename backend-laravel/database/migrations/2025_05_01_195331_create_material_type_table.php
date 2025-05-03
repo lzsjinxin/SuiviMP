@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('operation_definitions', function (Blueprint $table) {
-            $table->increments('id_operation');
-            $table->string('name')->nullable();
-            $table->text('time_expected')->nullable();
+        Schema::create('material_type', function (Blueprint $table) {
+            $table->comment('stores raw material types');
+            $table->increments('id');
+            $table->string('type', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('operation_definitions');
+        Schema::dropIfExists('material_type');
     }
 };

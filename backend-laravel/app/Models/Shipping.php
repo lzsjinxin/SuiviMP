@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property boolean $active
  * @property Product $product
+ * @property Tier $tier
  */
 class Shipping extends Model
 {
@@ -27,10 +28,25 @@ class Shipping extends Model
      */
     protected $table = 'shipping';
 
+
+    /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
+
     /**
      * @var array
      */
-    protected $fillable = ['id_product', 'shipping_date', 'arrival_date', 'incoterm', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active','id_tier'];
+    protected $fillable = ['id_product', 'id_tier', 'shipping_date', 'arrival_date', 'incoterm', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -38,5 +54,13 @@ class Shipping extends Model
     public function product()
     {
         return $this->belongsTo('App\Models\Product', 'id_product');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tier()
+    {
+        return $this->belongsTo('App\Models\Tier', 'id_tier');
     }
 }

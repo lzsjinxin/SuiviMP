@@ -6,15 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
+ * @property integer $id_tier
  * @property string $date
- * @property string $vehicle_registration
+ * @property string $vehicule_registration
  * @property integer $useradd
  * @property integer $userupdate
  * @property string $created_at
  * @property string $updated_at
  * @property boolean $active
- * @property Tier $tier
  * @property Material[] $materials
+ * @property Tier $tier
  */
 class Arrival extends Model
 {
@@ -26,23 +27,22 @@ class Arrival extends Model
     protected $table = 'arrival';
 
     /**
+     * @var array
+     */
+
+    /**
      * Activate Timestamps.
      * 
      * @var boolean
      */
     public $timestamps = true;
     /**
-     * Fillable db columns.
-     * @var array
-     */
-    protected $fillable = ['date', 'vehicule_registration', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
-
-
-    /**
      * Set Active true by default.
      * @var array
      */
     protected $attributes = ['active' => true];
+
+    protected $fillable = ['id_tier', 'date', 'vehicule_registration', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -52,6 +52,9 @@ class Arrival extends Model
         return $this->hasMany('App\Models\Material', 'id_arrival');
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function tier()
     {
         return $this->belongsTo('App\Models\Tier', 'id_tier');

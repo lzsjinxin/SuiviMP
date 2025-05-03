@@ -6,24 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
- * @property string $type
+ * @property string $name
+ * @property string $time_expected
  * @property integer $useradd
  * @property integer $userupdate
  * @property string $created_at
  * @property string $updated_at
  * @property boolean $active
- * @property Material[] $materials
+ * @property float $qty_needed
+ * @property ProductOperation[] $productOperations
  */
-class MaterialType extends Model
+class OperationDefinition extends Model
 {
     /**
-     * The table associated with the model.
-     * 
-     * @var string
+     * @var array
      */
-    protected $table = 'material_type';
-
-    /**
+    protected $table = "operation_definitions";
+     /**
      * Activate Timestamps.
      * 
      * @var boolean
@@ -35,17 +34,13 @@ class MaterialType extends Model
      */
     protected $attributes = ['active' => true];
 
-
-    /**
-     * @var array
-     */
-    protected $fillable = ['type', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
+    protected $fillable = ['name', 'time_expected', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'qty_needed'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function materials()
+    public function productOperations()
     {
-        return $this->hasMany('App\Models\Material', 'id_type');
+        return $this->hasMany('App\Models\ProductOperation', 'id_operations');
     }
 }

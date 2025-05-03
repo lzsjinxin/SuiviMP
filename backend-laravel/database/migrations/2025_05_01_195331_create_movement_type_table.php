@@ -13,15 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('id_series')->nullable();
-            $table->integer('id_status')->nullable();
-            $table->string('title')->nullable();
+        Schema::create('movement_type', function (Blueprint $table) {
+            $table->comment('stores the movement types that a material can move from location to location for');
+            $table->integer('id')->primary();
+            $table->string('definition')->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
-            $table->boolean('active')->nullable();
+            $table->boolean('active')->nullable()->default(true);
         });
     }
 
@@ -32,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product');
+        Schema::dropIfExists('movement_type');
     }
 };

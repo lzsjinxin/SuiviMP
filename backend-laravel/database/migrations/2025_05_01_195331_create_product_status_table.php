@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('material_type', function (Blueprint $table) {
+        Schema::create('product_status', function (Blueprint $table) {
+            $table->comment('stores all the possible statuses that a product can be');
             $table->increments('id');
-            $table->string('type', 100)->nullable();
+            $table->string('status', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('material_type');
+        Schema::dropIfExists('product_status');
     }
 };

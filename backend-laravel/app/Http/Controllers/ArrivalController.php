@@ -24,8 +24,11 @@ class ArrivalController extends Controller
             'arrival.created_at',
     
             'arrival.updated_at',
+
+            'arrival.id_tier',
     
             'tier.name as tier',
+
     
             \DB::raw("CONCAT(users.fname, ' ', users.name) as user")
     
@@ -36,6 +39,8 @@ class ArrivalController extends Controller
         ->join('tier', 'tier.id', '=', 'arrival.id_tier')
     
         ->where('arrival.active', true)
+
+        ->orderBy('id','DESC')
     
         ->get();
     }
@@ -59,6 +64,8 @@ class ArrivalController extends Controller
                 'arrival.created_at',
         
                 'arrival.updated_at',
+                
+                'arrival.id_tier',
         
                 'tier.name as tier',
         
@@ -73,6 +80,8 @@ class ArrivalController extends Controller
             ->where('arrival.active', true)
 
             ->where('arrival.id', $id)
+
+            ->orderBy('id','DESC')
         
             ->first();
         }else{
@@ -128,6 +137,8 @@ class ArrivalController extends Controller
                 'vehicule_registration' => 'required|string',
                 
                 'user' => 'required|integer',
+
+                'id_tier' => 'required|integer'
                 
             ]);
             
@@ -146,6 +157,8 @@ class ArrivalController extends Controller
                 $arrival->vehicule_registration = $requestBody->vehicule_registration;
         
                 $arrival->userupdate = $requestBody->user;
+
+                $arrival->id_tier = $requestBody->id_tier;
         
                 $arrival->save();
     
@@ -179,6 +192,19 @@ class ArrivalController extends Controller
 
 
             return response('No Data Found',404);
+        }
+    }
+
+    public function getTierbyArrivalId($id)
+    {
+        // Lookup the arrival record
+        $arrival = Arrival::where('id', $id)->where('active', true)->first();
+        
+        if ($arrival) {
+            // Eager load the tier relationship
+            return $arrival->tier;
+        } else {
+            return response('No Data Found', 404);
         }
     }
 

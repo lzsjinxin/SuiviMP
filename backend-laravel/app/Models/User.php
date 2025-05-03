@@ -21,6 +21,21 @@ class User extends Model
     /**
      * @var array
      */
+    protected $table = "users";
+
+/**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
     protected $fillable = ['id_dept', 'fname', 'name', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
 
     /**

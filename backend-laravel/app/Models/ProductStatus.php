@@ -23,6 +23,21 @@ class ProductStatus extends Model
      */
     protected $table = 'product_status';
 
+
+    /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
+
     /**
      * @var array
      */

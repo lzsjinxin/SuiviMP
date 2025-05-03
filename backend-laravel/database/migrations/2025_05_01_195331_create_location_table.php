@@ -13,10 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_operations', function (Blueprint $table) {
-            $table->increments('id_product_operations');
-            $table->integer('id_product')->nullable();
-            $table->integer('id_operations')->nullable();
+        Schema::create('location', function (Blueprint $table) {
+            $table->comment('stores all locations where the raw materials can reside');
+            $table->increments('id');
+            $table->string('name')->nullable();
+            $table->string('adresse')->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_operations');
+        Schema::dropIfExists('location');
     }
 };

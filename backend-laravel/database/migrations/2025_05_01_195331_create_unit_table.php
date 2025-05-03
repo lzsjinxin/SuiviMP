@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tier', function (Blueprint $table) {
+        Schema::create('unit', function (Blueprint $table) {
+            $table->comment('stores the units of measurments');
             $table->increments('id');
-            $table->string('name')->nullable();
-            $table->string('adresse')->nullable();
-            $table->string('city', 100)->nullable();
-            $table->string('country', 100)->nullable();
-            $table->string('ice', 50)->nullable();
+            $table->string('title', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
@@ -34,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tier');
+        Schema::dropIfExists('unit');
     }
 };

@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('product_material', function (Blueprint $table) {
+        Schema::create('department', function (Blueprint $table) {
+            $table->comment('Stores all application user departments');
             $table->increments('id');
-            $table->integer('id_material')->nullable();
-            $table->integer('id_product')->nullable();
+            $table->string('name', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('product_material');
+        Schema::dropIfExists('department');
     }
 };

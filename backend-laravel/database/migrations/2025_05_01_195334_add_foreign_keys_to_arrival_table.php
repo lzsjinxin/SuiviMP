@@ -13,13 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('department', function (Blueprint $table) {
-            $table->increments('id');
-            $table->string('name', 100)->nullable();
-            $table->integer('useradd')->nullable();
-            $table->integer('userupdate')->nullable();
-            $table->timestamps();
-            $table->boolean('active')->nullable();
+        Schema::table('arrival', function (Blueprint $table) {
+            $table->foreign(['id_tier'], 'arrival_tier_fk')->references(['id'])->on('tier')->onUpdate('RESTRICT')->onDelete('RESTRICT');
         });
     }
 
@@ -30,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('department');
+        Schema::table('arrival', function (Blueprint $table) {
+            $table->dropForeign('arrival_tier_fk');
+        });
     }
 };

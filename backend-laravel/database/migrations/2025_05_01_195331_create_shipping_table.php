@@ -13,17 +13,18 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('operations', function (Blueprint $table) {
+        Schema::create('shipping', function (Blueprint $table) {
+            $table->comment('stores the shippments of products');
             $table->increments('id');
-            $table->integer('id_product')->nullable();
-            $table->integer('id_material')->nullable();
-            $table->integer('id_product_operations')->nullable();
-            $table->timestamp('start')->nullable();
-            $table->timestamp('end')->nullable();
+            $table->timestamp('shipping_date')->nullable();
+            $table->timestamp('arrival_date')->nullable();
+            $table->string('incoterm', 100)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();
             $table->boolean('active')->nullable()->default(true);
+            $table->integer('id_product');
+            $table->integer('id_tier')->nullable();
         });
     }
 
@@ -34,6 +35,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('operations');
+        Schema::dropIfExists('shipping');
     }
 };

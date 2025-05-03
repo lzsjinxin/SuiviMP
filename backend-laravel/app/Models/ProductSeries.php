@@ -23,6 +23,22 @@ class ProductSeries extends Model
      */
     protected $fillable = ['id_tier', 'series', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
 
+
+    /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
+
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

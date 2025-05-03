@@ -17,8 +17,9 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property boolean $active
  * @property string $type
- * @property Material[] $materials
+ * @property Shipping[] $shippings
  * @property ProductSeries[] $productSeries
+ * @property Arrival[] $arrivals
  */
 class Tier extends Model
 {
@@ -30,16 +31,30 @@ class Tier extends Model
     protected $table = 'tier';
 
     /**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
      * @var array
      */
-    protected $fillable = ['name', 'adresse', 'city', 'country', 'ice', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active','type'];
+    protected $attributes = ['active' => true];
+
+
+
+    /**
+     * @var array
+     */
+    protected $fillable = ['name', 'adresse', 'city', 'country', 'ice', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'type'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function materials()
+    public function shippings()
     {
-        return $this->hasMany('App\Models\Material', 'id_supplier');
+        return $this->hasMany('App\Models\Shipping', 'id_tier');
     }
 
     /**
@@ -48,5 +63,13 @@ class Tier extends Model
     public function productSeries()
     {
         return $this->hasMany('App\Models\ProductSeries', 'id_tier');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function arrivals()
+    {
+        return $this->hasMany('App\Models\Arrival', 'id_tier');
     }
 }

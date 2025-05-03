@@ -6,22 +6,23 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property integer $id
- * @property string $type
+ * @property string $definition
  * @property integer $useradd
  * @property integer $userupdate
  * @property string $created_at
  * @property string $updated_at
  * @property boolean $active
- * @property Material[] $materials
+ * @property MaterialMovementHistory[] $materialMovementHistories
  */
-class MaterialType extends Model
+class MovementType extends Model
 {
     /**
      * The table associated with the model.
      * 
      * @var string
      */
-    protected $table = 'material_type';
+    protected $table = 'movement_type';
+
 
     /**
      * Activate Timestamps.
@@ -37,15 +38,22 @@ class MaterialType extends Model
 
 
     /**
+     * Indicates if the IDs are auto-incrementing.
+     * 
+     * @var bool
+     */
+    public $incrementing = false;
+
+    /**
      * @var array
      */
-    protected $fillable = ['type', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
+    protected $fillable = ['definition', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function materials()
+    public function materialMovementHistories()
     {
-        return $this->hasMany('App\Models\Material', 'id_type');
+        return $this->hasMany('App\Models\MaterialMovementHistory', 'id_movement_type');
     }
 }

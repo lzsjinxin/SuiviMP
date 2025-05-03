@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ArrivalController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,9 +26,16 @@ Route::prefix('arrivals')->group(function () {
 
     Route::get("/", "ArrivalController@getAll");
     Route::get("{id}", "ArrivalController@getbyId");
+    Route::get("{id}/tier","ArrivalController@getTierbyArrivalId");
     Route::post("/","ArrivalController@create");
     Route::patch("{id}","ArrivalController@update");
     Route::delete("{id}","ArrivalController@logicalDelete") ;
+});
+
+//Tier
+Route::prefix('tiers')->group(function () {
+
+    Route::get("/", "TierController@getAll");
 });
 
 
@@ -163,15 +169,6 @@ Route::prefix('stocks')->group(function () {
 
 });
 
-
-//Tier
-Route::prefix('tiers')->group(function () {
-
-    Route::get("/", function () {
-        return "Tier test";
-    });
-
-});
 
 
 //Unit

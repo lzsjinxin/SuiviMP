@@ -14,12 +14,12 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $created_at
  * @property string $updated_at
  * @property boolean $active
- * @property ProductOperation[] $productOperations
- * @property ProductMaterial[] $productMaterials
  * @property Shipping[] $shippings
  * @property ProductSeries $productSeries
  * @property ProductStatus $productStatus
+ * @property ProductOperation[] $productOperations
  * @property Operation[] $operations
+ * @property ProductMaterial[] $productMaterials
  */
 class Product extends Model
 {
@@ -30,26 +30,25 @@ class Product extends Model
      */
     protected $table = 'product';
 
+/**
+     * Activate Timestamps.
+     * 
+     * @var boolean
+     */
+    public $timestamps = true;
+    /**
+     * Set Active true by default.
+     * @var array
+     */
+    protected $attributes = ['active' => true];
+
+
+
+
     /**
      * @var array
      */
     protected $fillable = ['id_series', 'id_status', 'title', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function productOperations()
-    {
-        return $this->hasMany('App\Models\ProductOperation', 'id_product');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function productMaterials()
-    {
-        return $this->hasMany('App\Models\ProductMaterial', 'id_product');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -78,8 +77,24 @@ class Product extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
+    public function productOperations()
+    {
+        return $this->hasMany('App\Models\ProductOperation', 'id_product');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function operations()
     {
         return $this->hasMany('App\Models\Operation', 'id_product');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function productMaterials()
+    {
+        return $this->hasMany('App\Models\ProductMaterial', 'id_product');
     }
 }
