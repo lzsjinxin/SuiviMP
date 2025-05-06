@@ -26,6 +26,8 @@ class ArrivalController extends Controller
             'arrival.updated_at',
 
             'arrival.id_tier',
+
+            'arrival.status',
     
             'tier.name as tier',
 
@@ -68,6 +70,8 @@ class ArrivalController extends Controller
                 'arrival.id_tier',
         
                 'tier.name as tier',
+
+                'arrival.status',
         
                 \DB::raw("CONCAT(users.fname, ' ', users.name) as user")
         
@@ -89,38 +93,26 @@ class ArrivalController extends Controller
         }
     }
 
-    public function create(Request $request){
-
-        $validation =  Validator::make($request->all(), [
-            
+    public function create(Request $request)
+    {
+        $validated = $request->validate([
             'date' => 'required|date',
-            
-            'vehicule_registration' => 'required|string',
-            
+            'vehicule_registration' => 'string|nullable',
             'user' => 'required|integer',
-            
+            'id_tier'=>'required|integer'
         ]);
-        
-        
-        if ($validation->fails()) {
-            return response($validation->messages(),400);
-        } else {
-                $requestBody = json_decode($request->getContent());
-                $arrival = new Arrival();
-
-                $arrival->date = $requestBody->date;
-        
-                $arrival->vehicule_registration = $requestBody->vehicule_registration;
-        
-                $arrival->useradd = $requestBody->user;
-        
-                $arrival->save();
-
-
-                return response($arrival,201);
-            }
-          
-    }
+    
+        $arrival = Arrival::create([
+            'date' => $validated['date'],
+            'vehicule_registration' => $validated['vehicule_registration'],
+            'useradd' => $validated['user'],
+            'id_tier'=>  $validated['id_tier'],
+            'status' => 'In Transit'
+        ]);
+    
+        return response()->json($arrival, 201);
+    } 
+    
 
     public function update(Request $request, $id){
 

@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $active
  * @property Material[] $materials
  * @property Tier $tier
+ * @property string $status
  */
 class Arrival extends Model
 {
@@ -42,7 +43,7 @@ class Arrival extends Model
      */
     protected $attributes = ['active' => true];
 
-    protected $fillable = ['id_tier', 'date', 'vehicule_registration', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
+    protected $fillable = ['id_tier', 'date', 'vehicule_registration', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active','status'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

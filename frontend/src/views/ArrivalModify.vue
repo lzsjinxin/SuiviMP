@@ -10,7 +10,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 
 export default {
-    name: "ArrivalAdd",
+    name: "ArrivalModify",
     components: {
         Layout, pageheader, flatPickr,
     },

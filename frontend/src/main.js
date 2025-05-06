@@ -8,6 +8,8 @@ import VueApexCharts from "vue3-apexcharts";
 import PhosphorIcons from "@phosphor-icons/vue";
 import Wizard from 'form-wizard-vue3';
 import vSelect from 'vue-select'
+import Antd from 'ant-design-vue';
+
 // import CoolLightBox from 'vue-cool-lightbox';
 
 // Packages CSS import
@@ -24,7 +26,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.js';
 // Import Axios
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://192.168.1.62:8000';
+axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = false; 
 
 
@@ -36,6 +38,7 @@ createApp(App)
 .use(BootstrapVueNext)
 .use(VueApexCharts)
 .use(PhosphorIcons)
+.use(Antd)
 // .use(CoolLightBox)
 .component('Wizard', Wizard)
 .component('v-select', vSelect)

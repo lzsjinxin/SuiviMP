@@ -185,16 +185,27 @@ export default {
         <simplebar data-simplebar class="navbar-content pc-trigger">
             <ul class="pc-navbar">
                 <li class="pc-item pc-caption">
-                    <label>{{$t("Navigation")}}</label>
+                    <label>logistique</label>
                 </li>
 
-                <li class="pc-item" :class="{ 'active': this.$route.path === '/arrivals' }">
-                    <router-link to="/arrivals" class="pc-link">
+
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#arrivals" role="button" aria-expanded="false" aria-controls="arrivals">
                         <span class="pc-micon">
                             <PhTruck :size="32" />
                         </span>
-                        <span class="pc-mtext"> {{ $t("Arrivals") }}</span>
-                    </router-link>
+                        <span class="pc-mtext">Arrivages</span><span class="pc-arrow">
+                            <PhCaretDown :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="arrivals">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/arrivals/new' }"><router-link class="pc-link" to="/arrivals/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter un Arrivage</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/arrivals' }"><router-link class="pc-link" to="/arrivals">  <PhList :size="17" weight="bold" />Liste des Arrivages</router-link>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
             </ul>
         </simplebar>
