@@ -16,7 +16,7 @@ class MaterialBatch extends Model
     /**
      * @var array
      */
-    protected $fillable = ['batch_number', 'can_be_expired', 'expiry_date'];
+    protected $fillable = ['batch_number', 'can_be_expired', 'expiry_date', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
 
     /**
      * Activate Timestamps.

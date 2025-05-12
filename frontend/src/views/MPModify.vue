@@ -10,7 +10,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 
 export default {
-    name: "ArrivalAdd",
+    name: "ArrivalModify",
     components: {
         Layout, pageheader, flatPickr,
     },
@@ -78,8 +78,8 @@ export default {
             }
             
             Swal.fire({
-                title: 'Ajout',
-                html: `Voulez-vous vraiment Ajouter un Arrivage avec les données suivantes : 
+                title: 'Modification',
+                html: `Voulez-vous vraiment modifier l'arrivage n°${this.$route.params.id} par les données suivantes : 
                 <div class="row mt-3">
                 <div class="col">Date</div>
                 <div class="col">${this.arrivals.date}</div>
@@ -120,7 +120,7 @@ export default {
       };
 
       // Make the POST request
-      const response = await axios.post('/api/arrivals/', payload, {
+      const response = await axios.patch('/api/arrivals/'+this.$route.params.id, payload, {
         headers: {
           'Content-Type': 'application/json',
           // Add any auth headers if needed
@@ -164,10 +164,25 @@ export default {
       throw error; // Re-throw if you want to handle it elsewhere
     }
   },
+        fetchArrivals() {
+            axios.get('/api/arrivals/'+this.$route.params.id)
+                .then(response => {
+                    this.arrivals = response.data
+                    this.enableVehicleInput = !!this.arrivals.vehicule_registration
+                    if (this.arrivals.vehicule_registration) {
+                        this.localVehicleReg = ''
+                    }
+                    this.fetchTiers()
+                })
+                .catch(error => {
+                    console.error(error)
+                })
+        },
         fetchTiers() {
-            axios.get('/api/tiers/suppliers')
+            axios.get('/api/tiers/')
                 .then(response => {
                     this.tiers = response.data
+                    this.selected = this.tiers.find(tier => tier.id === this.arrivals.id)
                 })
                 .catch(error => {
                     console.error(error)
@@ -182,14 +197,14 @@ export default {
         },
     },
     mounted() {
-        this.fetchTiers()
+        this.fetchArrivals()
     },
 }
 </script>
 
 <template>
     <Layout>
-        <pageheader title="Ajouter un Arrivage" :pageTitle="$t('Arrivals')" />
+        <pageheader :title="$t('Modify Arrival') + this.$route.params.id" :pageTitle="$t('Arrivals')" />
 
         <BRow>
             <BCol sm="12">
@@ -269,7 +284,7 @@ export default {
                                     class="btn btn-primary"
                                     :disabled="v$.$invalid"
                                 >
-                                    <PhPlusCircle :size="32" /> Ajouter
+                                    <PhNotePencil :size="32" /> Modifier
                                 </button>
                             </div>
                         </BCardFooter>

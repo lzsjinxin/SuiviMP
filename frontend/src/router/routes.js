@@ -18,10 +18,34 @@ export default [
         meta: { title: "Modifier Arrivage"},
         component: () => import("../views/ArrivalModify.vue"),
     },
-    // {
-    //     path: "*",
-    //     name: "404",
-    //     meta: { title: "Cette Page n'existe pas"},
-    //     component: () => import("../views/404.vue"),
-    //   }
+    {
+        path: "/mp/",
+        name: "MPList",
+        meta: { title: "Matières Premières"},
+        component: () => import("../views/MPList.vue"),
+    },
+    {
+        path: "/mp/new",
+        name: "MPNew",
+        meta: { title: "MP"},
+        component: () => import("../views/MPAdd.vue"),
+    },
+    {
+        path: "/404",
+        name: "404",
+        meta: { title: "Cette Page n'existe pas"},
+        component: () => import("../views/404.vue"),
+    },
+    {
+        path: "/403",
+        name: "403",
+        meta: { title: "Vous n'avez pas les droits pour accéder à cette page"},
+        component: () => import("../views/403.vue"),
+    },
+    
+    // 404 catch-all route - redirect to home or a dedicated 404 page
+  {
+    path: '/:pathMatch(.*)*',
+    redirect: '/404' // or '/not-found' if you have a 404 page
+  }
 ]

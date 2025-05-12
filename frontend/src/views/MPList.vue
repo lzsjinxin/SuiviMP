@@ -1,4 +1,3 @@
-<!--TODO Add batches that are in each arrival -->
 <script>
 import Layout from "@/layout/main.vue"
 import pageheader from "@/components/page-header.vue"
@@ -11,7 +10,7 @@ import 'datatables.net-bs5' // Bootstrap 5 integration
 import 'datatables.net-responsive-bs5' // Responsive with BS5 styling
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css' // BS5 CSS
 //END DATATABLES
-import Swal from "sweetalert2";
+// import Swal from "sweetalert2";
 import { notification } from 'ant-design-vue';
 
 // Import French language file
@@ -20,7 +19,7 @@ import frenchLanguage from 'datatables.net-plugins/i18n/fr-FR.json'
 DataTable.use(DataTablesCore)
 
 export default {
-    name: "ArrivalList",
+    name: "MPList",
     components: {
         Layout, 
         pageheader,
@@ -30,37 +29,37 @@ export default {
         return {
             items: [],
             columns: [
-                { data: 'id', title: '#', className: 'text-end' },
-                { data: 'date', title: 'Date' },
-                { data: 'tier', title: 'Provenance' },
-                { data: 'vehicule_registration', title: 'Matricule de Vehicule <br /> <small><small>(En cas de 2 arrivages en même temps du meme provenance)</small></small>',
-                render: (data, type, row) => {
-                        return row.vehicule_registration ? row.vehicule_registration : 'N/A'
-                        }
-                 },
-                { data: 'user', title: 'Receptionné Par'},
-                { data: 'status', title: 'Status',
-                render: (data, type, row) => {
-                        switch(row.status){
-                            case 'In Transit':
-                                return ` <h5> <span class="badge bg-primary">En Transite <i class="ph-duotone ph-truck fw-bold" ></i></span> <i class="ph-duotone ph-lock-open fw-bold text-success"></i>  </h5>`;
-                            case 'Partially Received' : 
-                                return `<h5> <span class="badge bg-warning">Arrivé Partiellement <i class="ph-duotone ph-circle-half-tilt"></i></span> <i class="ph-duotone ph-lock fw-bold text-danger"></i>  </h5>`;
-                            case 'Received' : 
-                            return `<h5> <span class="badge bg-success">Reçu <i class="ph-duotone ph-package fw-bold"></i></span> <i class="ph-duotone ph-lock fw-bold text-danger"></i> </h5>`;
-                        }
+               {data:"id",title:"#"},
+               {data:"num",title:"Numéro MP"},
+               {data:"material_type.type",title:"Type MP"},
+               {data:null,title:"Qte",
+               render: (data, type, row) => {
+                return row.qty + " " + row.unit.title
                     }
-                },
-                { 
+               },
+               {data:"material_batch.batch_number",title:"Num Lot"},
+               {data:"material_batch.can_be_expired",title:"<small>Peut être expiré</small>",
+               render: (data, type, row) => {
+                return row.material_batch.can_be_expired === true ? '<i class="fas fa-check-circle fw-bold text-success"></i>' : '<i class="fas fa-times-circle fw-bold text-danger"></i>';
+                    }
+               },
+               {data:null,title:"Date d'expiration",
+               render: (data, type, row) => {
+                return row.material_batch.can_be_expired === true ? row.material_batch.expiry_date : 'N/A';
+                    }
+               },
+               {data:"location.name",title:"Emplacement Actuel"},
+               {data:"material_status.status",title:"Status"},
+               { 
                     data:null,
                     title: 'Actions',
                     orderable: false,
                     render: (data, type, row) => {
-                        if (row.status === "In Transit"){
+
                             return `
                             <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
-                                    <a href="/arrivals/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
+                                    <a href="/mp/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
                                         <i class="ti ti-edit f-20"></i>
                                     </a>
                                 </li>
@@ -71,17 +70,12 @@ export default {
                                 </li>
                             </ul>
                         `
-                        }else{
-                            return `
-                        `
-                        }
                     }
                 }
             ],
             dtOptions: {
                 responsive: true,
                 dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
                 order: [[ 0, 'desc' ]], 
                 lengthMenu: [
                     [50, 100, 150, 200, 250, 300, 400, 500, 1000, -1],
@@ -103,7 +97,7 @@ export default {
     },
     methods: {
         fetchData() {
-            axios.get('/api/arrivals/')
+            axios.get('/api/materials/')
                 .then(response => {
                     this.items = response.data;
                 })
@@ -112,37 +106,37 @@ export default {
                     alert("Erreur lors du chargement des données");
                 });
         },
-        deleteArrival(id) {
-            Swal.fire({
-                title: 'Supression',
-                html: `Voulez-vous vraiment supprimer l'arrivage n°<strong>${id}</strong> 
-                `,
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Oui',
-                cancelButtonText: 'Annuler'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    axios.delete(`/api/arrivals/${id}`)
-                    .then(() => {
-                        notification.success({
-                            message: 'Succès',
-                            description: 'Arrivage supprimé avec succès',
-                        });
-                        this.fetchData(); // Refresh the data
-                    })
-                    .catch(error => {
-                        console.error(error);
-                        notification.error({
-                            message: 'Erreur',
-                            description: 'Erreur lors de la suppression de l\'arrivage',
-                        });
-                    });
-                }
-            });
-        },
+        // deleteArrival(id) {
+        //     Swal.fire({
+        //         title: 'Supression',
+        //         html: `Voulez-vous vraiment supprimer l'arrivage n°<strong>${id}</strong> 
+        //         `,
+        //         icon: 'warning',
+        //         showCancelButton: true,
+        //         confirmButtonColor: '#3085d6',
+        //         cancelButtonColor: '#d33',
+        //         confirmButtonText: 'Oui',
+        //         cancelButtonText: 'Annuler'
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             axios.delete(`/api/arrivals/${id}`)
+        //             .then(() => {
+        //                 notification.success({
+        //                     message: 'Succès',
+        //                     description: 'Arrivage supprimé avec succès',
+        //                 });
+        //                 this.fetchData(); // Refresh the data
+        //             })
+        //             .catch(error => {
+        //                 console.error(error);
+        //                 notification.error({
+        //                     message: 'Erreur',
+        //                     description: 'Erreur lors de la suppression de l\'arrivage',
+        //                 });
+        //             });
+        //         }
+        //     });
+        // },
         openNotificationWithIcon(type) {
         notification[type]({
             message: type === 'success' ? 'Succès' : 'Erreur',
@@ -160,7 +154,7 @@ export default {
 
 <template>
     <Layout>
-        <pageheader title="Liste des Arrivages" :pageTitle="$t('Arrivals')" />
+        <pageheader title="Liste des Matières Premieres" pageTitle="Matières Premieres" />
 
         <BRow>
             <BCol sm="12">

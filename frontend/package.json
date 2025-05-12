@@ -10,6 +10,7 @@
   "dependencies": {
     "@amcharts/amcharts4": "^4.10.38",
     "@amcharts/amcharts4-geodata": "^4.1.28",
+    "@ant-design/icons-vue": "^7.0.1",
     "@fullcalendar/bootstrap": "^6.1.10",
     "@fullcalendar/core": "^6.1.10",
     "@fullcalendar/daygrid": "^6.1.10",

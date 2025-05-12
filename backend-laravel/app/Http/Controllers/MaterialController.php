@@ -3,47 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Arrival;
+use App\Models\Material;
 use Illuminate\Support\Facades\Validator;
-
-class ArrivalController extends Controller
+class MaterialController extends Controller
 {
     public function getAll(){
-        return Arrival::select(
-
-            'arrival.id',
-    
-            'arrival.date',
-    
-            'arrival.vehicule_registration',
-    
-            'arrival.useradd',
-    
-            'arrival.userupdate',
-    
-            'arrival.created_at',
-    
-            'arrival.updated_at',
-
-            'arrival.id_tier',
-
-            'arrival.status',
-    
-            'tier.name as tier',
-
-    
-            \DB::raw("CONCAT(users.fname, ' ', users.name) as user")
-    
-        )
-    
-        ->leftJoin('users', 'users.id', '=', 'arrival.useradd')
-    
-        ->join('tier', 'tier.id', '=', 'arrival.id_tier')
-    
-        ->where('arrival.active', true)
-
-        ->orderBy('id','DESC')
-    
+        return Material::with(['materialBatch', 'location', 'materialStatus', 'materialType', 'unit'])
+        ->whereHas('materialBatch', fn($query) => $query->where('active', true))
+        ->whereHas('materialStatus', fn($query) => $query->where('active', true))
+        ->whereHas('materialType', fn($query) => $query->where('active', true))
+        ->whereHas('unit', fn($query) => $query->where('active', true))
+        ->where('active', true)
+        ->orderBy('id','desc')
         ->get();
     }
 
@@ -186,27 +157,4 @@ class ArrivalController extends Controller
             return response('No Data Found',404);
         }
     }
-
-    public function getTierbyArrivalId($id)
-    {
-        // Lookup the arrival record
-        $arrival = Arrival::where('id', $id)->where('active', true)->first();
-        
-        if ($arrival) {
-            return $arrival->tier;
-        } else {
-            return response('No Data Found', 404);
-        }
-    }
-
-    public function getInTransitorPartiallyReceivedArrivals(){
-        return Arrival::with(['tier'])
-        ->whereHas('tier', fn($query) => $query->where('active', true))
-        ->where('status','In Transit')
-        ->orWhere('status','Partially Received')
-        ->where('active', true)
-        ->orderBy('id','desc')
-        ->get();
-    }
-
 }

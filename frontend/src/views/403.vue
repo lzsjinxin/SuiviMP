@@ -1,10 +1,11 @@
 <script>
 
 export default {
-    name: "404",
+    name: "403",
     components: {
        
-    }
+    },
+
 }
 </script>
 
@@ -15,18 +16,18 @@ export default {
                 <div class="error-card">
                     <div class="card-body">
                         <div class="error-image-block">
-                            <img class="img-fluid" src="@/assets/images/pages/404.png" alt="img">
+                            <img class="img-fluid" src="@/assets/images/pages/403.png" alt="img">
                         </div>
                         <div class="text-center">
-                            <h1 class="mt-2">Ressource n'est pas trouvé</h1>
-                            <p class="mt-2 mb-4 text-muted f-20">Nous n'avons pas trouvé la page que vous recherchiez. Pourquoi ne pas essayer
-                                de revenir à la page d'accueil.</p>
+                            <h1 class="mt-2">Autorisation refusé</h1>
+                            <p class="mt-2 mb-4 text-muted f-20">Vous n'avez pas accès a cette ressource</p>
                             <router-link class="btn btn-primary d-inline-flex align-items-center mb-3"
-                                to="/"><i class="ph-duotone ph-house me-2"></i> Back to Home</router-link>
+                                to="/"  ><i class="ph-duotone ph-arrow-left me-2"></i> Retour</router-link>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 </template>

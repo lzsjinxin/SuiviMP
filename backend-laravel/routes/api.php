@@ -23,8 +23,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Arrival
 Route::prefix('arrivals')->group(function () {
-
     Route::get("/", "ArrivalController@getAll");
+    Route::get("/inTransitorpartial","ArrivalController@getInTransitorPartiallyReceivedArrivals");
     Route::get("{id}", "ArrivalController@getbyId");
     Route::get("{id}/tier","ArrivalController@getTierbyArrivalId");
     Route::post("/","ArrivalController@create");
@@ -36,6 +36,7 @@ Route::prefix('arrivals')->group(function () {
 Route::prefix('tiers')->group(function () {
 
     Route::get("/", "TierController@getAll");
+    Route::get("/suppliers","TierController@getAllSuppliers");
 });
 
 
@@ -52,9 +53,18 @@ Route::prefix('departments')->group(function () {
 //Material
 Route::prefix('materials')->group(function () {
 
-    Route::get("/", function () {
-        return "Material test";
-    });
+    Route::get("/", "MaterialController@getAll");
+    Route::get("{id}", "MaterialController@getbyId");
+    Route::get("{id}/tier","MaterialController@getTierbyArrivalId");
+    Route::post("/","MaterialController@create");
+    Route::patch("{id}","MaterialController@update");
+    Route::delete("{id}","MaterialController@logicalDelete") ;
+
+});
+
+Route::prefix('batches')->group(function () {
+
+    Route::get("/", "MaterialBatchController@getAll");
 
 });
 

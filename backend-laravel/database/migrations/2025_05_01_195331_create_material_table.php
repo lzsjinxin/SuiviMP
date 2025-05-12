@@ -21,7 +21,7 @@ return new class extends Migration
             $table->integer('id_arrival')->nullable();
             $table->integer('id_type')->nullable();
             $table->integer('id_unit')->nullable();
-            $table->integer('num')->nullable();
+            $table->string('num',255)->nullable();
             $table->integer('useradd')->nullable();
             $table->integer('userupdate')->nullable();
             $table->timestamps();

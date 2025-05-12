@@ -207,6 +207,24 @@ export default {
                         </ul>
                     </div>
                 </li>
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#mp" role="button" aria-expanded="false" aria-controls="mp">
+                        <span class="pc-micon">
+                            <PhPackage :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Matières Premieres</span><span class="pc-arrow">
+                            <PhCaretDown :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="mp">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/mp/new' }"><router-link class="pc-link" to="/mp/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Matières premieres</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/mp' }"><router-link class="pc-link" to="/mp">  <PhList :size="17" weight="bold" />Liste des Matières premieres</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </simplebar>
         <BCard no-body class="pc-user-card">

@@ -169,6 +169,8 @@ export default {
                 .then(response => {
                     this.arrivals = response.data
                     this.enableVehicleInput = !!this.arrivals.vehicule_registration
+                    if(this.arrivals.status!=="In Transit")
+                    this.$router.push('/403');
                     if (this.arrivals.vehicule_registration) {
                         this.localVehicleReg = ''
                     }
@@ -182,7 +184,7 @@ export default {
             axios.get('/api/tiers/')
                 .then(response => {
                     this.tiers = response.data
-                    this.selected = this.tiers.find(tier => tier.id === this.arrivals.id)
+                    this.selected = this.tiers.find(tier => tier.id === this.arrivals.id_tier)
                 })
                 .catch(error => {
                     console.error(error)

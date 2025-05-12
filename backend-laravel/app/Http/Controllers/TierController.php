@@ -10,6 +10,9 @@ class TierController extends Controller
         return Tier::where('active', true)->orderBy('id','DESC')->get();
     }
 
+    public function getAllSuppliers(){
+        return Tier::where('active', true)->where('type','S')->orWhere('type' ,'CS')->orderBy('id','DESC')->get();
+    }
     public function getbyId($id){
     }
 
