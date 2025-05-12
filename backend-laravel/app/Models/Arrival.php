@@ -61,3 +61,4 @@ class Arrival extends Model
         return $this->belongsTo('App\Models\Tier', 'id_tier');
     }
 }
+//skjld
