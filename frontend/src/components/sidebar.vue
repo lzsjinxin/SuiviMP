@@ -275,5 +275,6 @@ export default {
             </BCardBody>
         </BCard>
     </div>
+    <a-back-top />
 </template>
 

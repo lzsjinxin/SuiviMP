@@ -26,8 +26,8 @@ export default [
     },
     {
         path: "/mp/new",
-        name: "MPNew",
-        meta: { title: "MP"},
+        name: "MPAdd",
+        meta: { title: "Ajout Matière Première"},
         component: () => import("../views/MPAdd.vue"),
     },
     {

@@ -65,6 +65,7 @@ Route::prefix('materials')->group(function () {
 Route::prefix('batches')->group(function () {
 
     Route::get("/", "MaterialBatchController@getAll");
+    Route::post("/","MaterialBatchController@create");
 
 });
 
@@ -80,11 +81,10 @@ Route::prefix('materialstatus')->group(function () {
 
 
 //MaterialType
-Route::prefix('materialtype')->group(function () {
+Route::prefix('materialtypes')->group(function () {
 
-    Route::get("/", function () {
-        return "MaterialType test";
-    });
+    Route::get("/", "MaterialTypeController@getAll");
+    Route::post("/", "MaterialTypeController@create");
 
 });
 
@@ -171,11 +171,9 @@ Route::prefix('shipping')->group(function () {
 
 
 //Stock
-Route::prefix('stocks')->group(function () {
+Route::prefix('locations')->group(function () {
 
-    Route::get("/", function () {
-        return "Stock test";
-    });
+    Route::get("/", "LocationController@getAll");
 
 });
 
