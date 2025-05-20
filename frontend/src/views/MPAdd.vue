@@ -25,34 +25,44 @@ export default {
         const typeForm = ref({
             newTypeValue: null
         })
+
+        const globalForm = ref({
+            selectedArrival : null,
+            selectedBatch : null,
+            selectedLocation : null,
+            selectedUnit : null,
+            selectedType : null
+        })
         return { v$: useVuelidate(),
             batchForm,
-            typeForm
+            typeForm,
+            globalForm,
          }
     },
     data() {
         return {
             arrivals : [],
-            selectedArrival: null,
             // Batch
             batches : [],
             selectBatches: [],
-            selectedBatch: null,
             batchModalOpen : false,
             batchModalConfirmLoading : false,
-            newbatchValue : null,
-            batchDate : null,
-            enableBatchDatePicker : false,
             // Location
             locations : [],
             selectLocation : [],
-            selectedLocation : null,
+            //units
+            units : [],
+            selectUnit : [],
             // Type
             types : [],
             selectTypes: [],
-            selectedType: null,
             typesModalOpen : false,
-            newTypeValue : null,
+            //Materials
+            materials: [], 
+            lignes : 1,
+            qtyHeaderValue: '',
+            materialRowsError : false,
+            materialRowsErrorRow : 0,
             flatpickrConfig: {
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
@@ -76,6 +86,23 @@ export default {
         },
         typeForm: {
             newTypeValue: {
+                required: helpers.withMessage('Le Type est requis', required)
+            }
+        },
+        globalForm : {
+            selectedArrival :{
+                required: helpers.withMessage('L\'arrivage est requis', required)
+            },
+            selectedBatch : {
+                required : helpers.withMessage('Le Lot est requis',required)
+            },
+            selectedLocation :{ 
+                required: helpers.withMessage('L\'emplacement est requis', required)
+            },
+            selectedUnit : {
+                required: helpers.withMessage('L\'unité est requise', required)
+            },
+            selectedType : {
                 required: helpers.withMessage('Le Type est requis', required)
             }
         }
@@ -158,6 +185,19 @@ fetchTypes(){
             console.error(error);
         });
 },
+fetchUnits(){
+    axios.get('/api/units')
+        .then(response => {
+        this.units = response.data;
+        this.selectUnit = response.data.map(item => ({
+            value: item.id,
+            label: item.title
+            }));
+        })
+        .catch(error => {
+            console.error(error);
+        });
+},
 formatDateTime(dateTimeString) {
         if (!dateTimeString) return '';
         
@@ -179,20 +219,38 @@ toggleBatchDatePicker(){
                 this.batchForm.batchDate = ''
             }
 },
+enableAfterArrivalSelect(){
+    if(this.globalForm.selectedArrival!==null){
+        return false;
+    }else{
+        return true;
+    }
+},
+addMaterialRows(count = 1) {
+        for (let i = 0; i < count; i++) {
+            this.materials.push({
+                num: null,
+                qty: null
+            });
+        }
+    },
+removeMaterialRow(id) {
+    const index = this.materials.findIndex(m => m.id === id);
+    if (index !== -1) {
+        this.materials.splice(index, 1);
+    }
+},
+fillAllQty() {
+    this.materials.forEach((record) => {
+      record.qty = this.qtyHeaderValue
+    })
+  },
 async addBatch() {
             // Trigger validation
             const isFormValid = await this.v$.batchForm.$validate()
             
             if (!isFormValid) {
-                // Show validation errors
-                const firstError = this.v$.batchForm.$errors[0]
-                Swal.fire({
-                    title: 'Erreur de validation',
-                    text: firstError.$message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                })
-                return
+                return;
             }
 
             Swal.fire({
@@ -253,7 +311,7 @@ async submitBatch() {
         this.batchForm.enableBatchDatePicker = null;
         this.batchForm.batchDate = null;
         this.batchModalOpen = false;
-        this.selectedBatch = response.data.id
+        this.globalForm.selectedBatch = response.data.id
         this.fetchBatches();
     });
 
@@ -286,14 +344,6 @@ async addType(){
   const isFormValid = await this.v$.typeForm.$validate()
             
             if (!isFormValid) {
-                // Show validation errors
-                const firstError = this.v$.typeForm.$errors[0]
-                Swal.fire({
-                    title: 'Erreur de validation',
-                    text: firstError.$message,
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                })
                 return;
             }
 
@@ -343,7 +393,7 @@ async submitType(){
     }).then(() => {
         this.typeForm.newTypeValue = null;
         this.typesModalOpen = false;
-        this.selectedType = response.data.id
+        this.globalForm.selectedType = response.data.id
         this.fetchTypes();
     });
 
@@ -370,13 +420,145 @@ async submitType(){
 
     throw error; // Re-throw if you want to handle it elsewhere
     }
-}
+},
+async ValidateGlobalForm(){
+    const isFormValid = await this.v$.globalForm.$validate()
+            
+            if (!isFormValid) {
+                return;
+            }
+            try{
+            this.materialRowsError = false;
+            this.materials.forEach((record, index) => {
+                if(record.num == null || record.qty == null){
+                    throw "Veuillez verifier que tous les donné sont valable dans la ligne N° " +(index+1);
+                }
+            })
+            Swal.fire({
+                title: 'Récéption',
+                html: `Voulez-vous vraiment Récéptionner Les MP ?:`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submitMaterials();
+                }
+            });
+            Swal
+        }catch (e) {
+            this.materialRowsErrorRow = e;
+            this.materialRowsError = true;
+            }
+},
+async submitMaterials(){
+     try {
+    // Prepare the payload
+    const payload = {
+    idArrival : this.globalForm.selectedArrival,
+    idBatch : this.globalForm.selectedBatch,
+    idLocation : this.globalForm.selectedLocation,
+    idUnit : this.globalForm.selectedUnit,
+    idType : this.globalForm.selectedType,
+    materials : this.materials,
+    user: 1 /**TODO: Remove the 1 and add loggedin user ID**/ 
+    };
+
+    // Make the POST request
+    await axios.post('/api/materials/', payload, {
+    headers: {
+    'Content-Type': 'application/json',
+    // Add any auth headers if needed
+    // 'Authorization': `Bearer ${yourToken}`
+    }
+    });
+
+    // Handle success
+    Swal.fire({
+    title: 'Succès!',
+    text: 'MP Récéptionnés avec succès',
+    icon: 'success',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    cancelButtonText : 'Continuer a renseigner les MP',
+    confirmButtonText: 'Arrivage Entierement Reçu'
+    }).then((result) => {
+         if (result.isConfirmed) {
+        this.setArrivalToReceived(this.globalForm.selectedArrival)
+    }else{
+        this.fetchArrivals();
+        this.materials = [];
+        this.addMaterialRows(1);
+    }
+    });
+
+    } catch (error) {
+    // Handle errors
+    console.error('Error submitting form:', error);
+
+    let errorMessage = "Une erreur s'est produite";
+    if (error.response) {
+    // Server responded with error status
+    errorMessage = error.response.data.message || 
+                `Erreur ${error.response.status}: ${error.response.statusText}`;
+    } else if (error.request) {
+    // Request was made but no response
+    errorMessage = "Pas de réponse du serveur";
+    }
+
+    Swal.fire({
+    title: 'Erreur',
+    text: errorMessage,
+    icon: 'error',
+    confirmButtonText: 'OK'
+    });
+
+    throw error; // Re-throw if you want to handle it elsewhere
+    }
+},
+async setArrivalToReceived(id) {
+        try {
+            await axios.patch(`/api/arrivals/${id}/status/Received`);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'center',
+                iconColor: 'white',
+                customClass: {
+                    popup: 'colored-toast',
+                },
+                showConfirmButton: false,
+                timer: 1500,
+                timerProgressBar: true,
+            })
+
+            ;(async () => {
+            await Toast.fire({
+                icon: 'success',
+                title: 'Arrivage Récéptionné',
+            }).then(() => {
+                //Reload Arrivals
+                this.globalForm.selectedArrival = null;
+                this.fetchArrivals();
+                this.materials = [];
+                this.addMaterialRows(1);
+            })
+            })()
+        } catch (error) {
+            console.error('Error updating status:', error.response?.data || error.message);
+        }
+    }
     },
     mounted() {
         this.fetchArrivals();
         this.fetchBatches();
         this.fetchLocations();
         this.fetchTypes();
+        this.addMaterialRows(1);
+        this.fetchUnits();
     },
 }
 </script>
@@ -392,26 +574,30 @@ async submitType(){
                     <BCardBody>
                         <a-flex vertical="vertical">
                             <a-divider><PhTruck :size="23" weight="duotone" /> Arrivage</a-divider>
-                            <a-flex  justify="space-around" align="center">
+                            <a-flex  justify="space-around" align="center" wrap="wrap">
                                 <a-select
-                                v-model:value="selectedArrival"
+                                v-model:value="globalForm.selectedArrival"
                                 show-search
                                 placeholder="Selectionner un arrivage"
                                 style="width: 100%;text-align: center;"
+                                :status="v$.globalForm.selectedArrival.$error ? 'error' : ''"
                                 :options="arrivals"
                                 ></a-select>
-                                
+                                <div v-if="v$.globalForm.selectedArrival.$error" class="text-danger">
+                                    {{ v$.globalForm.selectedArrival.$errors[0].$message }}
+                                </div>
                             </a-flex>
                             <a-divider><PhPackage :size="23" weight="duotone" />Matières Premieres</a-divider>
-                            <a-flex  justify="space-between" align="center">
+                            <a-flex  justify="space-between" align="center" wrap="wrap">
                             <!-- Lot -->
                             <div>
                                 <label for="">Lot</label>
                                 <a-select
-                                v-model:value="selectedBatch"
+                                v-model:value="globalForm.selectedBatch"
                                 show-search
                                 placeholder="Selectionner un Lot"
                                 style="width: 100%;text-align: center;"
+                                :status="v$.globalForm.selectedBatch.$error ? 'error' : ''"
                                 :options="selectBatches"
                                 >
                                 </a-select>
@@ -420,6 +606,9 @@ async submitType(){
                                         <PhPlus :size="15" />  
                                     </a-button>
                                 </a-tooltip>
+                                <div v-if="v$.globalForm.selectedBatch.$error" class="text-danger">
+                                    {{ v$.globalForm.selectedBatch.$errors[0].$message }}
+                                </div>
                                 <div>
                                 <BModal v-model="batchModalOpen" hide-footer title="Ajout d'un Nouveau Lot" class="v-modal-custom" title-class="varyingcontentModal">
                                     <div class="modal-body p-0 pb-4">
@@ -459,30 +648,55 @@ async submitType(){
                             <div>
                                 <label for="">Emplacement</label>
                                 <a-select
-                                v-model:value="selectedLocation"
+                                v-model:value="globalForm.selectedLocation"
                                 show-search
                                 placeholder="Selectionner un Emplacement"
-                                style="width: 100%;text-align: center;"
+                                style="width: 100%;text-align: center;margin-bottom: 40px;"
+                                :status="v$.globalForm.selectedLocation.$error ? 'error' : ''"
                                 :options="selectLocation"
                                 >
                                 </a-select>
+                                <div v-if="v$.globalForm.selectedLocation.$error" class="text-danger">
+                                    {{ v$.globalForm.selectedLocation.$errors[0].$message }}
+                                </div>
+                            </div>
+                            <!-- Unit-->
+                            <div>
+                                <label for="">Unité</label>
+                                <a-select
+                                v-model:value="globalForm.selectedUnit"
+                                show-search
+                                placeholder="Selectionner une unité"
+                                style="width: 100%;text-align: center;margin-bottom: 40px;"
+                                :status="v$.globalForm.selectedUnit.$error ? 'error' : ''"
+                                :options="selectUnit"
+                                >
+                                </a-select>
+                                <div v-if="v$.globalForm.selectedUnit.$error" class="text-danger">
+                                    {{ v$.globalForm.selectedUnit.$errors[0].$message }}
+                                </div>
                             </div>
                             <!-- Type -->
                             <div>
                                 <label for="">Type</label>
                                 <a-select
-                                v-model:value="selectedType"
+                                v-model:value="globalForm.selectedType"
                                 show-search
                                 placeholder="Selectionner un Lot"
                                 style="width: 100%;text-align: center;"
+                                :status="v$.globalForm.selectedType.$error ? 'error' : ''"
                                 :options="selectTypes"
                                 >
                                 </a-select>
+                                
                                 <a-tooltip title="Ajouter un Type" class="mt-2">
                                     <a-button type="primary" shape="circle" @click="typesModalOpen = !typesModalOpen">
                                         <PhPlus :size="15" />  
                                     </a-button>
                                 </a-tooltip>
+                                <div v-if="v$.globalForm.selectedType.$error" class="text-danger">
+                                    {{ v$.globalForm.selectedType.$errors[0].$message }}
+                                </div>
                                 <div>
                                 <BModal v-model="typesModalOpen" hide-footer title="Ajout d'un Nouveau Type" class="v-modal-custom" title-class="varyingcontentModal">
                                     <div class="modal-body p-0 pb-4">
@@ -505,13 +719,17 @@ async submitType(){
                                 </BModal>
                                 </div>
                             </div>
+
+                            
                             </a-flex>
                         </a-flex>
                     </BCardBody>
                     <BCardFooter>
-                        <a-flex  justify="space-between" align="center" gap="middle">
-                            <a-button type="primary" style="background-color: var(--bs-form-valid-color);"><PhLock :size="23" weight="duotone" />Arrivage entierement Reçu</a-button>
-                            <a-button type="primary"> <PhDropboxLogo :size="23" weight="duotone" />Receptionner</a-button>
+                        <a-flex  justify="space-between" align="center" gap="middle" wrap="wrap">
+                            <a-popconfirm title="Arrivage Entierement Reçu ?"  ok-text="Oui" cancel-text="Non" @confirm="setArrivalToReceived(globalForm.selectedArrival)" :disabled="globalForm.selectedArrival!== null ? false : true">
+                            <a-button type="primary" style="background-color: var(--bs-form-valid-color);" :disabled="globalForm.selectedArrival!== null ? false : true"><PhLock :size="23" weight="duotone" />Arrivage entierement Reçu</a-button>
+                            </a-popconfirm>
+                            <a-button type="primary" @click = "ValidateGlobalForm"> <PhDropboxLogo :size="23" weight="duotone" />Receptionner</a-button>
                             
                         </a-flex>
                     </BCardFooter>
@@ -519,5 +737,76 @@ async submitType(){
                 </BCard>
             </BCol>
         </BRow>
-    </Layout>
+        <BRow>
+            <BCol sm="12">
+                <BCard no-body style="width: 60%; margin: auto;">
+                    <BCardHeader>
+
+                            <a-input-group compact style="margin: auto; width: 50%;"> 
+                                <a-button type="primary" @click="addMaterialRows(lignes)">Ajouter </a-button>
+                                <a-input-number v-model:value="lignes" min="0" max="100" defaultValue="1" addonAfter="lignes"></a-input-number>
+                            </a-input-group>
+
+                    </BCardHeader>
+                    <BCardBody>
+                        <div v-if="materialRowsError" class="text-danger">
+                                    {{ materialRowsErrorRow }}
+                                </div>
+                        <a-table 
+                    :dataSource="materials" 
+                    :columns="[
+                        { title: 'Numéro', dataIndex: 'num', key: 'num' },
+                        { title: 'Quantité', dataIndex: 'qty', key: 'qty' },
+                        { title: 'Action', key: 'action' },
+                        { title: '', key: 'qtyHeader', width: 100 }
+                    ]" 
+                    :pagination="false"
+                    size="small"
+                >
+                <template #headerCell="{ column }">
+                <template v-if="column.key === 'qtyHeader'">
+                    <a-tooltip placement="topLeft" title="Remplir tous les Qte" arrow-point-at-center>
+                    <a-input-number
+                    v-model:value="qtyHeaderValue"
+                    placeholder="Tous Qte"
+                    style="width: 100%"
+                    :min="0" 
+                    :step="0.01" 
+                    :precision="2" 
+                    @input="fillAllQty"
+                    />
+                </a-tooltip>
+                </template>
+                </template>
+                    <template #bodyCell="{ column, record }">
+                        <template v-if="column.key === 'num'">
+                            <a-input v-model:value="record.num" placeholder="Numéro" />
+                        </template>
+                        <template v-if="column.key === 'qty'">
+                            <a-input-number 
+                                v-model:value="record.qty" 
+                                :min="0" 
+                                :step="0.01" 
+                                :precision="2" 
+                                placeholder="Quantité"
+                                style="width: 100%"
+                            />
+                        </template>
+                        <template v-if="column.key === 'action'">
+                            <a-button 
+                                type="primary" 
+                                danger 
+                                shape="circle" 
+                                @click="removeMaterialRow(record.id)"
+                            >
+                                <template #icon><PhTrash :size="15" /></template>
+                            </a-button>
+                        </template>
+                    </template>
+                </a-table>
+                    </BCardBody>
+                </BCard>
+            </BCol>
+</BRow>
+</Layout>
 </template>

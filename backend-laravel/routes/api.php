@@ -27,6 +27,7 @@ Route::prefix('arrivals')->group(function () {
     Route::get("/inTransitorpartial","ArrivalController@getInTransitorPartiallyReceivedArrivals");
     Route::get("{id}", "ArrivalController@getbyId");
     Route::get("{id}/tier","ArrivalController@getTierbyArrivalId");
+    Route::patch("{id}/status/{status}","ArrivalController@setArrivalStatus");
     Route::post("/","ArrivalController@create");
     Route::patch("{id}","ArrivalController@update");
     Route::delete("{id}","ArrivalController@logicalDelete") ;
@@ -182,9 +183,7 @@ Route::prefix('locations')->group(function () {
 //Unit
 Route::prefix('units')->group(function () {
 
-    Route::get("/", function () {
-        return "Unit test";
-    });
+    Route::get("/", "UnitController@getAll");
 
 });
 
