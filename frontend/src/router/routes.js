@@ -1,4 +1,5 @@
 export default [
+    //Arrivals
     {
         path: "/arrivals/",
         name: "arrivals",
@@ -18,6 +19,7 @@ export default [
         meta: { title: "Modifier Arrivage"},
         component: () => import("../views/ArrivalModify.vue"),
     },
+    //Matières Premiere
     {
         path: "/mp/",
         name: "MPList",
@@ -30,6 +32,20 @@ export default [
         meta: { title: "Ajout Matière Première"},
         component: () => import("../views/MPAdd.vue"),
     },
+    {
+        path: "/mp/:id(\\d+)",
+        name: "MPUpdate",
+        meta: { title: "Modifier MP"},
+        component: () => import("../views/MPModify.vue"),
+    },
+    //Unit
+    {
+        path: "/units/",
+        name: "UnitList",
+        meta: { title: "Unités"},
+        component: () => import("../views/UnitList.vue"),
+    },
+    //Erreurs
     {
         path: "/404",
         name: "404",

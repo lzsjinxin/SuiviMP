@@ -10,7 +10,7 @@ import 'datatables.net-bs5' // Bootstrap 5 integration
 import 'datatables.net-responsive-bs5' // Responsive with BS5 styling
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css' // BS5 CSS
 //END DATATABLES
-// import Swal from "sweetalert2";
+import Swal from "sweetalert2";
 import { notification } from 'ant-design-vue';
 
 // Import French language file
@@ -55,7 +55,7 @@ export default {
                     title: 'Actions',
                     orderable: false,
                     render: (data, type, row) => {
-
+                            if(row.id_status == 1){
                             return `
                             <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
@@ -70,6 +70,19 @@ export default {
                                 </li>
                             </ul>
                         `
+                            }else{
+                                 return `
+                            <ul class="list-inline mb-0">
+                                <li class="list-inline-item">
+                                    <a href="/mp/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
+                                        <i class="ti ti-edit f-20"></i>
+                                    </a>
+                                </li>
+                                
+                            </ul>
+                        `
+                            }
+                           
                     }
                 }
             ],
@@ -87,7 +100,7 @@ export default {
                     const deleteBtn = e.target.closest('.btn-link-danger');
                     if (deleteBtn) {
                         e.preventDefault();
-                        this.deleteArrival(data.id);
+                        this.deleteMP(data.id);
                     }
                 });
                 },
@@ -106,43 +119,43 @@ export default {
                     alert("Erreur lors du chargement des données");
                 });
         },
-        // deleteArrival(id) {
-        //     Swal.fire({
-        //         title: 'Supression',
-        //         html: `Voulez-vous vraiment supprimer l'arrivage n°<strong>${id}</strong> 
-        //         `,
-        //         icon: 'warning',
-        //         showCancelButton: true,
-        //         confirmButtonColor: '#3085d6',
-        //         cancelButtonColor: '#d33',
-        //         confirmButtonText: 'Oui',
-        //         cancelButtonText: 'Annuler'
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             axios.delete(`/api/arrivals/${id}`)
-        //             .then(() => {
-        //                 notification.success({
-        //                     message: 'Succès',
-        //                     description: 'Arrivage supprimé avec succès',
-        //                 });
-        //                 this.fetchData(); // Refresh the data
-        //             })
-        //             .catch(error => {
-        //                 console.error(error);
-        //                 notification.error({
-        //                     message: 'Erreur',
-        //                     description: 'Erreur lors de la suppression de l\'arrivage',
-        //                 });
-        //             });
-        //         }
-        //     });
-        // },
+        deleteMP(id) {
+            Swal.fire({
+                title: 'Supression',
+                html: `Voulez-vous vraiment supprimer la MP n°<strong>${id}</strong> 
+                `,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Oui',
+                cancelButtonText: 'Annuler'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`/api/materials/${id}`)
+                    .then(() => {
+                        notification.success({
+                            message: 'Succès',
+                            description: 'MP supprimé avec succès',
+                        });
+                        this.fetchData(); // Refresh the data
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        notification.error({
+                            message: 'Erreur',
+                            description: 'Erreur lors de la suppression de la MP',
+                        });
+                    });
+                }
+            });
+        },
         openNotificationWithIcon(type) {
         notification[type]({
             message: type === 'success' ? 'Succès' : 'Erreur',
             description: type === 'success' 
-                ? 'Arrivage supprimé avec succès' 
-                : 'Erreur lors de la suppression de l\'arrivage',
+                ? 'MP supprimé avec succès' 
+                : 'Erreur lors de la suppression de la MP',
         });
     },
     },
