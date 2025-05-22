@@ -45,6 +45,18 @@ export default [
         meta: { title: "Unités"},
         component: () => import("../views/UnitList.vue"),
     },
+    {
+        path: "/units/new",
+        name: "UnitAdd",
+        meta: { title: "Ajouter Unités"},
+        component: () => import("../views/UnitAdd.vue"),
+    },
+        {
+        path: "/units/:id(\\d+)",
+        name: "UnitModify",
+        meta: { title: "Modifier Unité"},
+        component: () => import("../views/UnitModify.vue"),
+    },
     //Erreurs
     {
         path: "/404",

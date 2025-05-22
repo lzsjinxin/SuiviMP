@@ -176,7 +176,7 @@ export default {
     <div class="navbar-wrapper" id="navbar-wrapper">
         <div class="m-header">
             <router-link to="/" class="b-brand text-primary">
-                <!-- ========   Change your logo from here   ============ -->
+                <!-- ========  Logo   ============ -->
                 <img v-if="currentLogo === logoDark" :src="logoDark" alt="logo image" class="logo-lg custom_logo">
                 <img v-else :src="logoWhite" alt="logo image" class="logo-lg custom_logo">
                 <img src="@/assets/images/favicon.svg" alt="" class="logo logo-sm"> <span class="badge bg-brand-color-2 rounded-pill ms-1 theme-version">v1.0</span>
@@ -221,6 +221,24 @@ export default {
                             <li class="pc-item" :class="{ 'active': $route.path === '/mp/new' }"><router-link class="pc-link" to="/mp/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Matières premieres</router-link>
                             </li>
                             <li class="pc-item" :class="{ 'active': $route.path === '/mp' }"><router-link class="pc-link" to="/mp">  <PhList :size="17" weight="bold" />Liste des Matières premieres</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                 <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#units" role="button" aria-expanded="false" aria-controls="units">
+                        <span class="pc-micon">
+                            <PhRuler :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Unités</span><span class="pc-arrow">
+                            <PhCaretDown :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="units">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/units/new' }"><router-link class="pc-link" to="/units/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Unités</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/units' }"><router-link class="pc-link" to="/units">  <PhList :size="17" weight="bold" />Liste des Unités</router-link>
                             </li>
                         </ul>
                     </div>

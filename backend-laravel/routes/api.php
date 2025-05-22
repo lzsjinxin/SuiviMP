@@ -184,6 +184,10 @@ Route::prefix('locations')->group(function () {
 Route::prefix('units')->group(function () {
 
     Route::get("/", "UnitController@getAll");
+    Route::get("{id}", "UnitController@getbyId");
+    Route::post("/","UnitController@create");
+    Route::patch("{id}","UnitController@update");
+    Route::delete("{id}","UnitController@logicalDelete") ;
 
 });
 

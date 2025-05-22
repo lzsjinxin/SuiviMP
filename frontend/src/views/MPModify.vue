@@ -716,7 +716,6 @@ async setArrivalToReceived(id) {
                     <BCardFooter>
                         <a-flex  justify="center" align="center" gap="middle" wrap="wrap">
                             <a-button type="primary" @click = "ValidateGlobalForm"> <PhNotePencil :size="23" /> Modifier</a-button>
-                            
                         </a-flex>
                     </BCardFooter>
                     </form>
