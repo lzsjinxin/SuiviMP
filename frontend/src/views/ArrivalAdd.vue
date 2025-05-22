@@ -131,12 +131,12 @@ export default {
       // Handle success
       Swal.fire({
         title: 'Succès!',
-        text: 'Arrivage modifié avec succès',
+        text: 'Arrivage Ajouté avec succès',
         icon: 'success',
         confirmButtonText: 'OK'
       }).then(() => {
         // Optional: redirect or reset form
-        this.$router.push('/arrivals');
+        this.$router.push('/mp/new');
       });
 
       return response.data;

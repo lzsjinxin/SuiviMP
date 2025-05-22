@@ -27,6 +27,7 @@ Route::prefix('arrivals')->group(function () {
     Route::get("/inTransitorpartial","ArrivalController@getInTransitorPartiallyReceivedArrivals");
     Route::get("{id}", "ArrivalController@getbyId");
     Route::get("{id}/tier","ArrivalController@getTierbyArrivalId");
+    Route::patch("{id}/status/{status}","ArrivalController@setArrivalStatus");
     Route::post("/","ArrivalController@create");
     Route::patch("{id}","ArrivalController@update");
     Route::delete("{id}","ArrivalController@logicalDelete") ;
@@ -65,6 +66,7 @@ Route::prefix('materials')->group(function () {
 Route::prefix('batches')->group(function () {
 
     Route::get("/", "MaterialBatchController@getAll");
+    Route::post("/","MaterialBatchController@create");
 
 });
 
@@ -80,11 +82,10 @@ Route::prefix('materialstatus')->group(function () {
 
 
 //MaterialType
-Route::prefix('materialtype')->group(function () {
+Route::prefix('materialtypes')->group(function () {
 
-    Route::get("/", function () {
-        return "MaterialType test";
-    });
+    Route::get("/", "MaterialTypeController@getAll");
+    Route::post("/", "MaterialTypeController@create");
 
 });
 
@@ -171,11 +172,9 @@ Route::prefix('shipping')->group(function () {
 
 
 //Stock
-Route::prefix('stocks')->group(function () {
+Route::prefix('locations')->group(function () {
 
-    Route::get("/", function () {
-        return "Stock test";
-    });
+    Route::get("/", "LocationController@getAll");
 
 });
 
@@ -184,9 +183,11 @@ Route::prefix('stocks')->group(function () {
 //Unit
 Route::prefix('units')->group(function () {
 
-    Route::get("/", function () {
-        return "Unit test";
-    });
+    Route::get("/", "UnitController@getAll");
+    Route::get("{id}", "UnitController@getbyId");
+    Route::post("/","UnitController@create");
+    Route::patch("{id}","UnitController@update");
+    Route::delete("{id}","UnitController@logicalDelete") ;
 
 });
 

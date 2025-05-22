@@ -29,33 +29,18 @@ class MaterialMovementHistory extends Model
 
 
     /**
-     * Activate Timestamps.
-     * 
-     * @var boolean
-     */
-    public $timestamps = true;
-    /**
      * Set Active true by default.
      * @var array
      */
     protected $attributes = ['active' => true];
 
 
-    /**
-     * Indicates if the IDs are auto-incrementing.
-     * 
-     * @var bool
-     */
-    public $incrementing = false;
+    public $timestamps = false;
 
     /**
      * @var array
      */
     protected $fillable = ['id_material', 'id_movement_type', 'id_location_from', 'id_location_to', 'mouvement_date', 'id_user', 'active'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
 
 
     /**

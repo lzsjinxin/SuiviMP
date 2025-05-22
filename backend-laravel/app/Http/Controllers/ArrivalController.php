@@ -209,4 +209,15 @@ class ArrivalController extends Controller
         ->get();
     }
 
+    public function setArrivalStatus($id, $status){
+        $arrival = Arrival::where('id', $id)->where('active', true)->first();
+        if ($arrival) {
+            $arrival->status = $status;
+            $arrival->save();
+            return  response($arrival,200);
+        } else {
+            return response('No Data Found', 404);
+        }
+    }
+
 }

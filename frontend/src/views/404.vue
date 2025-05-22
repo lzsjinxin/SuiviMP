@@ -22,7 +22,7 @@ export default {
                             <p class="mt-2 mb-4 text-muted f-20">Nous n'avons pas trouvé la page que vous recherchiez. Pourquoi ne pas essayer
                                 de revenir à la page d'accueil.</p>
                             <router-link class="btn btn-primary d-inline-flex align-items-center mb-3"
-                                to="/"><i class="ph-duotone ph-house me-2"></i> Back to Home</router-link>
+                                to="/"><i class="ph-duotone ph-house me-2"></i> Retour à l'accueil</router-link>
                         </div>
                     </div>
                 </div>
