@@ -74,11 +74,11 @@ class UnitController extends Controller
             //If value is found
                 //Validation Success
 
-                $arrival = Unit::where('id', $id)->where('active', true)->first();
+                $unit = Unit::where('id', $id)->where('active', true)->first();
                 
-                $arrival->active = false;
+                $unit->active = false;
         
-                $arrival->save();
+                $unit->save();
     
                 return response("Deleted",204);
     

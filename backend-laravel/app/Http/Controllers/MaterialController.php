@@ -63,7 +63,7 @@ class MaterialController extends Controller
         foreach ($materials as $material) {
             $materialModel = Material::create([
                 'id_current_location' => $idLocation,
-                'id_status'=> 1, //Always make this in db "Available" in material_status table
+                'id_status'=> 1, // TODO: Always make this in db "Available" in material_status table
                 'id_arrival'=> $idArrival,
                 'id_type'=> $idType,
                 'id_unit'=> $idUnit,
@@ -75,12 +75,12 @@ class MaterialController extends Controller
 
             array_push($insertedMateriaids,$materialModel['id']);
         }
-        //Insert Mouvment History table rows for each Material
+        //Insert Mouvement History table rows for each Material
         foreach($insertedMateriaids as $id){
             MaterialMovementHistory::create([
                 'id_material' =>$id,
-                'id_movement_type'=> 1, //Change this to "reception" if changed in movement_type table
-                'id_location_from' => 6, //Change this to "reception" if changed in location table
+                'id_movement_type'=> 1, // TODO:Change this to "reception" if changed in movement_type table
+                'id_location_from' => 6, // TODO: Change this to "reception" if changed in location table
                 'id_location_to' => $idLocation,
                 'mouvement_date' => date('Y-m-d H:i:s'),
                 'id_user'=> $user

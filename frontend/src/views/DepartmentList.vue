@@ -1,4 +1,3 @@
-<!--TODO Add batches that are in each arrival -->
 <!--TODO Add all user contained in each department-->
 <script>
 import Layout from "@/layout/main.vue"
@@ -38,11 +37,11 @@ export default {
                     title: 'Actions',
                     orderable: false,
                     render: (data, type, row) => {
-                            if (row.users){
+                            if (row.users.length != 0){
                                  return `
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
-                                        <a href="/department/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
+                                        <a href="/departments/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
                                             <i class="ti ti-edit f-20"></i>
                                         </a>
                                     </li>
@@ -52,7 +51,7 @@ export default {
                                 return `
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
-                                        <a href="/department/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
+                                        <a href="/departments/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
                                             <i class="ti ti-edit f-20"></i>
                                         </a>
                                     </li>
@@ -115,7 +114,7 @@ export default {
                 cancelButtonText: 'Annuler'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    axios.delete(`/api/units/${id}`)
+                    axios.delete(`/api/departments/${id}`)
                     .then(() => {
                         notification.success({
                             message: 'Succès',

@@ -64,12 +64,36 @@ export default [
         meta: { title: "Liste des Departements"},
         component: () => import("../views/DepartmentList.vue"),
     },
+     {
+        path: "/departments/new",
+        name: "DepartementAdd",
+        meta: { title: "Ajouter un Departement"},
+        component: () => import("../views/DepartmentAdd.vue"),
+    },
+    {
+        path: "/departments/:id(\\d+)",
+        name: "DepartementModify",
+        meta: { title: "Modifier Departement"},
+        component: () => import("../views/DepartmentModify.vue"),
+    },
     //Location
     {
         path: "/locations/",
         name: "LocationList",
         meta: { title: "Liste des Emplacements"},
         component: () => import("../views/LocationList.vue"),
+    },
+    {
+        path: "/locations/new",
+        name: "LocationAdd",
+        meta: { title: "Ajouter un Emplacement"},
+        component: () => import("../views/LocationAdd.vue"),
+    },
+    {
+        path: "/locations/:id(\\d+)",
+        name: "LocationModify",
+        meta: { title: "Modifier un Emplacement"},
+        component: () => import("../views/LocationModify.vue"),
     },
     //Erreurs
     {

@@ -45,6 +45,10 @@ Route::prefix('tiers')->group(function () {
 Route::prefix('departments')->group(function () {
 
     Route::get("/", "DepartmentController@getAll");
+    Route::get("{id}", "DepartmentController@getbyId");
+    Route::post("/","DepartmentController@create");
+    Route::patch("{id}","DepartmentController@update");
+    Route::delete("{id}","DepartmentController@logicalDelete") ;
 
 });
 
@@ -173,7 +177,10 @@ Route::prefix('shipping')->group(function () {
 Route::prefix('locations')->group(function () {
 
     Route::get("/", "LocationController@getAll");
-
+    Route::get("{id}", "LocationController@getbyId");
+    Route::post("/","LocationController@create");
+    Route::patch("{id}","LocationController@update");
+    Route::delete("{id}","LocationController@logicalDelete") ;
 });
 
 
