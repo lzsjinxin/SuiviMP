@@ -15,7 +15,8 @@ export default {
                 <div class="error-card">
                     <div class="card-body">
                         <div class="error-image-block">
-                            <img class="img-fluid" src="@/assets/images/pages/404.png" alt="img">
+                            <img class="img-fluid" src="@/assets/images/pages/404.png" alt="img" style=" width:350px;
+    height:350px;">
                         </div>
                         <div class="text-center">
                             <h1 class="mt-2">Ressource n'est pas trouvé</h1>
