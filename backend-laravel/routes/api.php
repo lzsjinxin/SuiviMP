@@ -44,9 +44,7 @@ Route::prefix('tiers')->group(function () {
 //Department
 Route::prefix('departments')->group(function () {
 
-    Route::get("/", function () {
-        return "department test";
-    });
+    Route::get("/", "DepartmentController@getAll");
 
 });
 

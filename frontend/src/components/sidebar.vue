@@ -225,7 +225,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                 <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#units" role="button" aria-expanded="false" aria-controls="units">
                         <span class="pc-micon">
                             <PhRuler :size="32" weight="duotone" />
@@ -243,6 +243,42 @@ export default {
                         </ul>
                     </div>
                 </li>
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false" aria-controls="departments">
+                        <span class="pc-micon">
+                            <PhUsersThree :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Departements</span><span class="pc-arrow">
+                            <PhCaretDown :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="departments">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/departments/new' }"><router-link class="pc-link" to="/departments/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Departements</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/departments' }"><router-link class="pc-link" to="/departments">  <PhList :size="17" weight="bold" />Liste des Departements</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#location" role="button" aria-expanded="false" aria-controls="location">
+                        <span class="pc-micon">
+                            <PhWarehouse :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Emplacements</span><span class="pc-arrow">
+                            <PhCaretDown  :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="location">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/locations/new' }"><router-link class="pc-link" to="/locations/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Emplacements</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/locations' }"><router-link class="pc-link" to="/locations">  <PhList :size="17" weight="bold" />Liste des Emplacements</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </simplebar>
         <BCard no-body class="pc-user-card">
@@ -252,8 +288,8 @@ export default {
                         <img src="@/assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle">
                     </div>
                     <div class="flex-grow-1 ms-3 me-2">
-                        <h6 class="mb-0">Jonh Smith</h6>
-                        <small>Administrator</small>
+                        <h6 class="mb-0">User N°01</h6>
+                        <small>Role</small>
                     </div>
                     <BDropdown variant="purple" dropup no-caret toggle-class="p-0">
                         <template v-slot:button-content>
@@ -261,26 +297,8 @@ export default {
                                 <i class="ph-duotone ph-windows-logo"></i>
                             </span>
                         </template>
-                        <BRow xl="6">
-                            <BCol xl="6">
-                                <BDropdownItem class="pc-user-links p-0">
-                                        <i class="ph-duotone ph-user"></i>
-                                        <br>
-                                        <span>My Account</span>
-                                </BDropdownItem>
-                                <BDropdownDivider />
-                                <BDropdownItem class="pc-user-links p-0">
-                                    <i class="ph-duotone ph-lock-key"></i> <br>
-                                    <span>Lock Screen</span>
-                                </BDropdownItem>
-                                <BDropdownDivider />
-                            </BCol>
-                            <BCol xl="6">
-                                <BDropdownItem class="pc-user-links p-0">
-                                    <i class="ph-duotone ph-gear"></i> <br>
-                                    <span>Settings</span>
-                                </BDropdownItem>
-                                <BDropdownDivider />
+                        <BRow >
+                            <BCol >
                                 <BDropdownItem class="pc-user-links p-0">
                                     <i class="ph-duotone ph-power"></i> <br>
                                     <span>Logout</span>

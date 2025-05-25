@@ -57,6 +57,20 @@ export default [
         meta: { title: "Modifier Unité"},
         component: () => import("../views/UnitModify.vue"),
     },
+     //Departement
+    {
+        path: "/departments/",
+        name: "DepartementList",
+        meta: { title: "Liste des Departements"},
+        component: () => import("../views/DepartmentList.vue"),
+    },
+    //Location
+    {
+        path: "/locations/",
+        name: "LocationList",
+        meta: { title: "Liste des Emplacements"},
+        component: () => import("../views/LocationList.vue"),
+    },
     //Erreurs
     {
         path: "/404",
