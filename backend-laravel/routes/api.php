@@ -197,11 +197,14 @@ Route::prefix('units')->group(function () {
 });
 
 
+
 //User
 Route::prefix('users')->group(function () {
 
-    Route::get("/", function () {
-        return "User test";
-    });
+    Route::get("/", "UserController@getAll");
+    Route::get("{id}", "UserController@getbyId");
+    Route::post("/","UserController@create");
+    Route::patch("{id}","UserController@update");
+    Route::delete("{id}","UserController@logicalDelete") ;
 
 });

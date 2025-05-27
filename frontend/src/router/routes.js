@@ -95,6 +95,25 @@ export default [
         meta: { title: "Modifier un Emplacement"},
         component: () => import("../views/LocationModify.vue"),
     },
+         //User
+    {
+        path: "/users/",
+        name: "UserList",
+        meta: { title: "Liste des Utilisateurs"},
+        component: () => import("../views/UserList.vue"),
+    },
+    {
+        path: "/users/new",
+        name: "UserAdd",
+        meta: { title: "Ajouter un Utilisateur"},
+        component: () => import("../views/UserAdd.vue"),
+    },
+    {
+        path: "/users/:id(\\d+)",
+        name: "UserModify",
+        meta: { title: "Modifier Utilisateur"},
+        component: () => import("../views/UserModify.vue"),
+    },
     //Erreurs
     {
         path: "/404",

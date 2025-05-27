@@ -244,6 +244,24 @@ export default {
                     </div>
                 </li>
                 <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#location" role="button" aria-expanded="false" aria-controls="location">
+                        <span class="pc-micon">
+                            <PhWarehouse :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Emplacements</span><span class="pc-arrow">
+                            <PhCaretDown  :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="location">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/locations/new' }"><router-link class="pc-link" to="/locations/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Emplacements</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/locations' }"><router-link class="pc-link" to="/locations">  <PhList :size="17" weight="bold" />Liste des Emplacements</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                                <li class="pc-item pc-hasmenu">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false" aria-controls="departments">
                         <span class="pc-micon">
                             <PhUsersThree :size="32" weight="duotone" />
@@ -262,19 +280,19 @@ export default {
                     </div>
                 </li>
                 <li class="pc-item pc-hasmenu">
-                    <BLink class="pc-link" data-bs-toggle="collapse" href="#location" role="button" aria-expanded="false" aria-controls="location">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#users" role="button" aria-expanded="false" aria-controls="users">
                         <span class="pc-micon">
-                            <PhWarehouse :size="32" weight="duotone" />
+                            <PhUser :size="32" weight="duotone" />
                         </span>
-                        <span class="pc-mtext">Emplacements</span><span class="pc-arrow">
+                        <span class="pc-mtext">Utilisateurs</span><span class="pc-arrow">
                             <PhCaretDown  :size="32" weight="fill" />
                         </span>
                     </BLink>
-                    <div class="collapse" id="location">
+                    <div class="collapse" id="users">
                         <ul class="pc-submenu">
-                            <li class="pc-item" :class="{ 'active': $route.path === '/locations/new' }"><router-link class="pc-link" to="/locations/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Emplacements</router-link>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/users/new' }"><router-link class="pc-link" to="/users/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Utilisateurs</router-link>
                             </li>
-                            <li class="pc-item" :class="{ 'active': $route.path === '/locations' }"><router-link class="pc-link" to="/locations">  <PhList :size="17" weight="bold" />Liste des Emplacements</router-link>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/users' }"><router-link class="pc-link" to="/users">  <PhList :size="17" weight="bold" />Liste des Utilisateurs</router-link>
                             </li>
                         </ul>
                     </div>
