@@ -38,6 +38,11 @@ Route::prefix('tiers')->group(function () {
 
     Route::get("/", "TierController@getAll");
     Route::get("/suppliers","TierController@getAllSuppliers");
+    Route::get("/clients","TierController@getAllClients");
+    Route::get("{id}", "TierController@getbyId");
+    Route::post("/","TierController@create");
+    Route::patch("{id}","TierController@update");
+    Route::delete("{id}","TierController@logicalDelete") ;
 });
 
 

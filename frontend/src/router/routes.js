@@ -114,6 +114,25 @@ export default [
         meta: { title: "Modifier Utilisateur"},
         component: () => import("../views/UserModify.vue"),
     },
+       //Tiers
+    {
+        path: "/tiers/",
+        name: "TierList",
+        meta: { title: "Liste des Tiers"},
+        component: () => import("../views/TierList.vue"),
+    },
+    {
+        path: "/tiers/new",
+        name: "TierAdd",
+        meta: { title: "Ajouter un Tier"},
+        component: () => import("../views/TierAdd.vue"),
+    },
+    {
+        path: "/tiers/:id(\\d+)",
+        name: "TierModify",
+        meta: { title: "Modifier un Tier"},
+        component: () => import("../views/TierModify.vue"),
+    },
     //Erreurs
     {
         path: "/404",

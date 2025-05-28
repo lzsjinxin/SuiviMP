@@ -261,6 +261,24 @@ export default {
                         </ul>
                     </div>
                 </li>
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#tier" role="button" aria-expanded="false" aria-controls="tier">
+                        <span class="pc-micon">
+                            <PhHandshake :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Tiers</span><span class="pc-arrow">
+                            <PhCaretDown  :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="tier">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/tiers/new' }"><router-link class="pc-link" to="/tiers/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Tiers</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/tiers' }"><router-link class="pc-link" to="/tiers">  <PhList :size="17" weight="bold" />Liste des Tiers</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
                                 <li class="pc-item pc-hasmenu">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false" aria-controls="departments">
                         <span class="pc-micon">
