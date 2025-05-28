@@ -38,15 +38,22 @@ Route::prefix('tiers')->group(function () {
 
     Route::get("/", "TierController@getAll");
     Route::get("/suppliers","TierController@getAllSuppliers");
+    Route::get("/clients","TierController@getAllClients");
+    Route::get("{id}", "TierController@getbyId");
+    Route::post("/","TierController@create");
+    Route::patch("{id}","TierController@update");
+    Route::delete("{id}","TierController@logicalDelete") ;
 });
 
 
 //Department
 Route::prefix('departments')->group(function () {
 
-    Route::get("/", function () {
-        return "department test";
-    });
+    Route::get("/", "DepartmentController@getAll");
+    Route::get("{id}", "DepartmentController@getbyId");
+    Route::post("/","DepartmentController@create");
+    Route::patch("{id}","DepartmentController@update");
+    Route::delete("{id}","DepartmentController@logicalDelete") ;
 
 });
 
@@ -175,7 +182,10 @@ Route::prefix('shipping')->group(function () {
 Route::prefix('locations')->group(function () {
 
     Route::get("/", "LocationController@getAll");
-
+    Route::get("{id}", "LocationController@getbyId");
+    Route::post("/","LocationController@create");
+    Route::patch("{id}","LocationController@update");
+    Route::delete("{id}","LocationController@logicalDelete") ;
 });
 
 
@@ -192,11 +202,14 @@ Route::prefix('units')->group(function () {
 });
 
 
+
 //User
 Route::prefix('users')->group(function () {
 
-    Route::get("/", function () {
-        return "User test";
-    });
+    Route::get("/", "UserController@getAll");
+    Route::get("{id}", "UserController@getbyId");
+    Route::post("/","UserController@create");
+    Route::patch("{id}","UserController@update");
+    Route::delete("{id}","UserController@logicalDelete") ;
 
 });

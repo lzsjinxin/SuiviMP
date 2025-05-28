@@ -33,10 +33,14 @@ export default {
             selectedUnit : null,
             selectedType : null
         })
+        const filterOption = (input, option) => {
+            return option.label.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+        };
         return { v$: useVuelidate(),
             batchForm,
             typeForm,
             globalForm,
+            filterOption
          }
     },
     data() {
@@ -66,11 +70,13 @@ export default {
             flatpickrConfig: {
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
+                minDate: 'today',
                 minuteIncrement: 1,
                 locale: French,
                 time_24hr: true,
                 weekNumbers: true
             },
+            
         }
     },
     validations() {
@@ -80,8 +86,14 @@ export default {
                 required: helpers.withMessage('Le numéro de lot est requis', required) 
             },
             batchDate: {
-                required: helpers.withMessage('La date d\'expiration est requise', 
-                    value => !this.batchForm.enableBatchDatePicker || !!value)
+            required: helpers.withMessage(
+                'La date d\'expiration est requise', 
+                value => !this.batchForm.enableBatchDatePicker || !!value
+            ),
+            minDate: helpers.withMessage(
+                'La date doit être aujourd\'hui ou dans le futur',
+                value => !this.batchForm.enableBatchDatePicker || !value || new Date(value) >= new Date(new Date().setHours(0, 0, 0, 0))
+            )
             }
         },
         typeForm: {
@@ -582,6 +594,7 @@ async setArrivalToReceived(id) {
                                 style="width: 100%;text-align: center;"
                                 :status="v$.globalForm.selectedArrival.$error ? 'error' : ''"
                                 :options="arrivals"
+                                :filter-option="filterOption"
                                 ></a-select>
                                 <div v-if="v$.globalForm.selectedArrival.$error" class="text-danger">
                                     {{ v$.globalForm.selectedArrival.$errors[0].$message }}
@@ -599,6 +612,7 @@ async setArrivalToReceived(id) {
                                 style="width: 100%;text-align: center;"
                                 :status="v$.globalForm.selectedBatch.$error ? 'error' : ''"
                                 :options="selectBatches"
+                                :filter-option="filterOption"
                                 >
                                 </a-select>
                                 <a-tooltip title="Ajouter un Lot" class="mt-2">
@@ -654,6 +668,7 @@ async setArrivalToReceived(id) {
                                 style="width: 100%;text-align: center;margin-bottom: 40px;"
                                 :status="v$.globalForm.selectedLocation.$error ? 'error' : ''"
                                 :options="selectLocation"
+                                :filter-option="filterOption"
                                 >
                                 </a-select>
                                 <div v-if="v$.globalForm.selectedLocation.$error" class="text-danger">
@@ -670,6 +685,7 @@ async setArrivalToReceived(id) {
                                 style="width: 100%;text-align: center;margin-bottom: 40px;"
                                 :status="v$.globalForm.selectedUnit.$error ? 'error' : ''"
                                 :options="selectUnit"
+                                :filter-option="filterOption"
                                 >
                                 </a-select>
                                 <div v-if="v$.globalForm.selectedUnit.$error" class="text-danger">
@@ -686,6 +702,7 @@ async setArrivalToReceived(id) {
                                 style="width: 100%;text-align: center;"
                                 :status="v$.globalForm.selectedType.$error ? 'error' : ''"
                                 :options="selectTypes"
+                                :filter-option="filterOption"
                                 >
                                 </a-select>
                                 

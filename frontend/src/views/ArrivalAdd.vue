@@ -214,7 +214,7 @@ export default {
                                 </div>
                             </div>
                             <div class="form-group mt-3">
-                                <label class="form-label">Matricule de Vehicule</label>
+                                <label class="form-label">Matricule de Vehicule : </label>
                                 <input 
                                     type="text" 
                                     class="form-control" 
@@ -245,6 +245,7 @@ export default {
                                 </div>
                             </div>
                             <div class="form-group mt-3">
+                                 <label class="form-label">Fournisseur : </label>
                                 <v-select 
                                     v-model="selected" 
                                     :options="tiers" 
