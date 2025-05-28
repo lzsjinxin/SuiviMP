@@ -70,6 +70,7 @@ export default {
             flatpickrConfig: {
                 enableTime: true,
                 dateFormat: "Y-m-d H:i",
+                minDate: 'today',
                 minuteIncrement: 1,
                 locale: French,
                 time_24hr: true,
@@ -85,8 +86,14 @@ export default {
                 required: helpers.withMessage('Le numéro de lot est requis', required) 
             },
             batchDate: {
-                required: helpers.withMessage('La date d\'expiration est requise', 
-                    value => !this.batchForm.enableBatchDatePicker || !!value)
+            required: helpers.withMessage(
+                'La date d\'expiration est requise', 
+                value => !this.batchForm.enableBatchDatePicker || !!value
+            ),
+            minDate: helpers.withMessage(
+                'La date doit être aujourd\'hui ou dans le futur',
+                value => !this.batchForm.enableBatchDatePicker || !value || new Date(value) >= new Date(new Date().setHours(0, 0, 0, 0))
+            )
             }
         },
         typeForm: {
