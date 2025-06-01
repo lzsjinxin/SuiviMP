@@ -6,6 +6,10 @@ export default {
             type: String,
             default: "",
         },
+        secondaryPageHeader : {
+            type: String,
+            default : "",
+        },
         pageTitle: {
             type: String,
             default: "",
@@ -22,6 +26,7 @@ export default {
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><router-link to="/">{{ $t("Home") }}</router-link></li>
                         <li class="breadcrumb-item"><BLink href="javascript: void(0)">{{ pageTitle }}</BLink></li>
+                        <li v-if="secondaryPageHeader!==''" class="breadcrumb-item"><BLink href="javascript: void(0)">{{ secondaryPageHeader }}</BLink></li>
                         <li class="breadcrumb-item" aria-current="page">{{ title }}</li>
                     </ul>
                 </BCol>
