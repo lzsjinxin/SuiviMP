@@ -39,10 +39,15 @@ Route::prefix('tiers')->group(function () {
     Route::get("/", "TierController@getAll");
     Route::get("/suppliers","TierController@getAllSuppliers");
     Route::get("/clients","TierController@getAllClients");
+    Route::get("/series","ProductSeriesController@getAll");
+    Route::get("/series/{id}","ProductSeriesController@getbyId");
     Route::get("{id}", "TierController@getbyId");
     Route::post("/","TierController@create");
+    Route::post("/series","ProductSeriesController@create");
     Route::patch("{id}","TierController@update");
+    Route::patch("/series/{id}","ProductSeriesController@update");
     Route::delete("{id}","TierController@logicalDelete") ;
+    Route::delete("/series/{id}","ProductSeriesController@logicalDelete") ;
 });
 
 

@@ -133,6 +133,25 @@ export default [
         meta: { title: "Modifier un Tier"},
         component: () => import("../views/TierModify.vue"),
     },
+    {
+        path: "/tiers/series/new",
+        name: "TierSeriesAdd",
+        meta: { title: "Ajouter une famille"},
+        component: () => import("../views/TierSeriesAdd.vue"),
+    },
+    {
+        path: "/tiers/series",
+        name: "TierSeriesList",
+        meta: { title: "Lister les familles"},
+        component: () => import("../views/TierSeriesList.vue"),
+    },
+    {
+        path: "/tiers/series/:id(\\d+)",
+        name: "TierSeriesModify",
+        meta: { title: "Modifier une Famille"},
+        component: () => import("../views/TierSeriesModify.vue"),
+    },
+    
     //Erreurs
     {
         path: "/404",

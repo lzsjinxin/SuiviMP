@@ -276,7 +276,15 @@ export default {
                             </li>
                             <li class="pc-item" :class="{ 'active': $route.path === '/tiers' }"><router-link class="pc-link" to="/tiers">  <PhList :size="17" weight="bold" />Liste des Tiers</router-link>
                             </li>
-                        </ul>
+                                <li class="pc-item pc-hasmenu" :class="{ 'active': $route.path === '/tiers/series/new' ||  $route.path === '/tiers/series' }"><a class="pc-link" href="#family_children" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="family_children"><PhTreeStructure :size="17" weight="bold" />Familles<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></span></a>
+                                    <div class="collapse show" id="family_children" style="">
+                                    <ul class="pc-submenu">
+                                        <li class="pc-item" :class="{ 'active': $route.path === '/tiers/series/new' }"><router-link class="pc-link" to="/tiers/series/new"><PhPlusCircle :size="17" weight="bold" />Nouvelle Famille </router-link></li>
+                                        <li class="pc-item" :class="{ 'active': $route.path === '/tiers/series' }"><router-link class="pc-link" to="/tiers/series"><PhList :size="17" weight="bold" />Liste des Familles</router-link></li>
+                                    </ul></div></li>
+                            </ul>
+
+                        
                     </div>
                 </li>
                                 <li class="pc-item pc-hasmenu">
