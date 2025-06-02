@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Validator;
 class MaterialController extends Controller
 {
     public function getAll(){
-        return Material::with(['materialBatch', 'location', 'materialStatus', 'materialType', 'unit'])
+        return Material::with(['arrival','materialBatch', 'location', 'materialStatus', 'materialType', 'unit'])
         ->whereHas('materialBatch', fn($query) => $query->where('active', true))
         ->whereHas('materialStatus', fn($query) => $query->where('active', true))
         ->whereHas('materialType', fn($query) => $query->where('active', true))
         ->whereHas('unit', fn($query) => $query->where('active', true))
+        ->whereHas('arrival', fn($query) => $query->where('active', true))
         ->where('active', true)
         ->orderBy('id','desc')
         ->get();

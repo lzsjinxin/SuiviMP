@@ -55,7 +55,7 @@ export default {
                     title: 'Actions',
                     orderable: false,
                     render: (data, type, row) => {
-                            if(row.id_status == 1){
+                            if(row.id_status == 1 && row.arrival.status !="Received"){
                             return `
                             <ul class="list-inline mb-0">
                                 <li class="list-inline-item">
