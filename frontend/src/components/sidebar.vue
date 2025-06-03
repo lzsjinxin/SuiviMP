@@ -287,7 +287,23 @@ export default {
                         
                     </div>
                 </li>
-                                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#operations" role="button" aria-expanded="false" aria-controls="operations">
+                        <span class="pc-micon">
+                            <PhFactory :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Opérations</span><span class="pc-arrow">
+                            <PhCaretDown :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="operations">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/operations' }"><router-link class="pc-link" to="/operations"> <PhBookOpenText :size="17" weight="bold" />Définitions</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="pc-item pc-hasmenu">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false" aria-controls="departments">
                         <span class="pc-micon">
                             <PhUsersThree :size="32" weight="duotone" />

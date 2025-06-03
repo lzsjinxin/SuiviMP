@@ -72,9 +72,7 @@ class ProductSeriesController extends Controller
     
                 
         }else{
-            //If value Not Found
-
-
+            //If value Not Foundd
             return response('No Data Found',404);
         }
     }

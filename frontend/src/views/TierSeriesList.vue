@@ -1,5 +1,4 @@
-<!-- TODO : Add Products for each Family -->
-<!-- TODO : Add Tier for each Family -->
+<!-- TODO: Fix Tooltip -->
 <script>
 import Layout from "@/layout/main.vue"
 import pageheader from "@/components/page-header.vue"

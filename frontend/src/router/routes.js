@@ -151,6 +151,13 @@ export default [
         meta: { title: "Modifier une Famille"},
         component: () => import("../views/TierSeriesModify.vue"),
     },
+           //Operations
+    {
+        path: "/operations/",
+        name: "OperationDefinitionsAdd",
+        meta: { title: "Definitions des operations"},
+        component: () => import("../views/OperationsDefinitionsAdd.vue"),
+    },
     
     //Erreurs
     {

@@ -97,6 +97,7 @@ Route::prefix('materialstatus')->group(function () {
 Route::prefix('materialtypes')->group(function () {
 
     Route::get("/", "MaterialTypeController@getAll");
+    Route::get("/operationdefs", "MaterialTypeController@getOperationsPerType");
     Route::post("/", "MaterialTypeController@create");
 
 });
@@ -114,11 +115,14 @@ Route::prefix('operations')->group(function () {
 
 
 //OperationDefinitions
-Route::prefix('operationdefinitions')->group(function () {
+Route::prefix('operationdef')->group(function () {
 
-    Route::get("/", function () {
-        return "OperationDefinitions test";
-    });
+    Route::get("/", "OperationDefinitionController@getAll");
+    // Route::get("{id}", "DepartmentController@getbyId");
+    Route::post("/","OperationDefinitionController@create");
+    Route::patch("{id}","OperationDefinitionController@update");
+    Route::delete("{id}","OperationDefinitionController@logicalDelete") ;
+
 
 });
 
