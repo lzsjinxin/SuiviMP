@@ -210,7 +210,7 @@ export default {
                 <li class="pc-item pc-hasmenu">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#mp" role="button" aria-expanded="false" aria-controls="mp">
                         <span class="pc-micon">
-                            <PhPackage :size="32" weight="duotone" />
+                            <PhAtom :size="32" weight="duotone" />
                         </span>
                         <span class="pc-mtext">Matières Premieres</span><span class="pc-arrow">
                             <PhCaretDown :size="32" weight="fill" />
@@ -299,6 +299,24 @@ export default {
                     <div class="collapse" id="operations">
                         <ul class="pc-submenu">
                             <li class="pc-item" :class="{ 'active': $route.path === '/operations' }"><router-link class="pc-link" to="/operations"> <PhBookOpenText :size="17" weight="bold" />Définitions</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#products" role="button" aria-expanded="false" aria-controls="products">
+                        <span class="pc-micon">
+                            <PhPackage :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Produits</span><span class="pc-arrow">
+                            <PhCaretDown  :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="products">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/products/new' }"><router-link class="pc-link" to="/products/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Produits</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/products' }"><router-link class="pc-link" to="/products">  <PhList :size="17" weight="bold" />Liste des Produits</router-link>
                             </li>
                         </ul>
                     </div>

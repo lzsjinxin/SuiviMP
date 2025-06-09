@@ -158,6 +158,25 @@ export default [
         meta: { title: "Definitions des operations"},
         component: () => import("../views/OperationsDefinitionsAdd.vue"),
     },
+           //Products
+    {
+        path: "/products/",
+        name: "ProductList",
+        meta: { title: "Liste des Produits"},
+        component: () => import("../views/ProductList.vue"),
+    },
+        {
+        path: "/products/new",
+        name: "ProductAdd",
+        meta: { title: "Ajouter des Produits"},
+        component: () => import("../views/ProductAdd.vue"),
+    },
+    {
+        path: "/products/:id(\\d+)",
+        name: "ProductModify",
+        meta: { title: "Modifier un Produit"},
+        component: () => import("../views/ProductModify.vue"),
+    },
     
     //Erreurs
     {

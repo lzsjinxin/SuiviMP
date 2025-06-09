@@ -67,6 +67,7 @@ Route::prefix('departments')->group(function () {
 Route::prefix('materials')->group(function () {
 
     Route::get("/", "MaterialController@getAll");
+    Route::get("/available", "MaterialController@getAvailable");
     Route::get("{id}", "MaterialController@getbyId");
     Route::get("{id}/tier","MaterialController@getTierbyArrivalId");
     Route::post("/","MaterialController@create");
@@ -130,9 +131,10 @@ Route::prefix('operationdef')->group(function () {
 //Product
 Route::prefix('products')->group(function () {
 
-    Route::get("/", function () {
-        return "Product test";
-    });
+    Route::get("/", "ProductController@getAll");
+    Route::get("{id}", "ProductController@getbyId");
+    Route::post("/", "ProductController@create");
+    Route::patch("{id}","ProductController@update");
 
 });
 

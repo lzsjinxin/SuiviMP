@@ -21,6 +21,18 @@ class MaterialController extends Controller
         ->get();
     }
 
+        public function getAvailable(){
+        return Material::with(['arrival','materialBatch', 'location', 'materialStatus', 'materialType', 'unit'])
+        ->whereHas('materialBatch', fn($query) => $query->where('active', true))
+        ->whereHas('materialStatus', fn($query) => $query->where('active', true)->where('status','Available'))
+        ->whereHas('materialType', fn($query) => $query->where('active', true))
+        ->whereHas('unit', fn($query) => $query->where('active', true))
+        ->whereHas('arrival', fn($query) => $query->where('active', true))
+        ->where('active', true)
+        ->orderBy('id','desc')
+        ->get();
+    }
+
     public function getbyId($id){
         if(!is_numeric($id)){
          return response('No Data Found',404);   
