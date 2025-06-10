@@ -300,6 +300,8 @@ export default {
                         <ul class="pc-submenu">
                             <li class="pc-item" :class="{ 'active': $route.path === '/operations' }"><router-link class="pc-link" to="/operations"> <PhBookOpenText :size="17" weight="bold" />Définitions</router-link>
                             </li>
+                          <li class="pc-item" :class="{ 'active': $route.path === '/operations/allocation' }"><router-link class="pc-link" to="/operations/allocation"> <PhListNumbers :size="17" weight="bold" />Affecations</router-link>
+                          </li>
                         </ul>
                     </div>
                 </li>

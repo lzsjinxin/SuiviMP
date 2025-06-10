@@ -31,6 +31,32 @@ class ProductController extends Controller
         ->get();
     }
 
+    public function getCreated(){
+        return Product::with([
+            'productSeries' => function($query) {
+                $query->where('active', true);
+            },
+            'productStatus' => function($query) {
+                $query->where('active', true);
+            },
+            'productOperations' => function($query) {
+                $query->where('active', true);
+            },
+            'productMaterials' => function($query) {
+                $query->where('active', true);
+            },
+            'operations' => function($query) {
+                $query->where('active', true);
+            },
+        ])
+            ->whereHas('productStatus', function($query) {
+            $query->where('status', 'Created')->where('active', true);
+        })
+            ->where('active', true)
+            ->orderBy('id', 'desc')
+            ->get();
+    }
+
     public function getbyId($id){
 
         if(!is_numeric($id)){
@@ -96,7 +122,7 @@ public function update(Request $request, $id) {
 
     // Lookup the product
     $dbProduct = Product::where('id', $id)->where('active', true)->first();
-    
+
     if (!$dbProduct) {
         return response('No Data Found', 404);
     }

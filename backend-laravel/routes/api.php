@@ -119,6 +119,7 @@ Route::prefix('operations')->group(function () {
 Route::prefix('operationdef')->group(function () {
 
     Route::get("/", "OperationDefinitionController@getAll");
+    Route::get("/materialtype/{id}", "OperationDefinitionController@getDefsbyProduct");
     // Route::get("{id}", "DepartmentController@getbyId");
     Route::post("/","OperationDefinitionController@create");
     Route::patch("{id}","OperationDefinitionController@update");
@@ -132,6 +133,7 @@ Route::prefix('operationdef')->group(function () {
 Route::prefix('products')->group(function () {
 
     Route::get("/", "ProductController@getAll");
+    Route::get("/created", "ProductController@getCreated");
     Route::get("{id}", "ProductController@getbyId");
     Route::post("/", "ProductController@create");
     Route::patch("{id}","ProductController@update");
@@ -152,9 +154,7 @@ Route::prefix('productmaterial')->group(function () {
 //ProductOperations
 Route::prefix('productoperations')->group(function () {
 
-    Route::get("/", function () {
-        return "ProductOperations test";
-    });
+    Route::post("/", "ProductOperationsController@create");
 
 });
 
