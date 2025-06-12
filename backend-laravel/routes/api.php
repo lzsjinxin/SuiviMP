@@ -68,9 +68,11 @@ Route::prefix('materials')->group(function () {
 
     Route::get("/", "MaterialController@getAll");
     Route::get("/available", "MaterialController@getAvailable");
+    Route::get("/location/{id}/available", "MaterialController@getAvailablebyLocationId");
     Route::get("{id}", "MaterialController@getbyId");
     Route::get("{id}/tier","MaterialController@getTierbyArrivalId");
     Route::post("/","MaterialController@create");
+    Route::post("/transfer","MaterialController@initiateTransfer");
     Route::patch("{id}","MaterialController@update");
     Route::delete("{id}","MaterialController@logicalDelete") ;
 

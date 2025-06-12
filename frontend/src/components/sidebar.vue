@@ -4,6 +4,7 @@ import { ref, onMounted, onUnmounted } from 'vue';
 import simplebar from "simplebar-vue";
 import logoWhite from "@/assets/images/logo-white.svg";
 import logoDark from "@/assets/images/logo-dark.svg";
+import {PhBlueprint} from "@phosphor-icons/vue";
 
 export default {
     data() {
@@ -41,6 +42,7 @@ export default {
         return { currentLogo };
     },
     components: {
+      PhBlueprint,
             simplebar
     },
     methods: {
@@ -221,7 +223,15 @@ export default {
                             <li class="pc-item" :class="{ 'active': $route.path === '/mp/new' }"><router-link class="pc-link" to="/mp/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Matières premieres</router-link>
                             </li>
                             <li class="pc-item" :class="{ 'active': $route.path === '/mp' }"><router-link class="pc-link" to="/mp">  <PhList :size="17" weight="bold" />Liste des Matières premieres</router-link>
-                            </li>
+                              </li>
+                            <li class="pc-item pc-hasmenu" :class="{ 'active': $route.path === '/mp/transfers/transfer' ||  $route.path === '/mp/transfers/receive' || $route.path === '/mp/transfers/receive'}"><a class="pc-link" href="#family_children" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="family_children"><PhArrowsLeftRight  :size="17" weight="bold" />Transfert<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></span></a>
+                            <div class="collapse show" id="family_children" style="">
+                              <ul class="pc-submenu">
+                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/transfer' }"><router-link class="pc-link" to="/mp/transfers/transfer"><PhArrowRight :size="17" weight="bold" />Transférer </router-link></li>
+                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/receive' }"><router-link class="pc-link" to="/mp/transfers/receive"><PhArrowLeft :size="17" weight="bold" />Réceptionner </router-link></li>
+<!--                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/prod' }"><router-link class="pc-link" to="/mp/transfers/prod"><PhPlusCircle :size="17" weight="bold" />Nouvelle Famille </router-link></li>-->
+                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/' }"><router-link class="pc-link" to="/mp/transfers/"><PhList :size="17" weight="bold" />Liste des Transferts</router-link></li>
+                              </ul></div></li>
                         </ul>
                     </div>
                 </li>
@@ -359,6 +369,24 @@ export default {
                         </ul>
                     </div>
                 </li>
+              <li class="pc-item pc-hasmenu">
+                <BLink class="pc-link" data-bs-toggle="collapse" href="#fo" role="button" aria-expanded="false" aria-controls="fo">
+                        <span class="pc-micon">
+                            <PhBlueprint :size="32" weight="duotone" />
+                        </span>
+                  <span class="pc-mtext">Ordres de Fabrication</span><span class="pc-arrow">
+                            <PhCaretDown  :size="32" weight="fill" />
+                        </span>
+                </BLink>
+                <div class="collapse" id="fo">
+                  <ul class="pc-submenu">
+                    <li class="pc-item" :class="{ 'active': $route.path === '/locations/new' }"><router-link class="pc-link" to="/locations/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Emplacements</router-link>
+                    </li>
+                    <li class="pc-item" :class="{ 'active': $route.path === '/locations' }"><router-link class="pc-link" to="/locations">  <PhList :size="17" weight="bold" />Liste des Emplacements</router-link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
             </ul>
         </simplebar>
         <BCard no-body class="pc-user-card">

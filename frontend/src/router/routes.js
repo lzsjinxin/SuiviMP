@@ -189,6 +189,13 @@ export default [
         meta: { title: "Modifier un Produit"},
         component: () => import("../views/ProductModify.vue"),
     },
+    //Transfers
+    {
+        path:"/mp/transfers/transfer",
+        name: "TransfersTransfer",
+        meta: { title: "Transférer Une Matière Premiere"},
+        component: () => import("../views/TransfersTransfer.vue"),
+    },
     
     //Erreurs
     {
