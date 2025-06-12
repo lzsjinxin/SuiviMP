@@ -164,6 +164,12 @@ export default [
         meta: { title: "Affecter les operations à des produits"},
         component: () => import("../views/OperationAllocation.vue"),
     },
+    {
+        path: "/operations/allocation/:id(\\d+)",
+        name: "ModifyOperationDefinitionsAllocation",
+        meta: { title: "Modifier les Affectations des operations pour le produit"},
+        component: () => import("../views/OperationAllocationModify.vue"),
+    },
            //Products
     {
         path: "/products/",

@@ -33,12 +33,56 @@ export default {
                 { data: 'title', title: 'Libellé' },
                 { data: 'product_series.series', title: 'Famille' },
                 { data: 'product_status.status', title: 'Statut' },
+              {
+                data: null,
+                title: 'Operations - Ordre',
+                orderable: false,
+                render: (data, type, row) => {
+                  if (row.product_operations.length === 0) {
+                    return `N/A`;
+                  }
+                  const operations = row.product_operations;
+                  let html = '<div class="products-container">';
+
+                  if(row.product_status.status != "Created" && row.product_status.status != "Operations Affected"){
+
+
+                    let displayText = operations.map(operation =>
+                        `<span class="text-primary">${operation.operation_definition.name} - ${operation.operation_order}</span>`
+                    ).join('<br>');
+                    const allOperationsText = operations.map(operation =>
+                        `${operation.operation_definition.name}`
+                    ).join('\n');
+                    html += `<div class="products-display"
+                    data-bs-toggle="tooltip"
+                     data-bs-html="true"
+                     data-placement="top" title="${allOperationsText.replace(/"/g, '&quot;')}">${displayText}</div>`
+                    html += '</div>';
+                    return html;
+                  }else{
+                    let displayText = operations.map(operation =>
+                        `<a href="/operations/allocation/${row.id}" class="text-primary">${operation.operation_definition.name} - ${operation.operation_order}</a>`
+                    ).join('<br>');
+                    const allOperationsText = operations.map(operation =>
+                        `${operation.operation_definition.name}`
+                    ).join('\n');
+                    html += `<div class="products-display"
+                    data-bs-toggle="tooltip"
+                     data-bs-html="true"
+                     data-placement="top" title="${allOperationsText.replace(/"/g, '&quot;')}">${displayText}</div>`
+
+                    html += '</div>';
+                    return html;
+
+                  }
+                }
+              },
                 { 
                     data:null,
                     title: 'Actions',
                     orderable: false,
                     render: (data, type, row) => {
-                            if (row.operations.length != 0 || row.product_status.status != "Created"){
+                            if ( row.product_status.status != "Created" && row.product_status.status != "Operations Affected"){
                                  return `
                                 `
                             }else{
@@ -98,7 +142,7 @@ export default {
         deleteUnit(id) {
             Swal.fire({
                 title: 'Supression',
-                html: `Voulez-vous vraiment supprimer le Produits n°<strong>${id}</strong> 
+                html: `Voulez-vous vraiment supprimer le Produit n°<strong>${id}</strong>
                 `,
                 icon: 'warning',
                 showCancelButton: true,

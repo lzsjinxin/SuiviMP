@@ -17,7 +17,10 @@ class ProductController extends Controller
             $query->where('active', true);
         },
         'productOperations' => function($query) {
-            $query->where('active', true);
+            $query->where('active', true)
+                ->with(['operationDefinition' => function($q) {
+                $q->where('active', true);
+            }]);
         },
         'productMaterials' => function($query) {
             $query->where('active', true);

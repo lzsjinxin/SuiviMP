@@ -152,8 +152,9 @@ Route::prefix('productmaterial')->group(function () {
 
 
 //ProductOperations
-Route::prefix('productoperations')->group(function () {
-
+    Route::prefix('productoperations')->group(function () {
+    Route::get("/product/{id}", "ProductOperationsController@getbyProductId");
+    Route::patch("{id}", "ProductOperationsController@update");
     Route::post("/", "ProductOperationsController@create");
 
 });

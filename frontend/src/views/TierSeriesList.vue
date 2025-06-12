@@ -64,15 +64,14 @@ export default {
                         
                         // If there are more than 10 products, create tooltip with all products
                         if (hasMore) {
-                            const allProductsText = products.map(product => 
+                            const allProductsText = products.map(product =>
                                 `<a href="/products/${product.id}" class="product-link text-primary text-decoration-none">${product.title}</a>`
-                            ).join('<br>');
+                            ).join('\n');
                             
                             html += `
                                 <div class="products-display" 
-                                     data-toggle="tooltip" 
-                                     data-html="true" 
-                                     data-placement="top"
+                                     data-bs-toggle="tooltip"
+                                     data-bs-html="true"
                                      title="${allProductsText.replace(/"/g, '&quot;')}"
                                      style="cursor: pointer;">
                                     ${displayText}
