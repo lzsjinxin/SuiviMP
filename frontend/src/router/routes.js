@@ -196,6 +196,18 @@ export default [
         meta: { title: "Transférer Une Matière Premiere"},
         component: () => import("../views/TransfersTransfer.vue"),
     },
+    {
+        path:"/mp/transfers/receive",
+        name: "TransfersReceive",
+        meta: { title: "Réception de Matière Premiere"},
+        component: () => import("../views/TransfersReceive.vue"),
+    },
+    {
+        path:"/mp/transfers/",
+        name: "TransfersList",
+        meta: { title: "Liste des Transferts"},
+        component: () => import("../views/TransfersList.vue"),
+    },
     
     //Erreurs
     {

@@ -6,11 +6,9 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import axios from 'axios'
 import Swal from "sweetalert2";
-import {PhArrowRight} from "@phosphor-icons/vue";
 export default {
     name: "TransfersTransfer",
     components: {
-      PhArrowRight,
         Layout, pageheader
     },
     setup() {
@@ -18,33 +16,30 @@ export default {
 
         const selectedLocation = ref(null)
 
-        const selectedDestination = ref(null)
-
-        const locationsAretheSame = ref(false)
         const materials = ref([])
 
-
         const loading = ref(false)
+
         const noDataFound = ref(false)
 
-      const selectedRowKeys = ref([])
+        const selectedRowKeys = ref([])
 
-      const selectedMaterials = ref([])
+        const selectedMaterials = ref([])
 
-      const rowSelection = computed(() => {
-        return {
-          selectedRowKeys: selectedRowKeys.value,
-          onChange: (newSelectedRowKeys) => {
-            // console.log('selectedRowKeys changed: ', newSelectedRowKeys)
-            selectedRowKeys.value = newSelectedRowKeys
-          },
-          getCheckboxProps: (record) => ({
-            // Column configuration not to be checked
-            disabled: record.name === 'Disabled User',
-            name: record.name,
-          }),
-        }
-      })
+        const rowSelection = computed(() => {
+          return {
+            selectedRowKeys: selectedRowKeys.value,
+            onChange: (newSelectedRowKeys) => {
+              // console.log('selectedRowKeys changed: ', newSelectedRowKeys)
+              selectedRowKeys.value = newSelectedRowKeys
+            },
+            getCheckboxProps: (record) => ({
+              // Column configuration not to be checked
+              disabled: record.name === 'Disabled User',
+              name: record.name,
+            }),
+          }
+        })
 
 
         const filterOption = (input, option) => {
@@ -57,7 +52,7 @@ export default {
             },
         }
 
-        const v$ = useVuelidate(rules, { selectedLocation,selectedDestination })
+        const v$ = useVuelidate(rules, { selectedLocation })
 
         return {
           selectLocations,
@@ -69,8 +64,6 @@ export default {
           selectedMaterials,
           rowSelection,
           selectedRowKeys,
-          selectedDestination,
-          locationsAretheSame,
           v$
         }
     },
@@ -88,7 +81,7 @@ export default {
         },
         async fetchMaterials(){
         this.loading = true;
-        await axios.get("/api/materials/location/"+this.selectedLocation+"/available").then(response =>{
+        await axios.get("/api/materials/location/"+this.selectedLocation+"/transfered").then(response =>{
           this.materials = response.data
           this.loading = false;
         }).catch(error => {
@@ -99,8 +92,8 @@ export default {
         async ValidateGlobalForm() {
         console.log(this.selectedRowKeys)
           return Swal.fire({ // Return the Promise
-          title: 'Transfert',
-          html: `Voulez-vous vraiment Transférer ces MP`,
+          title: 'Récéption',
+          html: `Voulez-vous vraiment Réceptionner ces MP`,
           icon: 'question',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
@@ -114,15 +107,13 @@ export default {
           return result.isConfirmed; // Return whether the user confirmed
         });
       },
-      async submitForm(){
+        async submitForm(){
         try {
           const payload = {
-            id_location_from : this.selectedLocation,
-            id_location_to : this.selectedDestination,
             materials : this.selectedRowKeys,
             user : 1 /**TODO: Remove the 1 and add loggedin user ID**/
           }
-          const response = await axios.post('/api/materials/transfer',payload,{
+          const response = await axios.post('/api/materials/receive',payload,{
             headers: {
               'Content-Type': 'application/json',
             }
@@ -143,7 +134,7 @@ export default {
 
             await Toast.fire({
               icon: 'success',
-              title: 'Materiaux Transférés',
+              title: 'Materiaux Réceptionnés',
             }).then(() => {
               this.$router.push("/mp/transfers")
             })
@@ -169,15 +160,6 @@ export default {
           throw error
         }
       },
-        checkSelects(){
-          if(!this.selectedLocation && !this.selectedDestination)
-          {
-           this.locationsAretheSame = false
-          }else{
-
-            this.locationsAretheSame = this.selectedLocation === this.selectedDestination;
-          }
-        }
     },
   mounted() {
       this.fetchLocations()
@@ -187,7 +169,7 @@ export default {
 
 <template>
     <Layout>
-        <pageheader title="Transférer MP" secondaryPageHeader="Transféres" pageTitle="Matières Premieres" />
+        <pageheader title="Réceptionner MP" secondaryPageHeader="Transféres" pageTitle="Matières Premieres" />
 
         <BRow>
             <BCol sm="12">
@@ -197,7 +179,7 @@ export default {
                           <a-select
                               v-model:value="selectedLocation"
                               show-search
-                              placeholder="Selectionner un Emplacement"
+                              placeholder="Selectionner la Provenance du MP"
                               style="width: 100%;text-align: center;"
                               @change="fetchMaterials"
                               :status="v$.selectedLocation.$error ? 'error' : ''"
@@ -241,28 +223,12 @@ export default {
                               </template>
                             </template>
                           </a-table>
-
-
-                            <a-select v-if="selectedRowKeys.length!=0"
-                                v-model:value="selectedDestination"
-                                show-search
-                                placeholder="Selectionner un Emplacement"
-                                style="width: 100%;text-align: center;"
-                                @change = "checkSelects"
-                                :status="locationsAretheSame ? 'error' : ''"
-                                :options="selectLocations"
-                                :filter-option="filterOption"
-                            >
-                            </a-select>
-                          <div v-if="locationsAretheSame" class="text-danger">
-                            Veuillez Selectionner un different Emplacement
-                          </div>
                         </a-flex>  
                     </BCardBody>
-                  <BCardFooter v-if="selectedDestination && !locationsAretheSame && this.selectedRowKeys.length!=0">
+                  <BCardFooter v-if="this.selectedRowKeys.length!=0">
                     <a-flex justify="center" align="center" wrap="wrap" gap="mi ddle">
                       <a-button type="primary" @click="ValidateGlobalForm">
-                        <PhArrowRight :size="23" /> Transférer
+                        <PhArrowLeft :size="23" /> Réceptionner
                       </a-button>
                     </a-flex>
                   </BCardFooter>

@@ -23,6 +23,22 @@ class MaterialController extends Controller
         ->get();
     }
 
+    public function getTransfers(){
+        return MaterialMovementHistory::with([
+            'material' => fn($query) => $query->where('active', true),
+            'movementType', // No need to filter here since whereHas already does
+            'locationFrom' => fn($query) => $query->where('active', true),
+            'locationTo' => fn($query) => $query->where('active', true),
+        ])
+            ->where('active', true)
+            ->whereHas('movementType', fn($query) =>
+            $query->where('active', true)
+                ->whereIn('definition', ['Transfer', 'Réception'])
+            )
+            ->orderBy('id', 'desc')
+            ->get();
+    }
+
         public function getAvailable(){
         return Material::with(['arrival','materialBatch', 'location', 'materialStatus', 'materialType', 'unit'])
         ->whereHas('materialBatch', fn($query) => $query->where('active', true))
@@ -42,6 +58,21 @@ class MaterialController extends Controller
         return Material::with(['arrival','materialBatch', 'location', 'materialStatus', 'materialType', 'unit'])
             ->whereHas('materialBatch', fn($query) => $query->where('active', true))
             ->whereHas('materialStatus', fn($query) => $query->where('active', true)->where('status','Available'))
+            ->whereHas('materialType', fn($query) => $query->where('active', true))
+            ->whereHas('unit', fn($query) => $query->where('active', true))
+            ->whereHas('arrival', fn($query) => $query->where('active', true))
+            ->where('id_current_location', $id)
+            ->where('active', true)
+            ->orderBy('id','desc')
+            ->get();
+    }
+    public function getTransferedbyLocationId($id){
+        if(!is_numeric($id)){
+            return response('No Data Found',404);
+        }
+        return Material::with(['arrival','materialBatch', 'location', 'materialStatus', 'materialType', 'unit'])
+            ->whereHas('materialBatch', fn($query) => $query->where('active', true))
+            ->whereHas('materialStatus', fn($query) => $query->where('active', true)->where('status','Transfered'))
             ->whereHas('materialType', fn($query) => $query->where('active', true))
             ->whereHas('unit', fn($query) => $query->where('active', true))
             ->whereHas('arrival', fn($query) => $query->where('active', true))
@@ -209,7 +240,43 @@ class MaterialController extends Controller
                 'id_movement_type'=> $idMovementTypeTransfered,
                 'id_location_from' => $id_location_from,
                 'id_location_to' => $id_location_to,
-                'movement_date' => date('Y-m-d H:i:s'),
+                'mouvement_date' => date('Y-m-d H:i:s'),
+                'id_user'=> $user
+            ]);
+        }
+        return response()->json($materials, 201);
+    }
+    public function receive(Request $request){
+        $materials = $request["materials"];
+        $user = $request["user"];
+        $idStatusReceived = MaterialStatus::where("status","Available")->where("active",true)->first()->id;
+        $idMovementTypeTransfered = MovementType::where("definition","Transfer")->where("active",true)->first()->id;
+        $idMovementTypeReceive = MovementType::where("definition","Réception")->where("active",true)->first()->id;
+
+        foreach ($materials as $material) {
+            //Get Material Object
+            $dbMaterial = Material::where('id', $material)->first();
+            //Change the material Status
+            $dbMaterial->id_status = $idStatusReceived;
+            $dbMaterial->userupdate = $user;
+            $dbMaterial->save();
+            //Get Last Line from Material Movement History
+            $dbid_location_from = MaterialMovementHistory::where("id_material",$material)
+                                    ->where('id_movement_type',$idMovementTypeTransfered)->
+                                    orderBy('id', 'desc')
+                                    ->first()
+                                    ->id_location_from;
+            $dbid_location_to = MaterialMovementHistory::where("id_material",$material)->where('id_movement_type',$idMovementTypeTransfered)->                                 orderBy('id', 'desc')
+                ->first()
+                ->id_location_to;
+
+            //Insert Movement History Line
+            MaterialMovementHistory::create([
+                'id_material' =>$material,
+                'id_movement_type'=> $idMovementTypeReceive,
+                'id_location_from' => $dbid_location_from,
+                'id_location_to' => $dbid_location_to,
+                'mouvement_date' => date('Y-m-d H:i:s'),
                 'id_user'=> $user
             ]);
         }
