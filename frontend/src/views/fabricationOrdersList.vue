@@ -166,7 +166,7 @@ export default {
 
 <template>
   <Layout>
-    <pageheader title="Liste des Produits" pageTitle="Produits" />
+    <pageheader title="Liste des Ordres de Fabrication" pageTitle="Ordres de Fabrication" />
 
     <BRow>
       <BCol sm="12">
