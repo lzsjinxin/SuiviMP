@@ -25,9 +25,6 @@ class ProductController extends Controller
         'productMaterials' => function($query) {
             $query->where('active', true);
         },
-        'operations' => function($query) {
-            $query->where('active', true);
-        },
         ])
         ->where('active', true)
         ->orderBy('id', 'desc')
@@ -48,9 +45,6 @@ class ProductController extends Controller
             'productMaterials' => function($query) {
                 $query->where('active', true);
             },
-            'operations' => function($query) {
-                $query->where('active', true);
-            },
         ])
             ->whereHas('productStatus', function($query) {
             $query->where('status', 'Created')->where('active', true);
@@ -58,6 +52,19 @@ class ProductController extends Controller
             ->where('active', true)
             ->orderBy('id', 'desc')
             ->get();
+    }
+
+    public function getbyTier($id){
+
+        if(!is_numeric($id)){
+            return response('No Data Found',404);
+        }
+
+        return  Product::with(['productSeries'])
+            ->whereHas('productSeries', function ($query) use ($id) {
+                $query->where('id_tier', $id);
+            })
+            ->where('active', true)->get();
     }
 
     public function getbyId($id){
@@ -78,9 +85,6 @@ class ProductController extends Controller
             $query->where('active', true);
         },
         'productMaterials' => function($query) {
-            $query->where('active', true);
-        },
-        'operations' => function($query) {
             $query->where('active', true);
         },
         ])
@@ -175,4 +179,8 @@ public function update(Request $request, $id) {
         'removed' => $materialsToRemove
     ], 200);
 }
+
+
+
+
 }

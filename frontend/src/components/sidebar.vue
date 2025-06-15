@@ -380,9 +380,9 @@ export default {
                 </BLink>
                 <div class="collapse" id="fo">
                   <ul class="pc-submenu">
-                    <li class="pc-item" :class="{ 'active': $route.path === '/locations/new' }"><router-link class="pc-link" to="/locations/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Emplacements</router-link>
+                    <li class="pc-item" :class="{ 'active': $route.path === '/fo/new' }"><router-link class="pc-link" to="/fo/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter un Ordre de Fabrication</router-link>
                     </li>
-                    <li class="pc-item" :class="{ 'active': $route.path === '/locations' }"><router-link class="pc-link" to="/locations">  <PhList :size="17" weight="bold" />Liste des Emplacements</router-link>
+                    <li class="pc-item" :class="{ 'active': $route.path === '/fo' }"><router-link class="pc-link" to="/fo">  <PhList :size="17" weight="bold" />Liste des Ordres de Fabrication</router-link>
                     </li>
                   </ul>
                 </div>

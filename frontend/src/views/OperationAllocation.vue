@@ -23,9 +23,9 @@ export default {
     const selectProducts = ref(null)
     const selectedProduct = ref(null)
     const operations = ref([])
-    const selectedRowKeys = ref([])
 
     const selectedOperations = ref([])
+    const selectedRowKeys = ref([])
 
     const rowSelection = computed(() => {
       return {

@@ -25,14 +25,14 @@ class Product extends Model
 {
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = 'product';
 
-/**
+    /**
      * Activate Timestamps.
-     * 
+     *
      * @var boolean
      */
     public $timestamps = true;
@@ -53,10 +53,6 @@ class Product extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function shippings()
-    {
-        return $this->hasMany('App\Models\Shipping', 'id_product');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -85,10 +81,6 @@ class Product extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function operations()
-    {
-        return $this->hasMany('App\Models\Operation', 'id_product');
-    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

@@ -208,6 +208,19 @@ export default [
         meta: { title: "Liste des Transferts"},
         component: () => import("../views/TransfersList.vue"),
     },
+    //Fabrication Orders
+    {
+        path : "/fo/new",
+        name : "FabricationOrdersNew",
+        meta : {title:"Ajouter un Ordre de Fabrication"},
+        component:()=>import("../views/fabricationOrdersAdd.vue")
+    },
+    {
+        path : "/fo/",
+        name : "FabricationOrdersList",
+        meta : {title:"Liste des Ordres de Fabrication"},
+        component:()=>import("../views/fabricationOrdersList.vue")
+    },
     
     //Erreurs
     {

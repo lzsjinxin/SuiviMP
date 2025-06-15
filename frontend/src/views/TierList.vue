@@ -56,7 +56,7 @@ export default {
                     title: 'Actions',
                     orderable: false,
                     render: (data, type, row) => {
-                            if (row.shippings.length != 0 || row.product_series.length != 0 || row.arrivals.length != 0) {
+                            if (row.fabrication_orders.length != 0 || row.product_series.length != 0 || row.arrivals.length != 0) {
                                  return `
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">

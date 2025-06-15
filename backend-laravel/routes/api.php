@@ -41,6 +41,7 @@ Route::prefix('tiers')->group(function () {
     Route::get("/clients","TierController@getAllClients");
     Route::get("/series","ProductSeriesController@getAll");
     Route::get("/series/{id}","ProductSeriesController@getbyId");
+    Route::get("/{id}/products","ProductController@getbyTier");
     Route::get("{id}", "TierController@getbyId");
     Route::post("/","TierController@create");
     Route::post("/series","ProductSeriesController@create");
@@ -48,6 +49,14 @@ Route::prefix('tiers')->group(function () {
     Route::patch("/series/{id}","ProductSeriesController@update");
     Route::delete("{id}","TierController@logicalDelete") ;
     Route::delete("/series/{id}","ProductSeriesController@logicalDelete") ;
+});
+
+//Fabrication Orders
+Route::prefix('fabricationOrders')->group(function () {
+
+    Route::get("/", "FabricationOrdersController@getAll");
+    Route::get("/latest", "FabricationOrdersController@getLatest");
+    Route::post("/", "FabricationOrdersController@create");
 });
 
 
