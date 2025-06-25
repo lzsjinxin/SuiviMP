@@ -27,7 +27,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.js';
 import axios from 'axios';
 
 axios.defaults.baseURL = 'http://localhost:8000';
-axios.defaults.withCredentials = false; 
+// Restore token header from localStorage (if present)
+const saved = localStorage.getItem('token');
+if (saved) {
+    axios.defaults.headers.common.Authorization = `Bearer ${saved}`;
+}
+
+axios.defaults.withCredentials = false;
 
 
 

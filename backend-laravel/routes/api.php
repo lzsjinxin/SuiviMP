@@ -20,6 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::post('/login',"AuthController@login");
+
+
 
 //Arrival
 Route::prefix('arrivals')->group(function () {
@@ -55,8 +58,15 @@ Route::prefix('tiers')->group(function () {
 Route::prefix('fabricationOrders')->group(function () {
 
     Route::get("/", "FabricationOrdersController@getAll");
+    Route::get("{id}", "FabricationOrdersController@getbyId");
     Route::get("/latest", "FabricationOrdersController@getLatest");
     Route::post("/", "FabricationOrdersController@create");
+});
+// Fabrication Order Details
+Route::prefix('fabricationOrderDetails')->group(function () {
+
+    Route::get("/{id}/count-product-orders", "FabricationOrderDetailsController@countProductOrders");
+    Route::post("/{id}/generate", "ProductOrdersController@generate");
 });
 
 
@@ -231,8 +241,8 @@ Route::prefix('units')->group(function () {
 
 //User
 Route::prefix('users')->group(function () {
-
     Route::get("/", "UserController@getAll");
+    Route::get("/qr/{uuid}", "UserController@getByUuid");
     Route::get("{id}", "UserController@getbyId");
     Route::post("/","UserController@create");
     Route::patch("{id}","UserController@update");

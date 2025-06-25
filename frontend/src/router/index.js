@@ -1,51 +1,63 @@
-import { createWebHistory, createRouter } from "vue-router";
-import routes from './routes';
-import appConfig from "../../app.config";
+import { createWebHistory, createRouter } from 'vue-router';
+import routes    from './routes';
+import appConfig from '../../app.config';
+import store     from '@/state/store';      // Vuex root store (auth module lives inside)
 
-
+/* --------------------------------------------------------------------------
+ * Router instance
+ * ------------------------------------------------------------------------ */
 const router = createRouter({
-    history: createWebHistory("/"),
+    history: createWebHistory('/'),
     routes,
-  
 });
 
+/* --------------------------------------------------------------------------
+ * 1) Global beforeEach — department / login guard
+ * ------------------------------------------------------------------------ */
+router.beforeEach((to, from, next) => {
+    const allowed = to.meta.departments;              // e.g. ['Warehouse','Quality']
+
+    // Route is public → continue.
+    if (!allowed) return next();
+
+    // Not logged in → send to login, remember intended destination.
+    if (!store.getters['auth/isLogged']) {
+        return next({ path: '/login', query: { redirect: to.fullPath } });
+    }
+
+    // Logged in — check department.
+    const userDept = store.getters['auth/department'];
+
+    if (allowed.includes(userDept)) return next();    // authorised
+    return next({ name: '403' });                     // forbidden
+});
+
+/* --------------------------------------------------------------------------
+ * 2) Existing beforeResolve (kept as-is)
+ * ------------------------------------------------------------------------ */
 router.beforeResolve(async (routeTo, routeFrom, next) => {
-    // Create a `beforeResolve` hook, which fires whenever
-    // `beforeRouteEnter` and `beforeRouteUpdate` would. This
-    // allows us to ensure data is fetched even when params change,
-    // but the resolved route does not. We put it in `meta` to
-    // indicate that it's a hook we created, rather than part of
-    // Vue Router (yet?).
     try {
-        // For each matched route...
         for (const route of routeTo.matched) {
             await new Promise((resolve, reject) => {
-                // If a `beforeResolve` hook is defined, call it with
-                // the same arguments as the `beforeEnter` hook.
-                if (route.meta && route.meta.beforeResolve) {
+                if (route.meta?.beforeResolve) {
                     route.meta.beforeResolve(routeTo, routeFrom, (...args) => {
-                        // If the user chose to redirect...
                         if (args.length) {
-                            // If redirecting to the same route we're coming from...
-                            // Complete the redirect.
-                            next(...args);
-                            reject(new Error('Redirected'));
-                        } else {
-                            resolve();
+                            next(...args);            // redirected inside hook
+                            return reject(new Error('Redirected'));
                         }
+                        resolve();
                     });
                 } else {
-                    // Otherwise, continue resolving the route.
                     resolve();
                 }
             });
         }
-        // If a `beforeResolve` hook chose to redirect, just return.
-    } catch (error) {
-        return;
+    } catch {
+        return;                              // a redirect already happened
     }
-    document.title = routeTo.meta.title + ' | ' + appConfig.title;
-    // If we reach this point, continue resolving the route.
+
+    // Set page title after guards/meta hooks have passed
+    document.title = `${routeTo.meta.title} | ${appConfig.title}`;
     next();
 });
 

@@ -1,9 +1,28 @@
 export default [
+    //Login
+    {
+        path: "/login/",
+        name: "login",
+        meta: { title: "Login"},
+        component: () => import("../views/login.vue"),
+    },
+
+    //Home
+    {
+        path: '/',
+        name: 'home',
+        meta: { title: 'Accueil' },
+        component: () => import('../views/HomeSwitcher.vue'),
+    },
+
     //Arrivals
     {
         path: "/arrivals/",
         name: "arrivals",
-        meta: { title: "Arrivages"},
+        meta: {
+            title: "Arrivages",
+            departments: ['Administration','Logistics']
+        },
         component: () => import("../views/ArrivalList.vue"),
     },
     {
@@ -220,6 +239,20 @@ export default [
         name : "FabricationOrdersList",
         meta : {title:"Liste des Ordres de Fabrication"},
         component:()=>import("../views/fabricationOrdersList.vue")
+    },
+    {
+        path: '/fo/:id(\\d+)/product-orders/new',
+        name: 'ProductOrderAdd',
+        meta: { title: 'Ajouter les Produits A fabriquer' },
+        component: () => import('../views/ProductOrderAdd.vue'),
+    },
+
+    //QrCodeService
+    {
+        path:"/qr",
+        name:"qrCodeGenerate",
+        meta: { title: "Qr Code"},
+        component:()=>import("../views/qrCode.vue")
     },
     
     //Erreurs

@@ -1,6 +1,6 @@
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
-// import { ChevronDownIcon } from "@zhuowenli/vue-feather-icons";
+import {ref, onMounted, onUnmounted, computed} from 'vue';
+import { useStore } from 'vuex';
 import simplebar from "simplebar-vue";
 import logoWhite from "@/assets/images/logo-white.svg";
 import logoDark from "@/assets/images/logo-dark.svg";
@@ -20,7 +20,11 @@ export default {
             const isDarkTheme = document.body.getAttribute("data-pc-theme") === "dark";
             currentLogo.value = isDarkTheme ? logoWhite : logoDark;
         };
-        
+
+      const store = useStore();
+      const dept  = computed(() => store.getters['auth/department']);
+
+      const user = computed(() => store.getters['auth/user']);
 
         onMounted(() => {
             updateLogo();
@@ -39,7 +43,7 @@ export default {
             });
         });
 
-        return { currentLogo };
+        return { currentLogo, dept, user };
     },
     components: {
       PhBlueprint,
@@ -396,8 +400,8 @@ export default {
                         <img src="@/assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle">
                     </div>
                     <div class="flex-grow-1 ms-3 me-2">
-                        <h6 class="mb-0">User N°01</h6>
-                        <small>Role</small>
+                        <h6 class="mb-0">{{user.fname}} {{user.name}}</h6>
+                        <small>{{dept}}</small>
                     </div>
                     <BDropdown variant="purple" dropup no-caret toggle-class="p-0">
                         <template v-slot:button-content>
@@ -407,9 +411,10 @@ export default {
                         </template>
                         <BRow >
                             <BCol >
-                                <BDropdownItem class="pc-user-links p-0">
-                                    <i class="ph-duotone ph-power"></i> <br>
-                                    <span>Logout</span>
+                                <BDropdownItem class="">
+                                  <button class="btn btn-outline-danger" @click="$store.dispatch('auth/logout').then(() => $router.push('/login'))">
+                                   Se Déconnecter
+                                  </button>
                                 </BDropdownItem>
                                 <BDropdownDivider />
                             </BCol>

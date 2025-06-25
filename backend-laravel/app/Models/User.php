@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * @property integer $id
@@ -18,6 +20,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class User extends Model
 {
+
+    use HasApiTokens;
     /**
      * @var array
      */
@@ -25,7 +29,7 @@ class User extends Model
 
 /**
      * Activate Timestamps.
-     * 
+     *
      * @var boolean
      */
     public $timestamps = true;
@@ -36,7 +40,17 @@ class User extends Model
     protected $attributes = ['active' => true];
 
 
-    protected $fillable = ['id_dept', 'fname', 'name', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active'];
+    protected $fillable = ['id_dept', 'fname', 'name', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active','uuid','password'];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array<int, string>
+     */
+    protected $hidden = [
+        'password',
+        'uuid'
+    ];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
