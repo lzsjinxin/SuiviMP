@@ -19,7 +19,7 @@ import frenchLanguage from 'datatables.net-plugins/i18n/fr-FR.json'
 DataTable.use(DataTablesCore)
 
 export default {
-  name: "ProductList",
+  name: "FOList",
   components: {
     Layout,
     pageheader,
@@ -56,33 +56,24 @@ export default {
             return html;
           }
         },
-        // {
-        //   data:null,
-        //   title: 'Actions',
-        //   orderable: false,
-        //   render: (data, type, row) => {
-        //     if ( row.product_status.status != "Created" && row.product_status.status != "products Affected"){
-        //       return `
-        //                         `
-        //     }else{
-        //       return `
-        //                         <ul class="list-inline mb-0">
-        //                             <li class="list-inline-item">
-        //                                 <a href="/products/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
-        //                                     <i class="ti ti-edit f-20"></i>
-        //                                 </a>
-        //                             </li>
-        //                             <li class="list-inline-item">
-        //                                 <a href="javascript:void(0)" onclick="event.preventDefault();" class="avtar avtar-s btn-link-danger btn-pc-default" data-id="${row.id}">
-        //                                     <i class="ti ti-trash f-20"></i>
-        //                                 </a>
-        //                             </li>
-        //                         </ul>
-        //                         `
-        //     }
-        //
-        //   }
-        // }
+        {
+          data:null,
+          title: 'Actions',
+          orderable: false,
+          render: (data, type, row) => {
+
+              return `
+                                <ul class="list-inline mb-0">
+                                    <li class="list-inline-item">
+                                        <a href="/fo/${row.id}/product-orders/new" class="avtar avtar-s btn-link-primary btn-pc-default" title="Générer les Numéro de series">
+                                            <i class="fas fa-cog f-15"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                                `
+
+          }
+        }
       ],
       dtOptions: {
         responsive: true,
