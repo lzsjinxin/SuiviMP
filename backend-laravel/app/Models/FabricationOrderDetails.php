@@ -42,7 +42,7 @@ class FabricationOrderDetails extends Model
      */
     public function productOrders()
     {
-        return $this->hasMany('App\Models\ProductOrder', 'id_fabrication_orders');
+        return $this->hasMany('App\Models\ProductOrders', 'id_fabrication_orders');
     }
 
     /**

@@ -28,7 +28,7 @@ class Operation extends Model
 
     /**
      * Activate Timestamps.
-     * 
+     *
      * @var boolean
      */
     public $timestamps = true;
@@ -55,9 +55,9 @@ class Operation extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function product()
+    public function productOrders()
     {
-        return $this->belongsTo('App\Models\Product', 'id_product');
+        return $this->belongsTo('App\Models\ProductOrders', 'id_product_order');
     }
 
     /**

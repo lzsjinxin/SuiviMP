@@ -53,4 +53,15 @@ class ProductOrders extends Model
     {
         return $this->hasMany('App\Models\Operation', 'id_product_order');
     }
+
+    /** next SN → P-YYMM-#### */
+    public static function nextSerial(): string
+    {
+        $prefix = 'P' . now()->format('ym');
+        $last   = static::where('serial_number', 'like', "$prefix%")
+            ->orderByDesc('serial_number')
+            ->value('serial_number');
+        $seq = $last ? intval(substr($last, -4)) + 1 : 1;
+        return sprintf('%s-%04d', $prefix, $seq);
+    }
 }
