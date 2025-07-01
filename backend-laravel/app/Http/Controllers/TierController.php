@@ -8,13 +8,13 @@ class TierController extends Controller
 {
     public function getAll(){
         return Tier::with([
-        'shippings' => function($query) {
-        $query->where('active', true);
-        },
         'productSeries' => function($query) {
             $query->where('active', true);
         },
         'arrivals' => function($query) {
+            $query->where('active', true);
+        },
+        'fabricationOrders'=>function($query) {
             $query->where('active', true);
         }
         ])->where('active', true)->orderBy('id','DESC')->get();
@@ -28,18 +28,18 @@ class TierController extends Controller
     }
     public function getbyId($id){
          if(!is_numeric($id)){
-         return response('No Data Found',404);   
+         return response('No Data Found',404);
         }
         //Lookup the value
         if (!is_null(Tier::where('id', $id)->where('active', true)->first())){
             return Tier::where('id', $id)->with([
-        'shippings' => function($query) {
-        $query->where('active', true);
-        },
         'productSeries' => function($query) {
             $query->where('active', true);
         },
         'arrivals' => function($query) {
+            $query->where('active', true);
+        },
+        'fabricationOrders'=>function($query) {
             $query->where('active', true);
         }
         ])->where('active', true)->orderBy('id','DESC')->get();
@@ -49,7 +49,7 @@ class TierController extends Controller
         }
     }
 
-    public function create(Request $request){          
+    public function create(Request $request){
     $tier = Tier::create([
                 'type' => $request["type"],
                 'name' => $request["name"],
@@ -59,14 +59,14 @@ class TierController extends Controller
                 'ice' => $request["ice"],
                 'useradd' => $request["user"],
             ]);
-        
+
             return response()->json($tier, 201);
     }
 
     public function update(Request $request, $id){
 
             //Lookup the value
-            if (!is_null(Tier::where('id', $id)->where('active', true)->first())){ 
+            if (!is_null(Tier::where('id', $id)->where('active', true)->first())){
                 //Validation Success
                 $requestBody = json_decode($request->getContent());
 
@@ -83,9 +83,9 @@ class TierController extends Controller
                 $tier->city = $requestBody->city;
 
                 $tier->ice = $requestBody->ice;
-                
+
                 $tier->userupdate = $requestBody->user;
-        
+
                 $tier->save();
 
                 return response($tier,200);
@@ -96,18 +96,18 @@ class TierController extends Controller
 
     public function logicalDelete($id){
  //Lookup the value
-         if (!is_null(Tier::where('id', $id)->where('active', true)->first())){ 
+         if (!is_null(Tier::where('id', $id)->where('active', true)->first())){
             //If value is found
                 //Validation Success
 
                 $tier = Tier::where('id', $id)->where('active', true)->first();
-                
+
                 $tier->active = false;
-        
+
                 $tier->save();
-    
+
                 return response("Deleted",204);
-    
+
         }else{
             //If value Not Found
 

@@ -26,4 +26,14 @@ class MaterialTypeController extends Controller
     
         return response()->json($arrival, 201);
     } 
+    
+        public function getOperationsPerType(){
+        return MaterialType::with(['operationDefinition' => function($query) {
+            $query->where('active', true);
+        }])->where('active', true)
+        ->orderBy('id','desc')
+        ->get();
+    }
+
+
 }

@@ -371,8 +371,7 @@ export default {
     { value: 'Zimbabwe', label: '🇿🇼 Zimbabwe' }
             ];
             this.selectCountries = options;
-        }
-
+        },
     },
     mounted(){
         this.setTierTypes()

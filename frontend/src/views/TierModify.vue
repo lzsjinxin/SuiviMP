@@ -471,7 +471,7 @@ export default {
                     <BCardFooter>
                         <a-flex justify="center" align="center">
                             <a-button type="primary" @click="ValidateGlobalForm">
-                                <PhPlusCircle :size="23" /> Ajouter
+                                <PhNotePencil :size="23" /> Modifier
                             </a-button>
                         </a-flex>  
                     </BCardFooter>

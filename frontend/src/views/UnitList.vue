@@ -43,7 +43,7 @@ export default {
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
                                         <a href="/units/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
-                                            <i class="ti ti-edit f-20"></i>
+                                            <i class="fa fa-edit f-15"></i>
                                         </a>
                                     </li>
                                 </ul>
@@ -53,12 +53,12 @@ export default {
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
                                         <a href="/units/${row.id}" class="avtar avtar-s btn-link-primary btn-pc-default">
-                                            <i class="ti ti-edit f-20"></i>
+                                            <i class="fa fa-edit f-15"></i>
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
                                         <a href="javascript:void(0)" onclick="event.preventDefault();" class="avtar avtar-s btn-link-danger btn-pc-default" data-id="${row.id}">
-                                            <i class="ti ti-trash f-20"></i>
+                                            <i class="fa fa-trash f-15"></i>
                                         </a>
                                     </li>
                                 </ul>

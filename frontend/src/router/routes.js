@@ -1,9 +1,28 @@
 export default [
+    //Login
+    {
+        path: "/login/",
+        name: "login",
+        meta: { title: "Login"},
+        component: () => import("../views/login.vue"),
+    },
+
+    //Home
+    {
+        path: '/',
+        name: 'home',
+        meta: { title: 'Accueil' },
+        component: () => import('../views/HomeSwitcher.vue'),
+    },
+
     //Arrivals
     {
         path: "/arrivals/",
         name: "arrivals",
-        meta: { title: "Arrivages"},
+        meta: {
+            title: "Arrivages",
+            departments: ['Administration','Logistics']
+        },
         component: () => import("../views/ArrivalList.vue"),
     },
     {
@@ -133,6 +152,117 @@ export default [
         meta: { title: "Modifier un Tier"},
         component: () => import("../views/TierModify.vue"),
     },
+    {
+        path: "/tiers/series/new",
+        name: "TierSeriesAdd",
+        meta: { title: "Ajouter une famille"},
+        component: () => import("../views/TierSeriesAdd.vue"),
+    },
+    {
+        path: "/tiers/series",
+        name: "TierSeriesList",
+        meta: { title: "Lister les familles"},
+        component: () => import("../views/TierSeriesList.vue"),
+    },
+    {
+        path: "/tiers/series/:id(\\d+)",
+        name: "TierSeriesModify",
+        meta: { title: "Modifier une Famille"},
+        component: () => import("../views/TierSeriesModify.vue"),
+    },
+           //Operations
+    {
+        path: "/operations/",
+        name: "OperationDefinitionsAdd",
+        meta: { title: "Definitions des operations"},
+        component: () => import("../views/OperationsDefinitionsAdd.vue"),
+    },
+    {
+        path: "/operations/allocation",
+        name: "OperationDefinitionsAllocation",
+        meta: { title: "Affecter les operations à des produits"},
+        component: () => import("../views/OperationAllocation.vue"),
+    },
+    {
+        path: "/operations/allocation/:id(\\d+)",
+        name: "ModifyOperationDefinitionsAllocation",
+        meta: { title: "Modifier les Affectations des operations pour le produit"},
+        component: () => import("../views/OperationAllocationModify.vue"),
+    },
+           //Products
+    {
+        path: "/products/",
+        name: "ProductList",
+        meta: { title: "Liste des Produits"},
+        component: () => import("../views/ProductList.vue"),
+    },
+        {
+        path: "/products/new",
+        name: "ProductAdd",
+        meta: { title: "Ajouter des Produits"},
+        component: () => import("../views/ProductAdd.vue"),
+    },
+    {
+        path: "/products/:id(\\d+)",
+        name: "ProductModify",
+        meta: { title: "Modifier un Produit"},
+        component: () => import("../views/ProductModify.vue"),
+    },
+    //Transfers
+    {
+        path:"/mp/transfers/transfer",
+        name: "TransfersTransfer",
+        meta: { title: "Transférer Une Matière Premiere"},
+        component: () => import("../views/TransfersTransfer.vue"),
+    },
+    {
+        path:"/mp/transfers/receive",
+        name: "TransfersReceive",
+        meta: { title: "Réception de Matière Premiere"},
+        component: () => import("../views/TransfersReceive.vue"),
+    },
+    {
+        path:"/mp/transfers/",
+        name: "TransfersList",
+        meta: { title: "Liste des Transferts"},
+        component: () => import("../views/TransfersList.vue"),
+    },
+    //Fabrication Orders
+    {
+        path : "/fo/new",
+        name : "FabricationOrdersNew",
+        meta : {title:"Ajouter un Ordre de Fabrication"},
+        component:()=>import("../views/fabricationOrdersAdd.vue")
+    },
+    {
+        path : "/fo/",
+        name : "FabricationOrdersList",
+        meta : {title:"Liste des Ordres de Fabrication"},
+        component:()=>import("../views/fabricationOrdersList.vue")
+    },
+    {
+        path: '/fo/:id(\\d+)/product-orders/new',
+        name: 'ProductOrderAdd',
+        meta: { title: 'Ajouter les Produits A fabriquer' },
+        component: () => import('../views/ProductOrderAdd.vue'),
+    },
+
+    //Operations
+    {
+        path: '/production/declare',
+        name: 'OperationDeclare',
+        meta: { title: 'Déclarer une opération', departments: ['Production','Administration'] },
+        component: () => import('../views/OperationDeclare.vue')
+    },
+
+    //QrCodeService
+    {
+        path:"/qr",
+        name:"qrCodeGenerate",
+        meta: { title: "Qr Code"},
+        component:()=>import("../views/qrCode.vue")
+    },
+    
     //Erreurs
     {
         path: "/404",

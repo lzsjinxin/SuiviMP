@@ -21,7 +21,8 @@ const storeData = { modules: {} }
 
         // For every Vuex module...
         requireModule.keys().forEach((fileName) => {
-            const moduleDefinition = requireModule(fileName)
+            const imported        = requireModule(fileName);
+            const moduleDefinition = imported.default || imported;
 
             // Skip the module during hot reload if it refers to the
             // same module definition as the one we have cached.

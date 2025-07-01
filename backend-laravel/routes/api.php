@@ -20,6 +20,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
+Route::post('/login',"AuthController@login");
+
+
 
 //Arrival
 Route::prefix('arrivals')->group(function () {
@@ -39,10 +42,31 @@ Route::prefix('tiers')->group(function () {
     Route::get("/", "TierController@getAll");
     Route::get("/suppliers","TierController@getAllSuppliers");
     Route::get("/clients","TierController@getAllClients");
+    Route::get("/series","ProductSeriesController@getAll");
+    Route::get("/series/{id}","ProductSeriesController@getbyId");
+    Route::get("/{id}/products","ProductController@getbyTier");
     Route::get("{id}", "TierController@getbyId");
     Route::post("/","TierController@create");
+    Route::post("/series","ProductSeriesController@create");
     Route::patch("{id}","TierController@update");
+    Route::patch("/series/{id}","ProductSeriesController@update");
     Route::delete("{id}","TierController@logicalDelete") ;
+    Route::delete("/series/{id}","ProductSeriesController@logicalDelete") ;
+});
+
+//Fabrication Orders
+Route::prefix('fabricationOrders')->group(function () {
+
+    Route::get("/", "FabricationOrdersController@getAll");
+    Route::get("/latest", "FabricationOrdersController@getLatest");
+    Route::get("{id}", "FabricationOrdersController@getbyId");
+    Route::post("/", "FabricationOrdersController@create");
+});
+// Fabrication Order Details
+Route::prefix('fabricationOrderDetails')->group(function () {
+
+    Route::get("/{id}/count-product-orders", "FabricationOrderDetailsController@countProductOrders");
+    Route::post("/{id}/generate", "ProductOrdersController@generate");
 });
 
 
@@ -62,9 +86,16 @@ Route::prefix('departments')->group(function () {
 Route::prefix('materials')->group(function () {
 
     Route::get("/", "MaterialController@getAll");
+    Route::get("/available", "MaterialController@getAvailable");
+    Route::get("/location/{id}/available", "MaterialController@getAvailablebyLocationId");
+    Route::get("/location/{id}/transfered", "MaterialController@getTransferedbyLocationId");
+    Route::get("/transfers", "MaterialController@getTransfers");
     Route::get("{id}", "MaterialController@getbyId");
+    Route::get("{id}/sheet", "MaterialSheetController@download");
     Route::get("{id}/tier","MaterialController@getTierbyArrivalId");
     Route::post("/","MaterialController@create");
+    Route::post("/transfer","MaterialController@initiateTransfer");
+    Route::post("/receive","MaterialController@receive");
     Route::patch("{id}","MaterialController@update");
     Route::delete("{id}","MaterialController@logicalDelete") ;
 
@@ -92,6 +123,7 @@ Route::prefix('materialstatus')->group(function () {
 Route::prefix('materialtypes')->group(function () {
 
     Route::get("/", "MaterialTypeController@getAll");
+    Route::get("/operationdefs", "MaterialTypeController@getOperationsPerType");
     Route::post("/", "MaterialTypeController@create");
 
 });
@@ -109,11 +141,15 @@ Route::prefix('operations')->group(function () {
 
 
 //OperationDefinitions
-Route::prefix('operationdefinitions')->group(function () {
+Route::prefix('operationdef')->group(function () {
 
-    Route::get("/", function () {
-        return "OperationDefinitions test";
-    });
+    Route::get("/", "OperationDefinitionController@getAll");
+    Route::get("/materialtype/{id}", "OperationDefinitionController@getDefsbyProduct");
+    // Route::get("{id}", "DepartmentController@getbyId");
+    Route::post("/","OperationDefinitionController@create");
+    Route::patch("{id}","OperationDefinitionController@update");
+    Route::delete("{id}","OperationDefinitionController@logicalDelete") ;
+
 
 });
 
@@ -121,9 +157,11 @@ Route::prefix('operationdefinitions')->group(function () {
 //Product
 Route::prefix('products')->group(function () {
 
-    Route::get("/", function () {
-        return "Product test";
-    });
+    Route::get("/", "ProductController@getAll");
+    Route::get("/created", "ProductController@getCreated");
+    Route::get("{id}", "ProductController@getbyId");
+    Route::post("/", "ProductController@create");
+    Route::patch("{id}","ProductController@update");
 
 });
 
@@ -139,11 +177,10 @@ Route::prefix('productmaterial')->group(function () {
 
 
 //ProductOperations
-Route::prefix('productoperations')->group(function () {
-
-    Route::get("/", function () {
-        return "ProductOperations test";
-    });
+    Route::prefix('productoperations')->group(function () {
+    Route::get("/product/{id}", "ProductOperationsController@getbyProductId");
+    Route::patch("{id}", "ProductOperationsController@update");
+    Route::post("/", "ProductOperationsController@create");
 
 });
 
@@ -167,15 +204,14 @@ Route::prefix('productstatus')->group(function () {
 
 });
 
+//ProductOrders
+Route::prefix('product-orders')->group(function () {
 
-//Shipping
-Route::prefix('shipping')->group(function () {
-
-    Route::get("/", function () {
-        return "Shipping test";
-    });
+    Route::get("{id}", "ProductOrdersController@show");
+    Route::get("{id}/sheet", "ProductOrderSheetController@download");
 
 });
+
 
 
 //Stock
@@ -200,13 +236,15 @@ Route::prefix('units')->group(function () {
     Route::delete("{id}","UnitController@logicalDelete") ;
 
 });
-
-
+//ops
+Route::get('/ops/check/{po}/{opDef}','OperationController@check');
+Route::post('/ops/declare/start','OperationController@start');
+Route::post('/ops/declare/finish','OperationController@finish');
 
 //User
 Route::prefix('users')->group(function () {
-
     Route::get("/", "UserController@getAll");
+    Route::get("/qr/{uuid}", "UserController@getByUuid");
     Route::get("{id}", "UserController@getbyId");
     Route::post("/","UserController@create");
     Route::patch("{id}","UserController@update");

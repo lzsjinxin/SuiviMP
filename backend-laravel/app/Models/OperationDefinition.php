@@ -14,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property boolean $active
  * @property float $qty_needed
+ * @property MaterialType $materialType
  * @property ProductOperation[] $productOperations
  */
 class OperationDefinition extends Model
@@ -22,7 +23,7 @@ class OperationDefinition extends Model
      * @var array
      */
     protected $table = "operation_definitions";
-     /**
+    /**
      * Activate Timestamps.
      * 
      * @var boolean
@@ -34,7 +35,7 @@ class OperationDefinition extends Model
      */
     protected $attributes = ['active' => true];
 
-    protected $fillable = ['name', 'time_expected', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'qty_needed'];
+    protected $fillable = ['name', 'time_expected', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'qty_needed', 'id_material_type'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -42,5 +43,14 @@ class OperationDefinition extends Model
     public function productOperations()
     {
         return $this->hasMany('App\Models\ProductOperation', 'id_operations');
+    }
+    
+    /**
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function materialType()
+    {
+        return $this->belongsTo('App\Models\MaterialType', 'id_material_type');
     }
 }

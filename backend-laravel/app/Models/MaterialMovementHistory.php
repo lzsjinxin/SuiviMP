@@ -13,8 +13,8 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $mouvement_date
  * @property integer $id_user
  * @property boolean $active
- * @property Location $location
- * @property Location $location
+ * @property Location locationFrom
+ * @property Location locationTo
  * @property Material $material
  * @property MovementType $movementType
  */
@@ -22,7 +22,7 @@ class MaterialMovementHistory extends Model
 {
     /**
      * The table associated with the model.
-     * 
+     *
      * @var string
      */
     protected $table = 'material_movement_history';
@@ -57,5 +57,12 @@ class MaterialMovementHistory extends Model
     public function movementType()
     {
         return $this->belongsTo('App\Models\MovementType', 'id_movement_type');
+    }
+
+    public function locationFrom(){
+        return $this->belongsTo('App\Models\Location', 'id_location_from');
+    }
+    public function locationTo(){
+        return $this->belongsTo('App\Models\Location', 'id_location_to');
     }
 }

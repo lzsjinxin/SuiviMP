@@ -1,9 +1,10 @@
 <script>
-import { ref, onMounted, onUnmounted } from 'vue';
-// import { ChevronDownIcon } from "@zhuowenli/vue-feather-icons";
+import {ref, onMounted, onUnmounted, computed} from 'vue';
+import { useStore } from 'vuex';
 import simplebar from "simplebar-vue";
 import logoWhite from "@/assets/images/logo-white.svg";
 import logoDark from "@/assets/images/logo-dark.svg";
+import {PhBlueprint} from "@phosphor-icons/vue";
 
 export default {
     data() {
@@ -19,7 +20,11 @@ export default {
             const isDarkTheme = document.body.getAttribute("data-pc-theme") === "dark";
             currentLogo.value = isDarkTheme ? logoWhite : logoDark;
         };
-        
+
+      const store = useStore();
+      const dept  = computed(() => store.getters['auth/department']);
+
+      const user = computed(() => store.getters['auth/user']);
 
         onMounted(() => {
             updateLogo();
@@ -38,9 +43,10 @@ export default {
             });
         });
 
-        return { currentLogo };
+        return { currentLogo, dept, user };
     },
     components: {
+      PhBlueprint,
             simplebar
     },
     methods: {
@@ -92,7 +98,6 @@ export default {
                     closestItem.children[1].classList.add('show')
                 }
             }
-          
             /**
              * Sidebar menu collapse
              */
@@ -210,7 +215,7 @@ export default {
                 <li class="pc-item pc-hasmenu">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#mp" role="button" aria-expanded="false" aria-controls="mp">
                         <span class="pc-micon">
-                            <PhPackage :size="32" weight="duotone" />
+                            <PhAtom :size="32" weight="duotone" />
                         </span>
                         <span class="pc-mtext">Matières Premieres</span><span class="pc-arrow">
                             <PhCaretDown :size="32" weight="fill" />
@@ -221,7 +226,15 @@ export default {
                             <li class="pc-item" :class="{ 'active': $route.path === '/mp/new' }"><router-link class="pc-link" to="/mp/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Matières premieres</router-link>
                             </li>
                             <li class="pc-item" :class="{ 'active': $route.path === '/mp' }"><router-link class="pc-link" to="/mp">  <PhList :size="17" weight="bold" />Liste des Matières premieres</router-link>
-                            </li>
+                              </li>
+                            <li class="pc-item pc-hasmenu" :class="{ 'active': $route.path === '/mp/transfers/transfer' ||  $route.path === '/mp/transfers/receive' || $route.path === '/mp/transfers/'}"><a class="pc-link" href="#family_children" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="family_children"><PhArrowsLeftRight  :size="17" weight="bold" />Transfert<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></span></a>
+                            <div class="collapse show" id="family_children" style="">
+                              <ul class="pc-submenu">
+                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/transfer' }"><router-link class="pc-link" to="/mp/transfers/transfer"><PhArrowRight :size="17" weight="bold" />Transférer </router-link></li>
+                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/receive' }"><router-link class="pc-link" to="/mp/transfers/receive"><PhArrowLeft :size="17" weight="bold" />Réceptionner </router-link></li>
+<!--                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/prod' }"><router-link class="pc-link" to="/mp/transfers/prod"><PhPlusCircle :size="17" weight="bold" />Nouvelle Famille </router-link></li>-->
+                                <li class="pc-item" :class="{ 'active': $route.path === '/mp/transfers/' }"><router-link class="pc-link" to="/mp/transfers/"><PhList :size="17" weight="bold" />Liste des Transferts</router-link></li>
+                              </ul></div></li>
                         </ul>
                     </div>
                 </li>
@@ -276,10 +289,54 @@ export default {
                             </li>
                             <li class="pc-item" :class="{ 'active': $route.path === '/tiers' }"><router-link class="pc-link" to="/tiers">  <PhList :size="17" weight="bold" />Liste des Tiers</router-link>
                             </li>
+                                <li class="pc-item pc-hasmenu" :class="{ 'active': $route.path === '/tiers/series/new' ||  $route.path === '/tiers/series' }"><a class="pc-link" href="#family_children" data-bs-toggle="collapse" role="button" aria-expanded="true" aria-controls="family_children"><PhTreeStructure :size="17" weight="bold" />Familles<span class="pc-arrow"><svg xmlns="http://www.w3.org/2000/svg" width="16px" height="16px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg></span></a>
+                                    <div class="collapse show" id="family_children" style="">
+                                    <ul class="pc-submenu">
+                                        <li class="pc-item" :class="{ 'active': $route.path === '/tiers/series/new' }"><router-link class="pc-link" to="/tiers/series/new"><PhPlusCircle :size="17" weight="bold" />Nouvelle Famille </router-link></li>
+                                        <li class="pc-item" :class="{ 'active': $route.path === '/tiers/series' }"><router-link class="pc-link" to="/tiers/series"><PhList :size="17" weight="bold" />Liste des Familles</router-link></li>
+                                    </ul></div></li>
+                            </ul>
+
+                        
+                    </div>
+                </li>
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#operations" role="button" aria-expanded="false" aria-controls="operations">
+                        <span class="pc-micon">
+                            <PhFactory :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Opérations</span><span class="pc-arrow">
+                            <PhCaretDown :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="operations">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/operations' }"><router-link class="pc-link" to="/operations"> <PhBookOpenText :size="17" weight="bold" />Définitions</router-link>
+                            </li>
+                          <li class="pc-item" :class="{ 'active': $route.path === '/operations/allocation' }"><router-link class="pc-link" to="/operations/allocation"> <PhListNumbers :size="17" weight="bold" />Affecations</router-link>
+                          </li>
                         </ul>
                     </div>
                 </li>
-                                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu">
+                    <BLink class="pc-link" data-bs-toggle="collapse" href="#products" role="button" aria-expanded="false" aria-controls="products">
+                        <span class="pc-micon">
+                            <PhPackage :size="32" weight="duotone" />
+                        </span>
+                        <span class="pc-mtext">Produits</span><span class="pc-arrow">
+                            <PhCaretDown  :size="32" weight="fill" />
+                        </span>
+                    </BLink>
+                    <div class="collapse" id="products">
+                        <ul class="pc-submenu">
+                            <li class="pc-item" :class="{ 'active': $route.path === '/products/new' }"><router-link class="pc-link" to="/products/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter des Produits</router-link>
+                            </li>
+                            <li class="pc-item" :class="{ 'active': $route.path === '/products' }"><router-link class="pc-link" to="/products">  <PhList :size="17" weight="bold" />Liste des Produits</router-link>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="pc-item pc-hasmenu">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false" aria-controls="departments">
                         <span class="pc-micon">
                             <PhUsersThree :size="32" weight="duotone" />
@@ -315,6 +372,24 @@ export default {
                         </ul>
                     </div>
                 </li>
+              <li class="pc-item pc-hasmenu">
+                <BLink class="pc-link" data-bs-toggle="collapse" href="#fo" role="button" aria-expanded="false" aria-controls="fo">
+                        <span class="pc-micon">
+                            <PhBlueprint :size="32" weight="duotone" />
+                        </span>
+                  <span class="pc-mtext">Ordres de Fabrication</span><span class="pc-arrow">
+                            <PhCaretDown  :size="32" weight="fill" />
+                        </span>
+                </BLink>
+                <div class="collapse" id="fo">
+                  <ul class="pc-submenu">
+                    <li class="pc-item" :class="{ 'active': $route.path === '/fo/new' }"><router-link class="pc-link" to="/fo/new"> <PhPlusCircle :size="17" weight="bold" />Ajouter un Ordre de Fabrication</router-link>
+                    </li>
+                    <li class="pc-item" :class="{ 'active': $route.path === '/fo' }"><router-link class="pc-link" to="/fo">  <PhList :size="17" weight="bold" />Liste des Ordres de Fabrication</router-link>
+                    </li>
+                  </ul>
+                </div>
+              </li>
             </ul>
         </simplebar>
         <BCard no-body class="pc-user-card">
@@ -324,8 +399,8 @@ export default {
                         <img src="@/assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle">
                     </div>
                     <div class="flex-grow-1 ms-3 me-2">
-                        <h6 class="mb-0">User N°01</h6>
-                        <small>Role</small>
+                        <h6 class="mb-0">{{user.fname}} {{user.name}}</h6>
+                        <small>{{dept}}</small>
                     </div>
                     <BDropdown variant="purple" dropup no-caret toggle-class="p-0">
                         <template v-slot:button-content>
@@ -335,9 +410,10 @@ export default {
                         </template>
                         <BRow >
                             <BCol >
-                                <BDropdownItem class="pc-user-links p-0">
-                                    <i class="ph-duotone ph-power"></i> <br>
-                                    <span>Logout</span>
+                                <BDropdownItem class="">
+                                  <button class="btn btn-outline-danger" @click="$router.push('/login')">
+                                   Se Déconnecter
+                                  </button>
                                 </BDropdownItem>
                                 <BDropdownDivider />
                             </BCol>

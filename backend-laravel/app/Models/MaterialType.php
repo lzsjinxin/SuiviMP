@@ -13,6 +13,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $updated_at
  * @property boolean $active
  * @property Material[] $materials
+ * @property OperationDefinition[] $operationDefinition
  */
 class MaterialType extends Model
 {
@@ -47,5 +48,11 @@ class MaterialType extends Model
     public function materials()
     {
         return $this->hasMany('App\Models\Material', 'id_type');
+    }
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function operationDefinition(){
+        return $this->hasMany('App\Models\OperationDefinition','id_material_type');
     }
 }
