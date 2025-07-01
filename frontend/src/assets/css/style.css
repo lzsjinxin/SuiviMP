@@ -20331,7 +20331,7 @@ pre[class*=language-]>code {
   position: fixed;
   left: 280px;
   right: 0;
-  z-index: 1025;
+  z-index: 999;
   display: flex;
 }
 .pc-header ul {

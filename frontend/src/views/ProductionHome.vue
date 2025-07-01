@@ -13,7 +13,7 @@
 
       <!-- Start Operation -->
       <a-col :xs="24" :sm="12" :md="8" :lg="6">
-        <a-card hoverable class="home-card" @click="to('/operations/start')">
+        <a-card hoverable class="home-card" @click="to('/production/declare')">
           <template #cover>
             <PlayCircleOutlined class="home-icon" />
           </template>

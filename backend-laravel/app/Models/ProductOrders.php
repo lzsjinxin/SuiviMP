@@ -41,9 +41,9 @@ class ProductOrders extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function fabricationOrderDetail()
+    public function fabricationOrderDetails()
     {
-        return $this->belongsTo('App\Models\FabricationOrderDetail', 'id_fabrication_orders');
+        return $this->belongsTo('App\Models\FabricationOrderDetails', 'id_fabrication_orders');
     }
 
     /**

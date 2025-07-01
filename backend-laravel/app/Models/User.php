@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
@@ -18,7 +19,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property boolean $active
  * @property Department $department
  */
-class User extends Model
+class User extends Authenticatable
 {
 
     use HasApiTokens;

@@ -58,8 +58,8 @@ Route::prefix('tiers')->group(function () {
 Route::prefix('fabricationOrders')->group(function () {
 
     Route::get("/", "FabricationOrdersController@getAll");
-    Route::get("{id}", "FabricationOrdersController@getbyId");
     Route::get("/latest", "FabricationOrdersController@getLatest");
+    Route::get("{id}", "FabricationOrdersController@getbyId");
     Route::post("/", "FabricationOrdersController@create");
 });
 // Fabrication Order Details
@@ -91,6 +91,7 @@ Route::prefix('materials')->group(function () {
     Route::get("/location/{id}/transfered", "MaterialController@getTransferedbyLocationId");
     Route::get("/transfers", "MaterialController@getTransfers");
     Route::get("{id}", "MaterialController@getbyId");
+    Route::get("{id}/sheet", "MaterialSheetController@download");
     Route::get("{id}/tier","MaterialController@getTierbyArrivalId");
     Route::post("/","MaterialController@create");
     Route::post("/transfer","MaterialController@initiateTransfer");
@@ -203,15 +204,14 @@ Route::prefix('productstatus')->group(function () {
 
 });
 
+//ProductOrders
+Route::prefix('product-orders')->group(function () {
 
-//Shipping
-Route::prefix('shipping')->group(function () {
-
-    Route::get("/", function () {
-        return "Shipping test";
-    });
+    Route::get("{id}", "ProductOrdersController@show");
+    Route::get("{id}/sheet", "ProductOrderSheetController@download");
 
 });
+
 
 
 //Stock
@@ -236,8 +236,10 @@ Route::prefix('units')->group(function () {
     Route::delete("{id}","UnitController@logicalDelete") ;
 
 });
-
-
+//ops
+Route::get('/ops/check/{po}/{opDef}','OperationController@check');
+Route::post('/ops/declare/start','OperationController@start');
+Route::post('/ops/declare/finish','OperationController@finish');
 
 //User
 Route::prefix('users')->group(function () {

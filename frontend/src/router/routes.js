@@ -247,6 +247,14 @@ export default [
         component: () => import('../views/ProductOrderAdd.vue'),
     },
 
+    //Operations
+    {
+        path: '/production/declare',
+        name: 'OperationDeclare',
+        meta: { title: 'Déclarer une opération', departments: ['Production','Administration'] },
+        component: () => import('../views/OperationDeclare.vue')
+    },
+
     //QrCodeService
     {
         path:"/qr",

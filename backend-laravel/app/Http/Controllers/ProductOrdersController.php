@@ -47,4 +47,50 @@ class ProductOrdersController extends Controller
         ], 201);
     }
 
+    public function show(int $id)
+    {
+        /* ----------------------------------------------------------
+         * 1) Load the concrete unit + its product + flow + done ops
+         * --------------------------------------------------------- */
+        $po = ProductOrders::with([
+            'fabricationOrderDetails.product.productOperations.operationDefinition',
+            'operations'  // rows in operations table
+        ])->findOrFail($id);
+
+        $product = $po->fabricationOrderDetails->product;
+
+        /* Full ordered flow */
+        $flow = $product->productOperations
+            ->sortBy('operation_order')
+            ->map(fn ($row) => [
+                'id'       => $row->operationDefinition->id,
+                'code'     => $row->operationDefinition->code ?? '',
+                'name'     => $row->operationDefinition->name,
+                'sequence' => $row->operation_order,
+            ])->values();
+
+
+//        /* IDs of finished ops */
+        $doneIds = $po->operations
+            ->whereNotNull('end')
+            ->pluck('id_product_operations')           // bridge IDs
+            ->map(function ($bridgeId) use ($product) {
+                $row = $product->productOperations->firstWhere('id', $bridgeId);
+                return $row?->operationDefinition->id;
+            })
+            ->filter()
+            ->values();
+
+        /* ----------------------------------------------------------
+         * 2) Return compact JSON
+         * --------------------------------------------------------- */
+        return response()->json([
+            'id'              => $po->id,
+            'serial_number'   => $po->serial_number,
+            'status'          => $po->status ?? 'in_progress',
+            'operation_flow'  => $flow,
+            'operations_done' => $doneIds,
+        ]);
+    }
+
 }

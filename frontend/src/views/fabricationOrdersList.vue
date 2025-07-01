@@ -66,12 +66,11 @@ export default {
                                 <ul class="list-inline mb-0">
                                     <li class="list-inline-item">
                                         <a href="/fo/${row.id}/product-orders/new" class="avtar avtar-s btn-link-primary btn-pc-default" title="Générer les Numéro de series">
-                                            <i class="fas fa-cog f-15"></i>
+                                            <i class="fas fa-hashtag f-15"></i>
                                         </a>
                                     </li>
                                 </ul>
                                 `
-
           }
         }
       ],

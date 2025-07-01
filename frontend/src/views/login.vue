@@ -25,6 +25,7 @@
                 v-model="pwdvalue"
                 class="form-control"
                 placeholder="Mot de passe"
+                @keyup.enter="login"
             />
           </div>
         </a-modal>
@@ -79,6 +80,7 @@
 <script>
 import axios                         from 'axios';
 import { notification }              from 'ant-design-vue';
+import { useStore } from 'vuex';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 import { h }                         from 'vue';
 
@@ -95,6 +97,7 @@ export default {
       loading: false,
       pwdvalue: '',
       user: null,            // will hold the fetched user object
+      store : useStore()
     };
   },
 
@@ -143,9 +146,12 @@ export default {
       });
     },
   },
+  mounted(){
+    this.$store.dispatch('auth/logout')
+  }
 };
 </script>
 
 <style scoped>
-/* Add component-specific styles here if needed */
+
 </style>

@@ -42,7 +42,7 @@ class Operation extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id_product', 'id_material', 'id_product_operations', 'start', 'end', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'qty_used'];
+    protected $fillable = ['id_product_order', 'id_material', 'id_product_operations', 'start', 'end', 'useradd', 'userupdate', 'created_at', 'updated_at', 'active', 'qty_used'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -67,4 +67,6 @@ class Operation extends Model
     {
         return $this->belongsTo('App\Models\ProductOperation', 'id_product_operations');
     }
+
+    public function userAdd()   { return $this->belongsTo(User::class,'useradd'); }
 }

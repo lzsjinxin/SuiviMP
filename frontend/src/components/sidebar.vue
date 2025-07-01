@@ -98,7 +98,6 @@ export default {
                     closestItem.children[1].classList.add('show')
                 }
             }
-          
             /**
              * Sidebar menu collapse
              */
@@ -412,7 +411,7 @@ export default {
                         <BRow >
                             <BCol >
                                 <BDropdownItem class="">
-                                  <button class="btn btn-outline-danger" @click="$store.dispatch('auth/logout').then(() => $router.push('/login'))">
+                                  <button class="btn btn-outline-danger" @click="$router.push('/login')">
                                    Se Déconnecter
                                   </button>
                                 </BDropdownItem>

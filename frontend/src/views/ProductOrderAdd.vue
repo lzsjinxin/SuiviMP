@@ -1,6 +1,7 @@
 <script>
 import Layout from '@/layout/main.vue';
 import pageheader from '@/components/page-header.vue';
+import { openPdf } from '@/utils/pdf';
 
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
@@ -11,34 +12,32 @@ export default {
   name: 'ProductOrderGenerate',
   components: { Layout, pageheader },
 
-  setup() {
-    const route     = useRoute();
-    const foId      = route.params.id;   // /fo/:id/products/generate
-    const loading   = ref(false);
-    const details   = ref([]);           // rows with produced / remaining
+  setup () {
+    const route   = useRoute();
+    const foId    = route.params.id;
+    const loading = ref(false);
+    const details = ref([]);
 
     fetchDetails();
 
-    async function fetchDetails() {
+    async function fetchDetails () {
       loading.value = true;
-      // you already have FO detail endpoint, adjust if needed
+
       const { data } = await axios.get(`/api/fabricationOrders/${foId}`);
-      // map to detail rows + count produced
       const enriched = await Promise.all(
           data.details.map(async d => {
-            const done = await axios.get(
-                `/api/fabricationOrderDetails/${d.id}/count-product-orders`
-            ).then(r => r.data.count);
+            const done = await axios
+                .get(`/api/fabricationOrderDetails/${d.id}/count-product-orders`)
+                .then(r => r.data.count);
             return { ...d, produced: done, remaining: d.quantity - done };
           })
       );
+
       details.value = enriched;
       loading.value = false;
-
-      console.log(details)
     }
 
-    async function generate(detail) {
+    async function generate (detail) {
       if (detail.remaining <= 0) return;
 
       const ok = await Swal.fire({
@@ -53,11 +52,16 @@ export default {
       if (!ok) return;
 
       await axios.post(`/api/fabricationOrderDetails/${detail.id}/generate`);
-      await fetchDetails();              // refresh counters
-      Swal.fire({ icon:'success', title:'Créé !' , timer:1200, toast:true, position:'center', showConfirmButton:false});
+      await fetchDetails();
+      Swal.fire({ icon: 'success', title: 'Créé !', timer: 1200, toast: true, position: 'center', showConfirmButton: false });
     }
 
-    return { loading, details, generate };
+    /** openPdf() helper will stream the sheet in a new tab */
+    async function getPdf (detail) {
+      await openPdf(`/api/product-orders/${detail.id}/sheet`, `PO-${detail.id}.pdf`);
+    }
+
+    return { loading, details, generate, getPdf };
   },
 };
 </script>
@@ -75,31 +79,43 @@ export default {
         <BCard no-body>
           <BCardBody>
             <div v-if="loading" class="text-center my-3">
-              <BSpinner variant="primary" style="width:3rem;height:3rem"/>
+              <BSpinner variant="primary" style="width:3rem;height:3rem" />
             </div>
 
             <a-table
                 v-else
                 :dataSource="details"
                 :columns="[
-                { title:'Produit', dataIndex:'product_title', key:'prod' },
-                { title:'Qté demandée', dataIndex:'quantity', key:'qty' },
-                { title:'Produites', dataIndex:'produced', key:'done' },
-                { title:'Restantes', dataIndex:'remaining', key:'remain' },
-                { title:'Action', key:'act' }
+                { title:'Produit',           dataIndex:'product_title', key:'prod'   },
+                { title:'Qté demandée',      dataIndex:'quantity',      key:'qty'    },
+                { title:'Produites',         dataIndex:'produced',      key:'done'   },
+                { title:'Restantes',         dataIndex:'remaining',     key:'remain' },
+                { title:'Action',            key:'act' }
               ]"
                 row-key="id"
                 :pagination="false"
             >
               <template #bodyCell="{ record, column }">
-                <template v-if="column.key==='act'">
+                <template v-if="column.key === 'act'">
+                  <!-- Generate button -->
                   <a-button
                       type="primary"
                       size="small"
-                      :disabled="record.remaining<=0"
+                      :disabled="record.remaining <= 0"
                       @click="generate(record)"
                   >
                     Générer
+                  </a-button>
+
+                  <!-- Print button (shows only when everything is generated) -->
+                  <a-button
+                      v-if="record.remaining <= 0"
+                      type="default"
+                      size="small"
+                      class="ms-2"
+                      @click="getPdf(record)"
+                  >
+                    Imprimer
                   </a-button>
                 </template>
               </template>
