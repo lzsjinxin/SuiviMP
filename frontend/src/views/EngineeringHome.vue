@@ -1,34 +1,27 @@
-<script>
-import Layout from "@/layout/main.vue"
-import pageheader from "@/components/page-header.vue"
-// import { ref } from 'vue'
-// import { useVuelidate } from '@vuelidate/core'
-// import { required, helpers } from '@vuelidate/validators'
-// import axios from 'axios'
-// import Swal from "sweetalert2";
-export default {
-  name: "EngineeringHome",
-  components: {
-    Layout, pageheader
-  },
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-}
+import Layout     from '@/layout/main.vue';
+import pageheader from '@/components/page-header.vue';
+import ApexChart  from 'vue3-apexcharts';
+
+const kpi = ref({});         // { open_ecns, cad_load, chartOpt, chartSeries }
+
+onMounted(async () => {
+  kpi.value = await axios.get('/api/dash/engineering').then(r => r.data);
+});
 </script>
 
 <template>
   <Layout>
-    <pageheader title="Accueil Ingénierie" pageTitle="Accueil" />
+    <pageheader title="Accueil Ingénierie" />
 
     <BRow>
-      <BCol sm="12">
-        <BCard no-body>
-          <BCardBody style="width: 50%; margin: auto;">
-
-          </BCardBody>
-          <BCardFooter>
-
-          </BCardFooter>
-        </BCard>
+      <BCol md="4"><a-card title="ECN ouverts">{{ kpi.open_ecns }}</a-card></BCol>
+      <BCol md="4"><a-card title="Charge CAO">{{ kpi.cad_load }} %</a-card></BCol>
+      <BCol md="4" v-if="kpi.chartSeries">
+        <ApexChart :options="kpi.chartOpt" :series="kpi.chartSeries" height="160" type="bar" />
       </BCol>
     </BRow>
   </Layout>

@@ -1,35 +1,24 @@
-<script>
-import Layout from "@/layout/main.vue"
-import pageheader from "@/components/page-header.vue"
-// import { ref } from 'vue'
-// import { useVuelidate } from '@vuelidate/core'
-// import { required, helpers } from '@vuelidate/validators'
-// import axios from 'axios'
-// import Swal from "sweetalert2";
-export default {
-  name: "AdminHome",
-  components: {
-    Layout, pageheader
-  },
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
 
-}
+import Layout     from '@/layout/main.vue';
+import pageheader from '@/components/page-header.vue';
+
+const adm = ref({});   // { users, late_tasks }
+
+onMounted(async () => {
+  adm.value = await axios.get('/api/dash/admin').then(r => r.data);
+});
 </script>
 
 <template>
   <Layout>
-    <pageheader/>
+    <pageheader title="Accueil Administration" />
 
     <BRow>
-      <BCol sm="12">
-        <BCard no-body>
-          <BCardBody style="width: 50%; margin: auto;">
-
-          </BCardBody>
-          <BCardFooter>
-
-          </BCardFooter>
-        </BCard>
-      </BCol>
+      <BCol md="3"><a-card title="Utilisateurs">{{ adm.users }}</a-card></BCol>
+      <BCol md="3"><a-card title="Tâches en retard">{{ adm.late_tasks }}</a-card></BCol>
     </BRow>
   </Layout>
 </template>
