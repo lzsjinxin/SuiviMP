@@ -1,11 +1,11 @@
 <script>
-import simplebar from "simplebar-vue";
+// import simplebar from "simplebar-vue";
 // import rightBar from "./right-bar.vue";
 
 export default {
     name: "NAVBAR",
     components: {
-        simplebar
+        // simplebar
     },
     data() {
         return {
@@ -265,210 +265,210 @@ export default {
                         <span>Logout</span>
                     </a>
                 </BDropdown> -->
-                <BDropdown v-model="show" variant="transparent" auto-close="outside"
-                    class="pc-h-item card-header-dropdown pb-0"
-                    toggle-class="text-reset dropdown-btn pc-head-link arrow-none me-0"
-                    menu-class="dropdown-menu-end dropdown-notification pc-h-dropdown" aria-haspopup="true"
-                    :offset="{ alignmentAxis: -145, crossAxis: 0, mainAxis: 20 }">
-                    <template #button-content>
-                        <span class="text-muted pc-head-link"><i class="ph-duotone ph-bell"></i>
-                            <span class="badge bg-success pc-h-badge">3</span>
-                        </span>
-                    </template>
-                    <BDropdownHeader class=" align-items-center justify-content-between">
-                        <BRow class="align-items-center justify-content-between">
-                            <BCol xl="8" sm="6">
-                                <h5 class="m-0">Notifications</h5>
-                            </BCol>
-                            <BCol xl="4" sm="6" class="text-end">
-                                <ul class="list-inline ms-auto mb-0">
-                                    <li class="list-inline-item">
-                                        <router-link to="/mail" class="avtar avtar-s btn-link-hover-primary">
-                                            <i class="ti ti-link f-18"></i>
-                                        </router-link>
-                                    </li>
-                                </ul>
-                            </BCol>
-                        </BRow>
+<!--                <BDropdown v-model="show" variant="transparent" auto-close="outside"-->
+<!--                    class="pc-h-item card-header-dropdown pb-0"-->
+<!--                    toggle-class="text-reset dropdown-btn pc-head-link arrow-none me-0"-->
+<!--                    menu-class="dropdown-menu-end dropdown-notification pc-h-dropdown" aria-haspopup="true"-->
+<!--                    :offset="{ alignmentAxis: -145, crossAxis: 0, mainAxis: 20 }">-->
+<!--                    <template #button-content>-->
+<!--                        <span class="text-muted pc-head-link"><i class="ph-duotone ph-bell"></i>-->
+<!--                            <span class="badge bg-success pc-h-badge">3</span>-->
+<!--                        </span>-->
+<!--                    </template>-->
+<!--                    <BDropdownHeader class=" align-items-center justify-content-between">-->
+<!--                        <BRow class="align-items-center justify-content-between">-->
+<!--                            <BCol xl="8" sm="6">-->
+<!--                                <h5 class="m-0">Notifications</h5>-->
+<!--                            </BCol>-->
+<!--                            <BCol xl="4" sm="6" class="text-end">-->
+<!--                                <ul class="list-inline ms-auto mb-0">-->
+<!--                                    <li class="list-inline-item">-->
+<!--                                        <router-link to="/mail" class="avtar avtar-s btn-link-hover-primary">-->
+<!--                                            <i class="ti ti-link f-18"></i>-->
+<!--                                        </router-link>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </BCol>-->
+<!--                        </BRow>-->
 
-                    </BDropdownHeader>
-                    <div>
-                        <simplebar class="dropdown-body text-wrap header-notification-scroll position-relative"
-                            style="max-height: calc(100vh - 235px)">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item">
-                                    <p class="text-span">Today</p>
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="@/assets/images/user/avatar-2.jpg" alt="user-image"
-                                                class="user-avtar avtar avtar-s">
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1 me-3 position-relative">
-                                                    <h6 class="mb-0 text-truncate">Keefe Bond added new tags to 💪
-                                                        Design system</h6>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <span class="text-sm">2 min ago</span>
-                                                </div>
-                                            </div>
-                                            <p class="position-relative mt-1 mb-2"><br><span class="text-truncate">Lorem
-                                                    Ipsum
-                                                    has been
-                                                    the industry's standard dummy text ever since the 1500s.</span></p>
-                                            <span class="badge bg-light-primary border border-primary me-1 mt-1">web
-                                                design</span>
-                                            <span
-                                                class="badge bg-light-warning border border-warning me-1 mt-1">Dashobard</span>
-                                            <span class="badge bg-light-success border border-success me-1 mt-1">Design
-                                                System</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avtar avtar-s bg-light-primary">
-                                                <i class="ph-duotone ph-chats-teardrop f-18"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1 me-3 position-relative">
-                                                    <h6 class="mb-0 text-truncate">Message</h6>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <span class="text-sm text-muted">1 hour ago</span>
-                                                </div>
-                                            </div>
-                                            <p class="position-relative text-muted mt-1 mb-2"><br><span
-                                                    class="text-truncate">Lorem
-                                                    Ipsum
-                                                    has been the industry's standard dummy text ever since the
-                                                    1500s.</span></p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <p class="text-span">Yesterday</p>
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avtar avtar-s bg-light-danger">
-                                                <i class="ph-duotone ph-user f-18"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1 me-3 position-relative">
-                                                    <h5 class="mb-0 text-truncate">Challenge invitation</h5>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <span class="text-sm text-muted">12 hour ago</span>
-                                                </div>
-                                            </div>
-                                            <p class="position-relative text-muted mt-1 mb-2"><br><span
-                                                    class="text-truncate"><strong>
-                                                        Jonny aber
-                                                    </strong> invites to join the challenge</span></p>
-                                            <button
-                                                class="btn btn-sm rounded-pill btn-outline-secondary me-2">Decline</button>
-                                            <button class="btn btn-sm rounded-pill btn-primary">Accept</button>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avtar avtar-s bg-light-info">
-                                                <i class="ph-duotone ph-notebook f-18"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1 me-3 position-relative">
-                                                    <h5 class="mb-0 text-truncate">Forms</h5>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <span class="text-sm text-muted">2 hour ago</span>
-                                                </div>
-                                            </div>
-                                            <p class="position-relative text-muted mt-1 mb-2">Lorem Ipsum is simply
-                                                dummy text of the
-                                                printing and
-                                                typesetting industry. Lorem Ipsum has been the industry's standard
-                                                dummy text ever since the 1500s.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <img src="@/assets/images/user/avatar-2.jpg" alt="user-image"
-                                                class="user-avtar avtar avtar-s">
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1 me-3 position-relative">
-                                                    <h5 class="mb-0 text-truncate">Keefe Bond <span class="text-body">
-                                                            added new tags to </span>
-                                                        💪
-                                                        Design system</h5>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <span class="text-sm text-muted">2 min ago</span>
-                                                </div>
-                                            </div>
-                                            <p class="position-relative text-muted mt-1 mb-2"><br><span
-                                                    class="text-truncate">Lorem
-                                                    Ipsum
-                                                    has been
-                                                    the industry's standard dummy text ever since the 1500s.</span></p>
-                                            <button
-                                                class="btn btn-sm rounded-pill btn-outline-secondary me-2">Decline</button>
-                                            <button class="btn btn-sm rounded-pill btn-primary">Accept</button>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0">
-                                            <div class="avtar avtar-s bg-light-success">
-                                                <i class="ph-duotone ph-shield-checkered f-18"></i>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1 ms-3">
-                                            <div class="d-flex">
-                                                <div class="flex-grow-1 me-3 position-relative">
-                                                    <h5 class="mb-0 text-truncate">Security</h5>
-                                                </div>
-                                                <div class="flex-shrink-0">
-                                                    <span class="text-sm text-muted">5 hour ago</span>
-                                                </div>
-                                            </div>
-                                            <p class="position-relative text-muted mt-1 mb-2">Lorem Ipsum is simply
-                                                dummy text of the
-                                                printing and
-                                                typesetting industry. Lorem Ipsum has been the industry's standard
-                                                dummy text ever since the 1500s.</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </simplebar>
-                    </div>
-                    <div class="dropdown-footer">
-                        <BRow class="g-3">
-                            <BCol Cols="6">
-                                <div class="d-grid"><button class="btn btn-primary">Archive all</button></div>
-                            </BCol>
-                            <BCol Cols="6">
-                                <div class="d-grid"><button class="btn btn-outline-secondary">Mark all as read</button>
-                                </div>
-                            </BCol>
-                        </BRow>
-                    </div>
-                </BDropdown>
+<!--                    </BDropdownHeader>-->
+<!--                    <div>-->
+<!--                        <simplebar class="dropdown-body text-wrap header-notification-scroll position-relative"-->
+<!--                            style="max-height: calc(100vh - 235px)">-->
+<!--                            <ul class="list-group list-group-flush">-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <p class="text-span">Today</p>-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <div class="flex-shrink-0">-->
+<!--                                            <img src="@/assets/images/user/avatar-2.jpg" alt="user-image"-->
+<!--                                                class="user-avtar avtar avtar-s">-->
+<!--                                        </div>-->
+<!--                                        <div class="flex-grow-1 ms-3">-->
+<!--                                            <div class="d-flex">-->
+<!--                                                <div class="flex-grow-1 me-3 position-relative">-->
+<!--                                                    <h6 class="mb-0 text-truncate">Keefe Bond added new tags to 💪-->
+<!--                                                        Design system</h6>-->
+<!--                                                </div>-->
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <span class="text-sm">2 min ago</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <p class="position-relative mt-1 mb-2"><br><span class="text-truncate">Lorem-->
+<!--                                                    Ipsum-->
+<!--                                                    has been-->
+<!--                                                    the industry's standard dummy text ever since the 1500s.</span></p>-->
+<!--                                            <span class="badge bg-light-primary border border-primary me-1 mt-1">web-->
+<!--                                                design</span>-->
+<!--                                            <span-->
+<!--                                                class="badge bg-light-warning border border-warning me-1 mt-1">Dashobard</span>-->
+<!--                                            <span class="badge bg-light-success border border-success me-1 mt-1">Design-->
+<!--                                                System</span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <div class="flex-shrink-0">-->
+<!--                                            <div class="avtar avtar-s bg-light-primary">-->
+<!--                                                <i class="ph-duotone ph-chats-teardrop f-18"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="flex-grow-1 ms-3">-->
+<!--                                            <div class="d-flex">-->
+<!--                                                <div class="flex-grow-1 me-3 position-relative">-->
+<!--                                                    <h6 class="mb-0 text-truncate">Message</h6>-->
+<!--                                                </div>-->
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <span class="text-sm text-muted">1 hour ago</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <p class="position-relative text-muted mt-1 mb-2"><br><span-->
+<!--                                                    class="text-truncate">Lorem-->
+<!--                                                    Ipsum-->
+<!--                                                    has been the industry's standard dummy text ever since the-->
+<!--                                                    1500s.</span></p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <p class="text-span">Yesterday</p>-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <div class="flex-shrink-0">-->
+<!--                                            <div class="avtar avtar-s bg-light-danger">-->
+<!--                                                <i class="ph-duotone ph-user f-18"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="flex-grow-1 ms-3">-->
+<!--                                            <div class="d-flex">-->
+<!--                                                <div class="flex-grow-1 me-3 position-relative">-->
+<!--                                                    <h5 class="mb-0 text-truncate">Challenge invitation</h5>-->
+<!--                                                </div>-->
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <span class="text-sm text-muted">12 hour ago</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <p class="position-relative text-muted mt-1 mb-2"><br><span-->
+<!--                                                    class="text-truncate"><strong>-->
+<!--                                                        Jonny aber-->
+<!--                                                    </strong> invites to join the challenge</span></p>-->
+<!--                                            <button-->
+<!--                                                class="btn btn-sm rounded-pill btn-outline-secondary me-2">Decline</button>-->
+<!--                                            <button class="btn btn-sm rounded-pill btn-primary">Accept</button>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <div class="flex-shrink-0">-->
+<!--                                            <div class="avtar avtar-s bg-light-info">-->
+<!--                                                <i class="ph-duotone ph-notebook f-18"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="flex-grow-1 ms-3">-->
+<!--                                            <div class="d-flex">-->
+<!--                                                <div class="flex-grow-1 me-3 position-relative">-->
+<!--                                                    <h5 class="mb-0 text-truncate">Forms</h5>-->
+<!--                                                </div>-->
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <span class="text-sm text-muted">2 hour ago</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <p class="position-relative text-muted mt-1 mb-2">Lorem Ipsum is simply-->
+<!--                                                dummy text of the-->
+<!--                                                printing and-->
+<!--                                                typesetting industry. Lorem Ipsum has been the industry's standard-->
+<!--                                                dummy text ever since the 1500s.</p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <div class="flex-shrink-0">-->
+<!--                                            <img src="@/assets/images/user/avatar-2.jpg" alt="user-image"-->
+<!--                                                class="user-avtar avtar avtar-s">-->
+<!--                                        </div>-->
+<!--                                        <div class="flex-grow-1 ms-3">-->
+<!--                                            <div class="d-flex">-->
+<!--                                                <div class="flex-grow-1 me-3 position-relative">-->
+<!--                                                    <h5 class="mb-0 text-truncate">Keefe Bond <span class="text-body">-->
+<!--                                                            added new tags to </span>-->
+<!--                                                        💪-->
+<!--                                                        Design system</h5>-->
+<!--                                                </div>-->
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <span class="text-sm text-muted">2 min ago</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <p class="position-relative text-muted mt-1 mb-2"><br><span-->
+<!--                                                    class="text-truncate">Lorem-->
+<!--                                                    Ipsum-->
+<!--                                                    has been-->
+<!--                                                    the industry's standard dummy text ever since the 1500s.</span></p>-->
+<!--                                            <button-->
+<!--                                                class="btn btn-sm rounded-pill btn-outline-secondary me-2">Decline</button>-->
+<!--                                            <button class="btn btn-sm rounded-pill btn-primary">Accept</button>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                                <li class="list-group-item">-->
+<!--                                    <div class="d-flex">-->
+<!--                                        <div class="flex-shrink-0">-->
+<!--                                            <div class="avtar avtar-s bg-light-success">-->
+<!--                                                <i class="ph-duotone ph-shield-checkered f-18"></i>-->
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                        <div class="flex-grow-1 ms-3">-->
+<!--                                            <div class="d-flex">-->
+<!--                                                <div class="flex-grow-1 me-3 position-relative">-->
+<!--                                                    <h5 class="mb-0 text-truncate">Security</h5>-->
+<!--                                                </div>-->
+<!--                                                <div class="flex-shrink-0">-->
+<!--                                                    <span class="text-sm text-muted">5 hour ago</span>-->
+<!--                                                </div>-->
+<!--                                            </div>-->
+<!--                                            <p class="position-relative text-muted mt-1 mb-2">Lorem Ipsum is simply-->
+<!--                                                dummy text of the-->
+<!--                                                printing and-->
+<!--                                                typesetting industry. Lorem Ipsum has been the industry's standard-->
+<!--                                                dummy text ever since the 1500s.</p>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </simplebar>-->
+<!--                    </div>-->
+<!--                    <div class="dropdown-footer">-->
+<!--                        <BRow class="g-3">-->
+<!--                            <BCol Cols="6">-->
+<!--                                <div class="d-grid"><button class="btn btn-primary">Archive all</button></div>-->
+<!--                            </BCol>-->
+<!--                            <BCol Cols="6">-->
+<!--                                <div class="d-grid"><button class="btn btn-outline-secondary">Mark all as read</button>-->
+<!--                                </div>-->
+<!--                            </BCol>-->
+<!--                        </BRow>-->
+<!--                    </div>-->
+<!--                </BDropdown>-->
                 <!-- <BDropdown variant="transparent" auto-close="outside"
                     class="pc-h-item header-user-profile card-header-dropdown py-0"
                     toggle-class="text-reset dropdown-btn pc-head-link arrow-none me-0"

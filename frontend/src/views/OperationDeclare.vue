@@ -165,7 +165,7 @@ const opStatus = (id) => {
   <!-- Material card -->
   <a-card class="mb-3" v-if="mat">
     <template #title> Matière scannée </template>
-    <p><b>Code :</b> {{ mat.code }}</p>
+    <p><b>Code :</b> {{ mat.num }}</p>
     <p><b>Désignation :</b> {{ mat.title }}</p>
     <p><b>Batch :</b> {{ mat.batch_number }}</p>
     <p><b>Qte dispo :</b> {{ mat.qty }} {{ mat.unit?.title }}</p>

@@ -26,6 +26,12 @@ export default {
 
       const user = computed(() => store.getters['auth/user']);
 
+      const initials = computed(() => {
+        const first = user.value.fname?.trim().charAt(0) ?? ''
+        const last  = user.value.name ?.trim().charAt(0) ?? ''
+        return (first + last).toUpperCase() || 'U'
+      })
+
         onMounted(() => {
             updateLogo();
 
@@ -43,7 +49,7 @@ export default {
             });
         });
 
-        return { currentLogo, dept, user };
+        return { currentLogo, dept, user, initials };
     },
     components: {
       PhBlueprint,
@@ -189,12 +195,18 @@ export default {
         </div>
         <simplebar data-simplebar class="navbar-content pc-trigger">
             <ul class="pc-navbar">
-                <li class="pc-item pc-caption">
+                <li class="pc-item pc-caption" v-if="dept=='Logistics'">
                     <label>logistique</label>
+                </li>
+              <li class="pc-item pc-caption" v-if="dept=='Engineering'">
+                    <label>Ingénieurie</label>
+                </li>
+              <li class="pc-item pc-caption" v-if="dept=='Administration'">
+                    <label>Admin</label>
                 </li>
 
 
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept=='Logistics' ||   dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#arrivals" role="button" aria-expanded="false" aria-controls="arrivals">
                         <span class="pc-micon">
                             <PhTruck :size="32" />
@@ -212,7 +224,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept=='Logistics' ||   dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#mp" role="button" aria-expanded="false" aria-controls="mp">
                         <span class="pc-micon">
                             <PhAtom :size="32" weight="duotone" />
@@ -238,7 +250,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept=='Engineering' ||   dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#units" role="button" aria-expanded="false" aria-controls="units">
                         <span class="pc-micon">
                             <PhRuler :size="32" weight="duotone" />
@@ -256,7 +268,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept=='Logistics' ||   dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#location" role="button" aria-expanded="false" aria-controls="location">
                         <span class="pc-micon">
                             <PhWarehouse :size="32" weight="duotone" />
@@ -274,7 +286,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept=='Logistics' ||   dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#tier" role="button" aria-expanded="false" aria-controls="tier">
                         <span class="pc-micon">
                             <PhHandshake :size="32" weight="duotone" />
@@ -300,7 +312,7 @@ export default {
                         
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept=='Engineering' ||   dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#operations" role="button" aria-expanded="false" aria-controls="operations">
                         <span class="pc-micon">
                             <PhFactory :size="32" weight="duotone" />
@@ -318,7 +330,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept=='Engineering' ||   dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#products" role="button" aria-expanded="false" aria-controls="products">
                         <span class="pc-micon">
                             <PhPackage :size="32" weight="duotone" />
@@ -336,7 +348,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#departments" role="button" aria-expanded="false" aria-controls="departments">
                         <span class="pc-micon">
                             <PhUsersThree :size="32" weight="duotone" />
@@ -354,7 +366,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-                <li class="pc-item pc-hasmenu">
+                <li class="pc-item pc-hasmenu" v-if="  dept =='Administration'">
                     <BLink class="pc-link" data-bs-toggle="collapse" href="#users" role="button" aria-expanded="false" aria-controls="users">
                         <span class="pc-micon">
                             <PhUser :size="32" weight="duotone" />
@@ -372,7 +384,7 @@ export default {
                         </ul>
                     </div>
                 </li>
-              <li class="pc-item pc-hasmenu">
+              <li class="pc-item pc-hasmenu" v-if="dept=='Logistics' ||   dept =='Administration'">
                 <BLink class="pc-link" data-bs-toggle="collapse" href="#fo" role="button" aria-expanded="false" aria-controls="fo">
                         <span class="pc-micon">
                             <PhBlueprint :size="32" weight="duotone" />
@@ -396,7 +408,7 @@ export default {
             <BCardBody>
                 <div class="d-flex align-items-center">
                     <div class="flex-shrink-0">
-                        <img src="@/assets/images/user/avatar-1.jpg" alt="user-image" class="user-avtar wid-45 rounded-circle">
+                      <a-avatar style="color: #FFFFFF; background-color: #259ffc"><strong>{{initials}}</strong></a-avatar>
                     </div>
                     <div class="flex-grow-1 ms-3 me-2">
                         <h6 class="mb-0">{{user.fname}} {{user.name}}</h6>

@@ -16,6 +16,8 @@ export default {
 
         const name = ref(null)
 
+        const password = ref(null)
+
         const selectDepartments = ref(null)
 
         const selectedDepartment = ref(null)
@@ -31,16 +33,20 @@ export default {
             name : {
                 required: helpers.withMessage('Veuillez Remplir le champ', required)
             },
+          password : {
+            required: helpers.withMessage('Veuillez Remplir le champ', required)
+          },
             selectedDepartment : {
                 required: helpers.withMessage('Le Departement requis', required)
             }
         }
         
-        const v$ = useVuelidate(rules, { fname, name, selectDepartments, selectedDepartment })
+        const v$ = useVuelidate(rules, { fname, name, selectDepartments, selectedDepartment, password  })
         
         return { 
             fname,
             name,
+            password,
             selectDepartments, 
             selectedDepartment,
             filterOption,
@@ -80,6 +86,7 @@ export default {
                 fname : this.fname,
                 name : this.name,
                 id_dept : this.selectedDepartment,
+                password : this.password,
                 user : 1 /**TODO: Remove the 1 and add loggedin user ID**/ 
             }
             const response = await axios.post('/api/users/',payload,{
@@ -195,6 +202,14 @@ export default {
                             >
                                 {{ error.$message }}
                             </div>
+                          <a-input-password visibilityToggle   v-model:value="password" :class="{ 'is-invalid': v$.password.$error }" placeholder="Mot de Passe" ></a-input-password>
+                          <div
+                              v-for="error in v$.password.$errors"
+                              :key="error.$uid"
+                              class="invalid-feedback"
+                          >
+                            {{ error.$message }}
+                          </div>
                         </a-flex>  
                     </BCardBody>
                     <BCardFooter>

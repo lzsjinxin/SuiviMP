@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
@@ -72,7 +74,7 @@ class UserController extends Controller
 
                 $user->name = $requestBody->name;
 
-                $user->userupdate = $requestBody->user;
+                $user->userupdate = Auth::guard('sanctum')->id();
 
                 $user->save();
 
@@ -89,8 +91,9 @@ class UserController extends Controller
                 'id_dept' => $request["id_dept"],
                 'fname' => $request["fname"],
                 'name' => $request["name"],
+                'password' => Hash::make($request["password"]),
                 'uuid'=> Str::uuid(),
-                'useradd' => $request["user"],
+                'useradd' => Auth::guard('sanctum')->id()
             ]);
 
             return response()->json($user, 201);

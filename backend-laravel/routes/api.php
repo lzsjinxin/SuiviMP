@@ -251,3 +251,11 @@ Route::prefix('users')->group(function () {
     Route::delete("{id}","UserController@logicalDelete") ;
 
 });
+
+Route::middleware(['auth:sanctum'])->prefix('dash')->group(function () {
+    Route::get('/engineering',  'DashboardController@engineering');
+    Route::get('/production',   'DashboardController@production');
+    Route::get('/qc',           'DashboardController@qc');
+    Route::get('/logistics',    'DashboardController@logistics');
+    Route::get('/admin',        'DashboardController@admin');
+});
