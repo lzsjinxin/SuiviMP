@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MaterialType;
+use Illuminate\Support\Facades\Auth;
 
 class MaterialTypeController extends Controller
 {
@@ -18,15 +19,15 @@ class MaterialTypeController extends Controller
             'type'=>'required|string',
             'user' => 'required|integer'
         ]);
-    
+
         $arrival = MaterialType::create([
             'type' => $validated['type'],
-            'userAdd' => $validated['user']
+            'userAdd' => Auth::guard('sanctum')->id()
         ]);
-    
+
         return response()->json($arrival, 201);
-    } 
-    
+    }
+
         public function getOperationsPerType(){
         return MaterialType::with(['operationDefinition' => function($query) {
             $query->where('active', true);

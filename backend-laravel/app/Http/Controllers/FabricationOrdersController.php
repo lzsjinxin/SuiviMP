@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\FabricationOrder;
 use App\Models\FabricationOrderDetails;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FabricationOrdersController extends Controller
 {
@@ -74,7 +75,7 @@ class FabricationOrdersController extends Controller
         $priority = $request["priority"];
         $notes = $request["notes"];
         $products = $request["products"];
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
 
           $fabricationOrder =   FabricationOrder::create([
                 'id_tier' => $idTier,

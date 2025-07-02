@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Models\Unit;
+use Illuminate\Support\Facades\Auth;
 
 class UnitController extends Controller
 {
@@ -20,7 +21,7 @@ class UnitController extends Controller
     }
     public function getbyId($id){
         if(!is_numeric($id)){
-         return response('No Data Found',404);   
+         return response('No Data Found',404);
         }
         //Lookup the value
         if (!is_null(Unit::where('id', $id)->where('active', true)->first())){
@@ -39,27 +40,27 @@ class UnitController extends Controller
         {
             $unit = Unit::create([
                 'title' => $request["title"],
-                'useradd' => $request["user"],
+                'useradd' => Auth::guard('sanctum')->id(),
             ]);
-        
+
             return response()->json($unit, 201);
-    } 
+    }
 
     public function update(Request $request, $id){
 
 
             //Lookup the value
-            if (!is_null(Unit::where('id', $id)->where('active', true)->first())){ 
+            if (!is_null(Unit::where('id', $id)->where('active', true)->first())){
                 //Validation Success
                 $requestBody = json_decode($request->getContent());
 
                 $unit = Unit::where('id', $id)->where('active', true)->first();
 
                 $unit->title = $requestBody->title;
-            
-        
-                $unit->userupdate = $requestBody->user;
-        
+
+
+                $unit->userupdate = Auth::guard('sanctum')->id();
+
                 $unit->save();
 
                 return response($unit,200);
@@ -70,18 +71,18 @@ class UnitController extends Controller
 
     public function logicalDelete($id){
          //Lookup the value
-         if (!is_null(Unit::where('id', $id)->where('active', true)->first())){ 
+         if (!is_null(Unit::where('id', $id)->where('active', true)->first())){
             //If value is found
                 //Validation Success
 
                 $unit = Unit::where('id', $id)->where('active', true)->first();
-                
+
                 $unit->active = false;
-        
+
                 $unit->save();
-    
+
                 return response("Deleted",204);
-    
+
         }else{
             //If value Not Found
 

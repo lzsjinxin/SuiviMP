@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Location;
+use Illuminate\Support\Facades\Auth;
 
 class LocationController extends Controller
 {
@@ -19,7 +20,7 @@ class LocationController extends Controller
 
      public function getbyId($id){
         if(!is_numeric($id)){
-         return response('No Data Found',404);   
+         return response('No Data Found',404);
         }
         //Lookup the value
         if (!is_null(Location::where('id', $id)->where('active', true)->first())){
@@ -41,18 +42,18 @@ class LocationController extends Controller
             $unit = Location::create([
                 'name' => $request["name"],
                 'adresse' => $request["adresse"],
-                'useradd' => $request["user"],
+                'useradd' => Auth::guard('sanctum')->id(),
             ]);
-        
+
             return response()->json($unit, 201);
-    } 
+    }
 
 
 public function update(Request $request, $id){
 
 
             //Lookup the value
-            if (!is_null(Location::where('id', $id)->where('active', true)->first())){ 
+            if (!is_null(Location::where('id', $id)->where('active', true)->first())){
                 //Validation Success
                 $requestBody = json_decode($request->getContent());
 
@@ -61,9 +62,9 @@ public function update(Request $request, $id){
                 $location->name = $requestBody->name;
 
                 $location->adresse = $requestBody->adresse;
-        
-                $location->userupdate = $requestBody->user;
-        
+
+                $location->userupdate = Auth::guard('sanctum')->id();
+
                 $location->save();
 
                 return response($location,200);
@@ -75,18 +76,18 @@ public function update(Request $request, $id){
 
     public function logicalDelete($id){
          //Lookup the value
-         if (!is_null(Location::where('id', $id)->where('active', true)->first())){ 
+         if (!is_null(Location::where('id', $id)->where('active', true)->first())){
             //If value is found
                 //Validation Success
 
                 $location = Location::where('id', $id)->where('active', true)->first();
-                
+
                 $location->active = false;
-        
+
                 $location->save();
-    
+
                 return response("Deleted",204);
-    
+
         }else{
             //If value Not Found
 

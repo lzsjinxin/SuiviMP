@@ -6,6 +6,7 @@ use App\Models\Product;
 use App\Models\ProductOperation;
 use App\Models\ProductStatus;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductOperationsController extends Controller
 {
@@ -36,7 +37,7 @@ class ProductOperationsController extends Controller
     public function create(Request $request){
         $idProduct = $request['id_product'];
         $operations = $request['operations'];
-        $user = $request['user'];
+        $user = Auth::guard('sanctum')->id();
         $createdoperations = array();
 
         $product  = Product::where('id', $idProduct)->first();
@@ -64,7 +65,7 @@ class ProductOperationsController extends Controller
         }
         // Get request data
         $operations = $request["operations"]?? []; // Ensure this is an array
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
         $createdoperations = array();
 
         //Delete All Operations related to the Product
