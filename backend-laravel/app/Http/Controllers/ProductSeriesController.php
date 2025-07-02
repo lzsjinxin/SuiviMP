@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\ProductSeries;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductSeriesController extends Controller
 {
@@ -24,7 +25,7 @@ class ProductSeriesController extends Controller
         public function getbyId($id){
 
          if(!is_numeric($id)){
-         return response('No Data Found',404);   
+         return response('No Data Found',404);
         }
         //Lookup the value
         if (!is_null(value: ProductSeries::where('id', $id)->where('active', true)->first())){
@@ -48,18 +49,18 @@ class ProductSeriesController extends Controller
 
 
     public function update(Request $request, $id){
-        
+
         if(!is_numeric($id)){
-         return response('No Data Found',404);   
+         return response('No Data Found',404);
         }
 
          //Lookup the value
-         if (!is_null(ProductSeries::where('id', $id)->where('active', true)->first())){ 
+         if (!is_null(ProductSeries::where('id', $id)->where('active', true)->first())){
             //If value is found
         $productSeries = ProductSeries::where('id', $id)->where('active', true)->first();
         $idTier = $request["idTier"];
         $series = $request["series"];
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
         //Update Materials table rows
         foreach ($series as $serie) {
             $productSeries->id_tier = $idTier;
@@ -67,10 +68,10 @@ class ProductSeriesController extends Controller
             $productSeries->userupdate = $user;
             $productSeries->save();
         }
-    
+
         return response()->json($productSeries, 200);
-    
-                
+
+
         }else{
             //If value Not Foundd
             return response('No Data Found',404);
@@ -83,8 +84,8 @@ class ProductSeriesController extends Controller
     {
         $idTier = $request["idTier"];
         $seriesData = $request["series"];
-        $user = $request["user"];
-        
+        $user = Auth::guard('sanctum')->id();
+
         //Insert series table rows
         foreach ($seriesData as $serieData) {
             $series = ProductSeries::create([
@@ -94,25 +95,25 @@ class ProductSeriesController extends Controller
             ]);
         }
         return response()->json($series, 201);
-    } 
+    }
 
 
 
 
         public function logicalDelete($id){
          //Lookup the value
-         if (!is_null(ProductSeries::where('id', $id)->where('active', true)->first())){ 
+         if (!is_null(ProductSeries::where('id', $id)->where('active', true)->first())){
             //If value is found
                 //Validation Success
 
                 $productSeries = ProductSeries::where('id', $id)->where('active', true)->first();
-                
+
                 $productSeries->active = false;
-        
+
                 $productSeries->save();
-    
+
                 return response("Deleted",204);
-    
+
         }else{
             //If value Not Found
 

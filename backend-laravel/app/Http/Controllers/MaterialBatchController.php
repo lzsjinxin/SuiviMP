@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\MaterialBatch;
+use Illuminate\Support\Facades\Auth;
+
 class MaterialBatchController extends Controller
 {
     public function getAll(){
@@ -21,14 +23,14 @@ class MaterialBatchController extends Controller
             'batch_number'=>'required|string',
             'user' => 'required|integer'
         ]);
-    
+
         $arrival = MaterialBatch::create([
             'batch_number' => $validated['batch_number'],
             'can_be_expired' => $validated['can_be_expired'],
             'expiry_date' => $validated['expiry_date'],
-            'userAdd' => $validated['user']
+            'userAdd' => Auth::guard('sanctum')->id()
         ]);
-    
+
         return response()->json($arrival, 201);
-    } 
+    }
 }

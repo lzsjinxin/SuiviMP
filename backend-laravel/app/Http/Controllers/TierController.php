@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Tier;
+use Illuminate\Support\Facades\Auth;
+
 class TierController extends Controller
 {
     public function getAll(){
@@ -57,7 +59,7 @@ class TierController extends Controller
                 'country' => $request["country"],
                 'city' => $request["city"],
                 'ice' => $request["ice"],
-                'useradd' => $request["user"],
+                'useradd' => Auth::guard('sanctum')->id(),
             ]);
 
             return response()->json($tier, 201);
@@ -84,7 +86,7 @@ class TierController extends Controller
 
                 $tier->ice = $requestBody->ice;
 
-                $tier->userupdate = $requestBody->user;
+                $tier->userupdate = Auth::guard('sanctum')->id();
 
                 $tier->save();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\ProductMaterial;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProductController extends Controller
 {
@@ -103,7 +104,7 @@ class ProductController extends Controller
         $idSeries = $request["series"];
         $title = $request["title"];
         $materials = $request["materials"];
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
         $product = Product::create([
                 'id_series' =>$idSeries,
                 'id_status' =>6,  // TODO: Always make this in db "Created" in Product_status table
@@ -138,7 +139,7 @@ public function update(Request $request, $id) {
     $idSeries = $request["series"];
     $title = $request["title"];
     $materials = $request["materials"] ?? []; // Ensure this is an array
-    $user = $request["user"];
+    $user = Auth::guard('sanctum')->id();
 
     // Update Product table
     $dbProduct->id_series = $idSeries;

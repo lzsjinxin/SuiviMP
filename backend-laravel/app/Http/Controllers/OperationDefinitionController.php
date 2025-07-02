@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OperationDefinition;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OperationDefinitionController extends Controller
 {
@@ -52,7 +53,7 @@ class OperationDefinitionController extends Controller
                 'qty_needed' => $request["qty_needed"],
                 'time_expected' => $request["time_expected"],
                 'id_material_type' => $request["material_type_id"],
-                'useradd' => $request["user"],
+                'useradd' => Auth::guard('sanctum')->id(),
             ]);
 
             return response()->json($opDef, 201);
@@ -77,7 +78,7 @@ class OperationDefinitionController extends Controller
 
                 $OperationDefinition->id_material_type = $requestBody->material_type_id;
 
-                $OperationDefinition->userupdate = $requestBody->user;
+                $OperationDefinition->userupdate = Auth::guard('sanctum')->id();
 
                 $OperationDefinition->save();
 

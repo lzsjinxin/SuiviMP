@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ArrivalController;
 use App\Models\Material;
 use App\Models\MaterialMovementHistory;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 class MaterialController extends Controller
 {
@@ -110,7 +111,7 @@ class MaterialController extends Controller
         $idUnit = $request["idUnit"];
         $idType = $request["idType"];
         $materials = $request["materials"];
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
         $insertedMateriaids = array();
 
         //Check Arrival Status
@@ -171,7 +172,7 @@ class MaterialController extends Controller
         $idUnit = $request["idUnit"];
         $idType = $request["idType"];
         $materials = $request["materials"];
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
         //Update Materials table rows
         foreach ($materials as $material) {
             $dbMaterial->id_current_location = $idLocation;
@@ -222,7 +223,7 @@ class MaterialController extends Controller
         $materials = $request["materials"];
         $id_location_from =  $request["id_location_from"];
         $id_location_to =  $request["id_location_to"];
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
         $idStatusTransfered = MaterialStatus::where("status","Transfered")->where("active",true)->first()->id;
         $idMovementTypeTransfered = MovementType::where("definition","Transfer")->where("active",true)->first()->id;
 
@@ -248,7 +249,7 @@ class MaterialController extends Controller
     }
     public function receive(Request $request){
         $materials = $request["materials"];
-        $user = $request["user"];
+        $user = Auth::guard('sanctum')->id();
         $idStatusReceived = MaterialStatus::where("status","Available")->where("active",true)->first()->id;
         $idMovementTypeTransfered = MovementType::where("definition","Transfer")->where("active",true)->first()->id;
         $idMovementTypeReceive = MovementType::where("definition","Réception")->where("active",true)->first()->id;
