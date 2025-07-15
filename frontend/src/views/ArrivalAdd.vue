@@ -136,7 +136,7 @@ export default {
         confirmButtonText: 'OK'
       }).then(() => {
         // Optional: redirect or reset form
-        this.$router.push('/mp/new');
+        this.$router.push({ path: '/mp/new', query: { arrival: response.data.id } });
       });
 
       return response.data;

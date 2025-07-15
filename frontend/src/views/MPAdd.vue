@@ -153,6 +153,10 @@ fetchArrivals() {
                     options
                 }))
             );
+        const { arrival } = this.$route.query;
+
+        if (arrival) this.globalForm.selectedArrival = arrival;
+
         })
         .catch(error => {
             console.error(error);
