@@ -17,7 +17,13 @@ import Swal from 'sweetalert2';
 import { notification } from 'ant-design-vue';
 import { openPdf } from '@/utils/pdf';      // 🔄  NEW
 
-DataTable.use(DataTablesCore);
+/* NEW ↓↓↓ */
+import Buttons from 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons/js/buttons.html5';
+import 'datatables.net-buttons/js/buttons.print';
+
+DataTable.use(DataTablesCore)
+DataTable.use(Buttons);
 
 export default {
   name: 'MPList',
@@ -39,7 +45,7 @@ export default {
         {
           data: 'material_batch.can_be_expired',
           title: '<small>Peut être expiré</small>',
-          render: (d, t, r) =>
+          render: (d, t, r) => 
               r.material_batch.can_be_expired
                   ? '<i class="fas fa-check-circle fw-bold text-success"></i>'
                   : '<i class="fas fa-times-circle fw-bold text-danger"></i>',
@@ -82,6 +88,30 @@ export default {
         responsive: true,
         dom: 'Bfrtip',
         order: [[0, 'desc']],
+        buttons: [{
+                                extend: "copy", //Button type
+                                text: "Copier", //Button title on screen
+                                title: null, //Title before data is shown in output
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                },
+                            },
+                            {
+                                extend: "csv",
+                                text: "CSV",
+                                title: null,
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                },
+                            },
+                            {
+                                extend: "print",
+                                text: "Imprimer",
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+                                },
+                            },
+                        ],
         lengthMenu: [
           [50, 100, 150, 200, 250, 300, 400, 500, 1000, -1],
           [50, 100, 150, 200, 250, 300, 400, 500, 1000, 'Tous'],

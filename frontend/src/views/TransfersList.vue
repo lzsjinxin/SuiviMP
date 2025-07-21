@@ -17,7 +17,13 @@ import { notification } from 'ant-design-vue';
 // Import French language file
 import frenchLanguage from 'datatables.net-plugins/i18n/fr-FR.json'
 
+/* NEW ↓↓↓ */
+import Buttons from 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons/js/buttons.html5';
+import 'datatables.net-buttons/js/buttons.print';
+
 DataTable.use(DataTablesCore)
+DataTable.use(Buttons);
 
 export default {
     name: "TransfersList",
@@ -40,7 +46,30 @@ export default {
             dtOptions: {
               responsive: true,
               dom: 'Bfrtip',
-              buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+              buttons: [{
+                                extend: "copy", //Button type
+                                text: "Copier", //Button title on screen
+                                title: null, //Title before data is shown in output
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5]
+                                },
+                            },
+                            {
+                                extend: "csv",
+                                text: "CSV",
+                                title: null,
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5]
+                                },
+                            },
+                            {
+                                extend: "print",
+                                text: "Imprimer",
+                                exportOptions: {
+                                    columns: [0, 1, 2, 3, 4, 5]
+                                },
+                            },
+                        ],
               order: [[0, 'desc']],
               lengthMenu: [
                 [50, 100, 150, 200, 250, 300, 400, 500, 1000, -1],

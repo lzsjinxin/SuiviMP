@@ -1,4 +1,3 @@
-<!--TODO Add MP that are in each Location -->
 <script>
 import Layout from "@/layout/main.vue"
 import pageheader from "@/components/page-header.vue"
@@ -10,6 +9,7 @@ import  'datatables.net-buttons'
 import 'datatables.net-bs5' // Bootstrap 5 integration
 import 'datatables.net-responsive-bs5' // Responsive with BS5 styling
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css' // BS5 CSS
+
 //END DATATABLES
 import Swal from "sweetalert2";
 import { notification } from 'ant-design-vue';
@@ -17,7 +17,15 @@ import { notification } from 'ant-design-vue';
 // Import French language file
 import frenchLanguage from 'datatables.net-plugins/i18n/fr-FR.json'
 
+
+
+/* NEW ↓↓↓ */
+import Buttons from 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons/js/buttons.html5';
+import 'datatables.net-buttons/js/buttons.print';
+
 DataTable.use(DataTablesCore)
+DataTable.use(Buttons);
 
 export default {
     name: "LocationList",
@@ -71,7 +79,30 @@ export default {
             dtOptions: {
                 responsive: true,
                 dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
+                buttons: [{
+                                extend: "copy", //Button type
+                                text: "Copier", //Button title on screen
+                                title: null, //Title before data is shown in output
+                                exportOptions: {
+                                    columns: [0, 1, 2]
+                                },
+                            },
+                            {
+                                extend: "csv",
+                                text: "CSV",
+                                title: null,
+                                exportOptions: {
+                                    columns: [0, 1, 2]
+                                },
+                            },
+                            {
+                                extend: "print",
+                                text: "Imprimer",
+                                exportOptions: {
+                                    columns: [0, 1, 2]
+                                },
+                            },
+                        ],
                 order: [[ 0, 'desc' ]], 
                 lengthMenu: [
                     [50, 100, 150, 200, 250, 300, 400, 500, 1000, -1],
