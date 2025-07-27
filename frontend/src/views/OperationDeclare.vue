@@ -74,7 +74,7 @@ async function handleOpScan(defId) {
 async function handleMatScan(id) {
   try {
     const { data } = await axios.get(`/api/materials/${id}`);
-    mat.value  = data;
+    mat.value  = data[0];
     step.value = 'mat';
     askQty();
   } catch {
@@ -165,9 +165,8 @@ const opStatus = (id) => {
   <!-- Material card -->
   <a-card class="mb-3" v-if="mat">
     <template #title> Matière scannée </template>
-    <p><b>Code :</b> {{ mat.num }}</p>
-    <p><b>Désignation :</b> {{ mat.title }}</p>
-    <p><b>Batch :</b> {{ mat.batch_number }}</p>
+    <p><b>Numéro :</b> {{ mat.num }}</p>
+    <p><b>Lot :</b> {{ mat.material_batch.batch_number }}</p>
     <p><b>Qte dispo :</b> {{ mat.qty }} {{ mat.unit?.title }}</p>
   </a-card>
 
@@ -176,6 +175,7 @@ const opStatus = (id) => {
     <input
         class="form-control text-center"
         placeholder="Scanner QR…"
+        type="password"
         @keyup.enter="onScan($event.target.value); $event.target.value='';"
         autofocus
         style="max-width: 320px; margin: 0 auto"

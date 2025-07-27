@@ -108,7 +108,8 @@ export default {
         return number.toString().padStart(length, '0');
       },
         setOFNumDate(){
-          const yymm = new Date(this.orderDate).toISOString().slice(2, 7).replace('-', '');
+          const date = this.orderDate || new Date();
+          const yymm = new Date(date).toISOString().slice(2, 7).replace('-', '');
           const oldOrderNum = this.orderNum
           this.orderNum = `OF${yymm}${oldOrderNum.substring(6)}`
         },

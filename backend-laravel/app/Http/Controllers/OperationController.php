@@ -162,13 +162,20 @@ class OperationController extends Controller
                 'mouvement_date'    => now(),
                 'id_user'           => Auth::guard('sanctum')->id(),
             ]);
-
-            $mat->update([
-                'id_current_location' => $movement_history->id_location_from,
-                'id_status'           => 1,                        // Available
-                'userupdate'          => Auth::guard('sanctum')->id(),
-            ]);
-
+            if($mat->qty == 0){
+                $mat->update([
+                    'id_status'       => 3,
+                    'id_current_location' => $movement_history->id_location_from,
+                    'qty' =>0,
+                    'userupdate'=> Auth::guard('sanctum')->id(),
+                ]);
+            } else{
+                $mat->update([
+                    'id_current_location' => $movement_history->id_location_from,
+                    'id_status'           => 1,                        // Available
+                    'userupdate'          => Auth::guard('sanctum')->id(),
+                ]);
+            }
             // 3-B  : mark THIS operation done
             $op->update([
                 'end'        => now(),

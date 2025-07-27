@@ -145,7 +145,7 @@ class MaterialController extends Controller
                 'id_movement_type'=> 1, // TODO:Change this to "reception" if changed in movement_type table
                 'id_location_from' => 6, // TODO: Change this to "reception" if changed in location table
                 'id_location_to' => $idLocation,
-                'mouvement_date' => date('Y-m-d H:i:s'),
+                'mouvement_date' => $arrival['date'],
                 'id_user'=> $user
             ]);
         }
